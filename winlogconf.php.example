@@ -1,0 +1,7 @@
+<?php
+$db_server = "p:localhost";
+$db_dbname ="winlog";
+$db_user = "db_user";
+$db_passwd = "db_password";
+$server_code = "salt";
+?>
