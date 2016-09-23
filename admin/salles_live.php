@@ -6,24 +6,15 @@
   $username = phpCAS::getUser();
   $autorises = array("jerome.bousquie", "rosalie.viala", "monique.malric", "dominique.seryies", "nicolas.gaven", "systeme.ut1", "thierry.deltort");
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE HTML>
+<html lang="fr">
   <head>   
 	<title>Winlog : Connexions en cours dans les salles</title>
-       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-       <meta http-equiv="Content-Style-Type" content="text/css">
-       <meta http-equiv="Content-Language" content="fr">
+       <meta charset="utf-8">
        <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-        <link rel="stylesheet" href="jquery/jquery-ui-1.10.0.custom.css">
-       <script src="jquery/jquery-1.9.js"></script> 
+       <link rel="stylesheet" href="jquery/jquery-ui-1.10.0.custom.css">
        <script src="jquery/jquery-ui-1.10.0.custom.min.js"></script> 
-       <script> 
-          var auto_refresh = setInterval(
-          function()
-            {
-              $('#loaddiv').load('reload_salles.php');
-            }, <?php echo($delay); ?>);
-      </script>
+
   </head>
   <body>
   <?php
@@ -42,5 +33,40 @@
 <br/>
 <br/>
 <a href="recup_salles.php"><i>rechargement des comptes, machines et salles</i></a>
+<script> 
+  // affichage erreur dans la console
+  var erreurXHR = function(url) {
+    console.log("erreur chargement" + url + " : " + xhr.statusText);
+  };
+
+  // emission requête XHR et récupération du résultat dans div
+  var reload = function(url, div) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = function(e) {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          div.innerHTML = xhr.responseText;
+        } else {
+          erreurXHR(url);
+        }
+      }
+    };
+    xhr.onerror = function(e) {
+      erreurXHR(url);
+    };
+
+    xhr.send(null);  // initie la requête xhr
+  };
+
+  var url = 'reload_salles.php';
+  var div = document.getElementById('loaddiv');
+  if (div) {
+    window.setInterval(function() {
+      reload(url, div);
+    }, <?php echo($delay); ?>);
+  }
+
+</script>
 </body>
 </html>
