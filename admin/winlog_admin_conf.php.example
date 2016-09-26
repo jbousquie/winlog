@@ -35,6 +35,9 @@ $j30 = 30;      // rouge : plus de 30 jours sans connexion
 // Salle à ne pas afficher
 $salles_invisibles = array("STOCK","TEST", "SOUK"); // liste des salles à ne pas afficher
 
+// Utilisateurs autorisés
+$autorises = array("user1", "user2", "user3");
+
 // Messages
 // ma_salle_live.php : non connecté depuis une salle
 $msg_salle_live_non_autorise = "Vous n'&ecirc;tes actuellement pas authentifi&eacute; comme enseignant dans une salle informatique de l'IUT.<br/>";
