@@ -16,7 +16,7 @@ function ListeSalles() {
     $liste = "<div id=\"liste_salles\">\n";
     foreach ($salles as $sal) {
         if (!in_array($sal, $salles_invisibles)) {
-            $liste = $liste."<a href=\"#$sal\" class=\"lien_salle\">$sal</a> <span id=\"l-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+            $liste = $liste."<a href=\"#$sal\" id=\"h-$sal\" class=\"lien_salle\">$sal</a> <span id=\"l-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>";
         }
     }
     $liste = $liste;
@@ -59,14 +59,14 @@ function ListeSalles() {
         echo($texte);
     ?>    
     <script> 
-    
+
     // fonction d'affichage d'erreur dans la console
     var erreurXHR = function(url) {
         console.log("erreur chargement" + url + " : " + xhr.statusText);
     };
 
     // Met à jour les indicateurs de jours des salles du menu header à partir des valeurs de la liste des salles/connexions
-    function jourListeSalle(div) {
+    var jourListeSalle = function(div) {
         var salles = div.getElementsByClassName('jours');
         var liste = {};
         for (var i = 0; i < salles.length; i++) {
@@ -78,20 +78,27 @@ function ListeSalles() {
     }
 
     // flash : clignotement des lignes correspondant au dataset "rejected" du <div> blacklist
-    function flash() {
+     var flash = function() {
         var div_blacklist = document.getElementById("blacklist");           // récupération du div blacklist 
         var ips = JSON.parse(div_blacklist.dataset.rejected);               // récupération du dataset de ce div
         var rgbaString = "rgba(255, 140, 0, x)";
         for (var i = 0; i < ips.length; i++) {
+            // recuperation des <tr> ip et des elements salles du header
             var ip = ips[i]["ip"].replace(/\./g, '-');                      // remplacement des '.' par des '-'
             var tr_ip = document.getElementById(ip);
+            var salle = 'h-' + ips[i]["salle"];
+            var el_salle = document.getElementById(salle);
+            // styles
             var s = tr_ip.style;
+            var ss = el_salle.style;
             s.backgroundColor = rgbaString.replace("x", "0");
+            ss.backgroundColor = rgbaString.replace("x", "0");
             var alpha = 0;
             var bright = false;
             var finished = false;
             (function fade() {
                 s.backgroundColor = rgbaString.replace("x", String(alpha));
+                ss.backgroundColor = rgbaString.replace("x", String(alpha));
                 if (!bright) {
                     alpha += 0.05;
                     if (alpha > 1) {
@@ -134,16 +141,19 @@ function ListeSalles() {
     xhr.send(null);  // initie la requête xhr
     };
 
+    // init
     var url = 'reload_salles.php';
-    var div = document.getElementById('loaddiv');
-    if (div) {
-        window.setInterval(function() {
+    var init = function() {
+        var div = document.getElementById('loaddiv');
+        if (div) {
+            window.setInterval(function() {
+                reload(url, div);
+                }, <?php echo($delaySec); ?>);
             reload(url, div);
-            }, <?php echo($delaySec); ?>);
-        reload(url, div);
-        jourListeSalle(div);
-    }
-
+            jourListeSalle(div);
+        }
+    };
+    window.onload = init;
     </script>
 </body>
 </html>
