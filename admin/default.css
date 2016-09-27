@@ -1,0 +1,45 @@
+body {
+	margin: 0; 
+	padding: 20px 20px 20px ; 
+	background-color: transparent;
+	color: #505050; 
+	font-family: arial, helvetica, sans-serif ;
+	font-size: 12pt ;
+		}
+
+td { padding-left: 30px; }
+
+a{ text-decoration: none; color: cadetBlue;}
+
+#menu_salles { position: fixed; left: 0; top: 0; padding: 20px; width: 100%; background-color: white;}
+
+#loaddiv { margin-top: 100px; }
+
+#liste_salles{margin-top: 10px;}
+
+.lien_salle {margin-left: 10px;}
+
+.salle { 
+    padding-bottom: 3px; 
+    padding-top: 3px; 
+    }
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -90px;
+    visibility: hidden;
+}
+
+.info_cours { 
+  font-size: 80%;
+  font-style: italic;
+}
+
+.jours { border:1px solid dimgrey; }
+.j10 { background-color: #f3e575; }
+.j20 { background-color: #e17b17; }
+.j30 { background-color: #d5382c; }
+
+.proc { background-color: LightSteelBlue;}
+.p_user { background-color: PowderBlue;}
