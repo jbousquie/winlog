@@ -31,13 +31,13 @@ a.anchor {
     visibility: hidden;
 }
 
-#recharge {
+.right {
     position: absolute;
     right: 0;
     font-size: 75%;
 }
 
-.jours { border:1px solid dimgrey; }
+.jours { border:1px solid dimgrey; background-color: white; }
 .j10 { background-color: #f3e575; }
 .j20 { background-color: #e17b17; }
 .j30 { background-color: #d5382c; }
