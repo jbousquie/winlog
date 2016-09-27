@@ -7,7 +7,7 @@ header ('Content-Type: text/html; charset=utf-8');
 include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
-$delay = $delay * 1000;
+$delaySec = $delay * 1000;
 $username = phpCAS::getUser();
 
 function ListeSalles() {
@@ -19,7 +19,7 @@ function ListeSalles() {
             $liste = $liste."<a href=\"#$sal\" class=\"lien_salle\">$sal</a>";
         }
     }
-    $liste = $liste."\n</div>\n";
+    $liste = $liste;
     return $liste;
 }
 
@@ -37,11 +37,18 @@ function ListeSalles() {
     <?php
         // Si le compte est autorisé à voir les salles, on affiche le div
         if (in_array($username, $autorises)) {
+            // header
             $liste_salles = ListeSalles();
-            echo('<div id="menu_salles"><b>Connexions Windows en cours par salle</b><br/>'.$liste_salles.'</div>'."\n");
+            echo('<div id="menu_salles">');
+            echo("<b>Connexions Windows en cours par salle</b><span class=\"right\"><i>refresh : $delay s</i></span><br/>");
+            echo($liste_salles);
+            echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
+            echo('</div>'."\n");
+            // salles et connexions
             echo('<div id="loaddiv">'."\n");
             include('reload_salles.php');
             echo('</div>');
+            // footer
             $texte = '<br/><br/><a href="recup_salles.php"><i>rechargement des comptes, machines et salles</i></a>';
         }
         else
@@ -119,7 +126,7 @@ function ListeSalles() {
     if (div) {
         window.setInterval(function() {
             reload(url, div);
-        }, <?php echo($delay); ?>);
+        }, <?php echo($delaySec); ?>);
     }
 
     </script>
