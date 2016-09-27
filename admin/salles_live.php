@@ -16,7 +16,7 @@ function ListeSalles() {
     $liste = "<div id=\"liste_salles\">\n";
     foreach ($salles as $sal) {
         if (!in_array($sal, $salles_invisibles)) {
-            $liste = $liste."<a href=\"#$sal\" class=\"lien_salle\">$sal</a>";
+            $liste = $liste."<a href=\"#$sal\" class=\"lien_salle\">$sal</a> <span id=\"l-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>";
         }
     }
     $liste = $liste;
@@ -59,11 +59,25 @@ function ListeSalles() {
         echo($texte);
     ?>    
     <script> 
+    
     // fonction d'affichage d'erreur dans la console
     var erreurXHR = function(url) {
         console.log("erreur chargement" + url + " : " + xhr.statusText);
     };
 
+    // Met à jour les indicateurs de jours des salles du menu header à partir des valeurs de la liste des salles/connexions
+    function jourListeSalle(div) {
+        var salles = div.getElementsByClassName('jours');
+        var liste = {};
+        for (var i = 0; i < salles.length; i++) {
+            var id = (salles[i].id).replace('j-', 'l-');
+            var classJ = salles[i].className;
+            var el = document.getElementById(id);
+            el.className = classJ;
+        }
+    }
+
+    // flash : clignotement des lignes correspondant au dataset "rejected" du <div> blacklist
     function flash() {
         var div_blacklist = document.getElementById("blacklist");           // récupération du div blacklist 
         var ips = JSON.parse(div_blacklist.dataset.rejected);               // récupération du dataset de ce div
@@ -95,7 +109,6 @@ function ListeSalles() {
                     window.setTimeout(fade, 16);
                 }
             })();
-
         }
     }
 
@@ -126,7 +139,9 @@ function ListeSalles() {
     if (div) {
         window.setInterval(function() {
             reload(url, div);
-        }, <?php echo($delaySec); ?>);
+            }, <?php echo($delaySec); ?>);
+        reload(url, div);
+        jourListeSalle(div);
     }
 
     </script>
