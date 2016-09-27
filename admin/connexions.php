@@ -171,7 +171,7 @@ function Connexion_doyenne_salle($machines_de_la_salle) {
           if ($date_last_machine < $date_last) { $date_last = $date_last_machine; }
       }
   }
-  $nb_jours = floor(($date_now-$date_last)/86400);
+  $nb_jours = floor(($date_now-$date_last) / 86400);
   return $nb_jours;
 }
 
