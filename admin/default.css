@@ -11,29 +11,30 @@ td { padding-left: 30px; }
 
 a{ text-decoration: none; color: cadetBlue;}
 
-#menu_salles { position: fixed; left: 0; top: 0; padding: 20px; width: 100%; background-color: white;}
+#menu_salles { position: fixed; left: 0; top: 0; padding: 20px; width: 70%; background-color: beige;}
 
 #loaddiv { margin-top: 100px; }
 
 #liste_salles{margin-top: 10px;}
 
-.lien_salle {margin-left: 10px;}
+.lien_salle {margin-left: 20px; display: inline-block;}
 
 .salle { 
     padding-bottom: 3px; 
-    padding-top: 3px; 
+    padding-top: 20px; 
     }
 
 a.anchor {
     display: block;
     position: relative;
-    top: -90px;
+    top: -100px;            /* décalage de l'ancre sous le menu */
     visibility: hidden;
 }
 
-.info_cours { 
-  font-size: 80%;
-  font-style: italic;
+#recharge {
+    position: absolute;
+    right: 0;
+    font-size: 75%;
 }
 
 .jours { border:1px solid dimgrey; }
