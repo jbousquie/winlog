@@ -6,8 +6,22 @@
 header ('Content-Type: text/html; charset=utf-8');
 include_once('libhome.php');
 include_once('winlog_admin_conf.php');
+include_once('connexions.php');
 $delay = $delay * 1000;
 $username = phpCAS::getUser();
+
+function ListeSalles() {
+    $salles = Salles();
+    global $salles_invisibles;
+    $liste = "<div id=\"liste_salles\">\n";
+    foreach ($salles as $sal) {
+        if (!in_array($sal, $salles_invisibles)) {
+            $liste = $liste."<a href=\"#$sal\" class=\"lien_salle\">$sal</a>";
+        }
+    }
+    $liste = $liste."\n</div>\n";
+    return $liste;
+}
 
 
 ?>
@@ -23,7 +37,9 @@ $username = phpCAS::getUser();
     <?php
         // Si le compte est autorisé à voir les salles, on affiche le div
         if (in_array($username, $autorises)) {
-            echo('<div id="loaddiv">');
+            $liste_salles = ListeSalles();
+            echo('<div id="menu_salles"><b>Connexions Windows en cours par salle</b><br/>'.$liste_salles.'</div>'."\n");
+            echo('<div id="loaddiv">'."\n");
             include('reload_salles.php');
             echo('</div>');
             $texte = '<br/><br/><a href="recup_salles.php"><i>rechargement des comptes, machines et salles</i></a>';
