@@ -30,10 +30,10 @@ function Machines() {
     //$machines = array() ;
     $db = db_connect();
 
-    $req = 'select machine_id, salle, os, os_sp, os_version, ip_fixe from machines order by salle, machine_id';
+    $req = 'select machine_id, salle, os, os_sp, os_version from machines order by salle, machine_id';
     $res = db_query($db, $req);
     while ($mac = db_fetch_row($res)) {
-        $machines[$mac[0]] = array($mac[1], $mac[2], $mac[3], $mac[4], $mac[5]);
+        $machines[$mac[0]] = array($mac[1], $mac[2], $mac[3], $mac[4]);
         }
     db_free($res);
     return $machines;
@@ -173,6 +173,21 @@ function Connexion_doyenne_salle($machines_de_la_salle) {
   }
   $nb_jours = floor(($date_now-$date_last)/86400);
   return $nb_jours;
+}
+
+// Fonction Salles()
+// Renvoie un tableau de la liste des salles
+function Salles() {
+    $salles = array();
+    $db = db_connect();
+    $req = 'select salle_id from salles';
+    $res = db_query($db, $req);
+    $i = 0;
+    while ($sal = db_fetch_row($res)) {
+        $salles[$i] = $sal[0];
+        $i++;
+    }
+    return $salles;
 }
 
 // Fonction Connexions_wifi()
