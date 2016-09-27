@@ -66,15 +66,14 @@ db_query($db, $req_purge_salle);
 foreach($salles as $s) {
 	$req_salle = "INSERT INTO salles (salle_id) VALUES ('{$s}')";
 	db_query($db, $req_salle);
-	}
+}
 
 // Insertion des salles personnels
-$salles_perso = array_unique($salles); // suppression des doublons dans le tableau des salles
-db_query($db, $req_purge_salle);
+$salles_perso = array_unique($salles_perso); // suppression des doublons dans le tableau des salles
 foreach($salles_perso as $s) {
 	$req_salle = "INSERT INTO salles (salle_id) VALUES ('{$s}')";
 	db_query($db, $req_salle);
-	}
+}
 
 // Lecture des enseignants dans AD
 $res_enseignants = ldap_search($ldap_con, $base_enseignants, $filtre_enseignants, $attr_enseignants);
@@ -91,7 +90,7 @@ for ($i=0; $i<$entry_enseignants["count"];$i++) {
 	if (array_key_exists("sn", $entry_enseignants[$i])) { $nom = addslashes($entry_enseignants[$i]["sn"][0]); }
 	$req_enseignant = "INSERT INTO comptes (username, prenom, nom, groupe) VALUES ('{$username}', '{$prenom}', '{$nom}', 'Enseignant')";
 	db_query($db, $req_enseignant);
-	}
+}
 
 // Lecture des étudiants dans AD
 $res_etudiants = ldap_search($ldap_con, $base_etudiants, $filtre_etudiants, $attr_etudiants);
@@ -109,7 +108,7 @@ for ($i=0; $i<$entry_etudiants["count"];$i++) {
 	
 	$req_etudiant = "INSERT INTO comptes (username, prenom, nom, groupe) VALUES ('{$username}', '{$prenom}', '{$nom}', '{$groupe}')";
 	db_query($db, $req_etudiant);
-	}
+}
 
 ldap_close($ldap_con);
 header('Location: '.$winlog_url.'/admin/salles_live.php');
