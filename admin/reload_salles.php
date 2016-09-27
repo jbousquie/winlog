@@ -36,10 +36,10 @@ while ($mdc = current($machines_de_salle)) {
         $lien = $bloque;
         // calcul dernière plus ancienne connexion
         $jours_last_con = Connexion_doyenne_salle($machines_de_salle[$salle]);
-        $class_jour ='jours ';
-        if ($jours_last_con > 9)  { $class_jour = 'jours j10'; }
-        if ($jours_last_con > 19) { $class_jour = 'jours j20'; }
-        if ($jours_last_con > 29) { $class_jour = 'jours j30'; }
+        $class_jour ='jours j-10';
+        if ($jours_last_con >= $j10) { $class_jour = 'jours j10'; }
+        if ($jours_last_con >= $j20) { $class_jour = 'jours j20'; }
+        if ($jours_last_con >= $j30) { $class_jour = 'jours j30'; }
 
         // lien bloque/debloque
         //if (in_array(strtolower($salle), $salles_bloquees)) { $lien = $debloque; }
@@ -54,7 +54,7 @@ while ($mdc = current($machines_de_salle)) {
             }
         }
         // affichage ligne de salle
-        echo "<a class=\"anchor\" id=\"$salle\"><div class=\"salle\"><a href=\"salles/?salle=$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
+        echo "<a class=\"anchor\" id=\"$salle\"><div class=\"salle\"><a href=\"salles/?salle=$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
         echo "<div class=\"connexions\"><table>\n";
 
         if (!empty($connexion_machine)) {
