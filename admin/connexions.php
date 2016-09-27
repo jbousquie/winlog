@@ -190,6 +190,27 @@ function Salles() {
     return $salles;
 }
 
+// Fonction NbConnexions()
+// Renvoie le total des connexions dans la table
+function NbConnexions() {
+    $db = db_connect();
+    $req = 'select count(*) from connexions';
+    $res = db_query($db, $req);
+    $count = db_fetch_row($res);
+    return $count[0];
+}
+
+// Fonction PremiereConnexion()
+// renvoie la date de la toute première connexion
+function PremiereConnexion() {
+    $db = db_connect();
+    $req = 'select debut_con from connexions order by con_id limit 1';
+    $res = db_query($db, $req);
+    $prem = db_fetch_row($res);
+    return $prem[0];
+}
+
+
 // Fonction Connexions_wifi()
 // Renvoie les connexions wifi non marquées "close" en base
 // Retourne un array indexé de connexions :     
