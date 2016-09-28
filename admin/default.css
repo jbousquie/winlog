@@ -21,7 +21,7 @@ a{ text-decoration: none; color: cadetBlue;}
 
 .salle { 
     padding-bottom: 3px; 
-    padding-top: 20px; 
+    padding-top: 8px; 
     }
 
 a.anchor {
@@ -39,6 +39,10 @@ a.anchor {
 
 .toggler {
     cursor: pointer;
+    font-family: courier;
+    font-size : 60%;
+    position: relative;
+    bottom: 2px;
 }
 
 .deroule {
