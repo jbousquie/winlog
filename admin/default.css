@@ -11,7 +11,15 @@ td { padding-left: 30px; }
 
 a{ text-decoration: none; color: cadetBlue;}
 
-#menu_salles { position: fixed; left: 0; top: 0; padding: 5px 20px; width: 70%; background-color: beige;}
+#menu_salles { 
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    padding: 5px 20px; 
+    width: 70%; 
+    background-color: Beige;
+    z-index: 1;
+}
 
 #loaddiv { margin-top: 100px; }
 
