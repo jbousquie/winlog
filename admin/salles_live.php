@@ -16,7 +16,7 @@ function ListeSalles() {
     $liste = "<div id=\"liste_salles\">\n";
     foreach ($salles as $sal) {
         if (!in_array($sal, $salles_invisibles)) {
-            $liste = $liste."<a href=\"#$sal\" id=\"h-$sal\" class=\"lien_salle\">$sal</a> <span id=\"l-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+            $liste = $liste."<a href=\"#$sal\" id=\"h-$sal\" class=\"lien_salle\">$sal</a> <span id=\"hj-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>";
         }
     }
     $liste = $liste;
@@ -80,7 +80,7 @@ function InfoWinlog() {
         var salles = div.getElementsByClassName('jours');
         var liste = {};
         for (var i = 0; i < salles.length; i++) {
-            var id = (salles[i].id).replace('j-', 'l-');
+            var id = (salles[i].id).replace('j-', 'hj-');
             var classJ = salles[i].className;
             var el = document.getElementById(id);
             el.className = classJ;
@@ -95,20 +95,34 @@ function InfoWinlog() {
         for (var i = 0; i < ips.length; i++) {
             // recuperation des <tr> ip et des elements salles du header
             var ip = ips[i]["ip"].replace(/\./g, '-');                      // remplacement des '.' par des '-'
-            var tr_ip = document.getElementById(ip);
-            var salle = 'h-' + ips[i]["salle"];
-            var el_salle = document.getElementById(salle);
+            var tr_ip = document.getElementById(ip);                        // récupération de la ligne de la connexion par son IP
+            var boolSalle = false;                                          // booleen : la connexion vient d'une salle ?
+            if (ips[i]["salle"]) {                                          // récupération de la salle si elle est présente
+                var salleH = 'h-' + ips[i]["salle"];                        
+                var el_salleH = document.getElementById(salleH);            // élément salle dans le menu header
+                var salleL = 'l-' + ips[i]["salle"];
+                var el_salleL = document.getElementById(salleL);            // élément salle dans la liste
+                boolSalle = true;
+            }
             // styles
             var s = tr_ip.style;
-            var ss = el_salle.style;
             s.backgroundColor = rgbaString.replace("x", "0");
-            ss.backgroundColor = rgbaString.replace("x", "0");
+            if (boolSalle) {
+                var sH = el_salleH.style;
+                var sL = el_salleL.style;
+                sH.backgroundColor = rgbaString.replace("x", "0");
+                sL.backgroundColor = rgbaString.replace("x", "0");
+            }
+                
             var alpha = 0;
             var bright = false;
             var finished = false;
             (function fade() {
                 s.backgroundColor = rgbaString.replace("x", String(alpha));
-                ss.backgroundColor = rgbaString.replace("x", String(alpha));
+                if (boolSalle) {
+                    sH.backgroundColor = rgbaString.replace("x", String(alpha));
+                    sL.backgroundColor = rgbaString.replace("x", String(alpha));
+                }
                 if (!bright) {
                     alpha += 0.05;
                     if (alpha > 1) {
