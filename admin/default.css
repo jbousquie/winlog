@@ -11,13 +11,13 @@ td { padding-left: 30px; }
 
 a{ text-decoration: none; color: cadetBlue;}
 
-#menu_salles { position: fixed; left: 0; top: 0; padding: 20px; width: 70%; background-color: beige;}
+#menu_salles { position: fixed; left: 0; top: 0; padding: 5px 20px; width: 70%; background-color: beige;}
 
 #loaddiv { margin-top: 100px; }
 
 #liste_salles{margin-top: 10px;}
 
-.lien_salle {margin-left: 20px; display: inline-block;}
+.lien_salle {margin-left: 25px; padding-top: 5px; display: inline-block;}
 
 .salle { 
     padding-bottom: 3px; 
@@ -37,7 +37,18 @@ a.anchor {
     font-size: 75%;
 }
 
-.jours { border:1px solid dimgrey; background-color: white; }
+.toggler {
+    cursor: pointer;
+}
+
+.deroule {
+}
+
+.enroule {
+    display: none;
+}
+
+.jours { border:1px solid dimGrey; background-color: white; }
 .j10 { background-color: #f3e575; }
 .j20 { background-color: #e17b17; }
 .j30 { background-color: #d5382c; }
