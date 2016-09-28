@@ -91,56 +91,56 @@ function InfoWinlog() {
      var flash = function() {
         var div_blacklist = document.getElementById("blacklist");           // récupération du div blacklist 
         var ips = JSON.parse(div_blacklist.dataset.rejected);               // récupération du dataset de ce div
-        var rgbaString = "rgba(255, 140, 0, x)";
+        var rgbaString = "rgba(255, 140, 0, x)";                         
+        var alpha = 0;
+        var bright = false;
+        var finished = false;
+
+        var stylesToFade = [];                                               // tableau des styles des éléments à modifier
         for (var i = 0; i < ips.length; i++) {
             // recuperation des <tr> ip et des elements salles du header
             var ip = ips[i]["ip"].replace(/\./g, '-');                      // remplacement des '.' par des '-'
             var tr_ip = document.getElementById(ip);                        // récupération de la ligne de la connexion par son IP
-            var boolSalle = false;                                          // booleen : la connexion vient d'une salle ?
+            tr_ip.style.backgroundColor = rgbaString.replace("x", alpha);
+            stylesToFade.push(tr_ip.style);
             if (ips[i]["salle"]) {                                          // récupération de la salle si elle est présente
                 var salleH = 'h-' + ips[i]["salle"];                        
                 var el_salleH = document.getElementById(salleH);            // élément salle dans le menu header
                 var salleL = 'l-' + ips[i]["salle"];
                 var el_salleL = document.getElementById(salleL);            // élément salle dans la liste
-                boolSalle = true;
+                el_salleH.style.backgroundColor = rgbaString.replace("x", alpha);
+                el_salleL.style.backgroundColor = rgbaString.replace("x", alpha);
+                stylesToFade.push(el_salleH.style, el_salleL.style);
             }
-            // styles
-            var s = tr_ip.style;
-            s.backgroundColor = rgbaString.replace("x", "0");
-            if (boolSalle) {
-                var sH = el_salleH.style;
-                var sL = el_salleL.style;
-                sH.backgroundColor = rgbaString.replace("x", "0");
-                sL.backgroundColor = rgbaString.replace("x", "0");
-            }
-                
-            var alpha = 0;
-            var bright = false;
-            var finished = false;
-            (function fade() {
-                s.backgroundColor = rgbaString.replace("x", String(alpha));
-                if (boolSalle) {
-                    sH.backgroundColor = rgbaString.replace("x", String(alpha));
-                    sL.backgroundColor = rgbaString.replace("x", String(alpha));
-                }
-                if (!bright) {
-                    alpha += 0.05;
-                    if (alpha > 1) {
-                        bright = true;
-                    } 
-                } 
-                else 
-                if (bright) {
-                    alpha -= 0.02;
-                    if (alpha < 0) {
-                        finished = true;
-                    }
-                }
-                if (!finished) {
-                    window.setTimeout(fade, 16);
-                }
-            })();
         }
+
+        var fade = function() {
+            for (var s = 0; s < stylesToFade.length; s++) {
+                var style = stylesToFade[s];
+                style.backgroundColor = rgbaString.replace("x", alpha);
+            }
+            // tant que alpha n'a pas atteint 1, il incrémente
+            if (!bright) {
+                alpha += 0.05;
+                if (alpha > 1) {
+                    bright = true;
+                } 
+            } 
+            else 
+            // dès que alpha a atteint 1 (bright), il décremente jusqu'à 0
+            if (bright) {
+                alpha -= 0.02;
+                if (alpha < 0) {
+                    finished = true;
+                }
+            }
+            // tant que alpha n'a pas fait 0-1-0, on rappelle la fonction toutes les 17 ms (environ 60 fps)
+            if (!finished) {
+                window.setTimeout(fade, 17);
+            }
+        }
+
+        fade();
     }
 
     // emission requête XHR et récupération du résultat dans div
