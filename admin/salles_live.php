@@ -71,6 +71,7 @@ function InfoWinlog() {
 
     // fonction de permutation enroulé/déroulé de la liste de connexions d'une salle
     var toggle = function(el, enrouleurs) {
+        if (el.className != "toggler") { return; }
         var listeId = (el.id).replace('b-', 'c-');
         var liste = document.getElementById(listeId);
         if (enrouleurs[el.id]) {
