@@ -54,7 +54,7 @@ while ($mdc = current($machines_de_salle)) {
             }
         }
         // affichage ligne de salle
-        echo "<a class=\"anchor\" id=\"$salle\"><div class=\"salle\"><a href=\"salles/?salle=$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
+        echo "<a class=\"anchor\" id=\"$salle\"><div class=\"salle\"><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
         echo "<div class=\"connexions\"><table>\n";
 
         if (!empty($connexion_machine)) {
@@ -77,7 +77,7 @@ while ($mdc = current($machines_de_salle)) {
                 }
             }
         }
-        echo "</table></div><a>\n";
+        echo "</table></div></a>\n";
     } // fin du test salle invisible
     next($machines_de_salle);
 }
