@@ -16,7 +16,7 @@ function ListeSalles() {
     $liste = "<div id=\"liste_salles\">\n";
     foreach ($salles as $sal) {
         if (!in_array($sal, $salles_invisibles)) {
-            $liste = $liste."<a href=\"#$sal\" id=\"h-$sal\" class=\"lien_salle\">$sal</a> <span id=\"hj-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+            $liste = $liste."<a href=\"#$sal\" id=\"h-$sal\" class=\"lien_salle\">$sal</a> <span id=\"hj-$sal\" class=\"jours\">&nbsp;&nbsp;&nbsp;&nbsp;</span>\n";
         }
     }
     $liste = $liste;
@@ -42,33 +42,63 @@ function InfoWinlog() {
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
 </head>
 <body>
-
-    <?php
-        // Si le compte est autorisé à voir les salles, on affiche le div
-        if (in_array($username, $autorises)) {
-            // header
-            $liste_salles = ListeSalles();
-            $infobulle = InfoWinlog();
-            echo('<div id="menu_salles">');
-            echo("<p title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></p>");
-            echo($liste_salles);
-            echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
-            echo('</div>'."\n");
-            // salles et connexions
-            echo('<div id="loaddiv">'."\n");
-            include('reload_salles.php');
-            echo('</div>');
-            // footer
-            $texte = '<br/><br/><a href="recup_salles.php"><i>rechargement des comptes, machines et salles</i></a>';
-        }
-        else
-        {
-        // sinon on affiche un message
-            $texte = "Vous n'avez pas l'autorisation d'afficher cette page";
-        }
-        echo($texte);
-    ?>    
+<?php
+    // Si le compte est autorisé à voir les salles, on affiche le div
+    if (in_array($username, $autorises)) {
+        // header
+        $liste_salles = ListeSalles();
+        $infobulle = InfoWinlog();
+        echo("<div id=\"menu_salles\">\n");
+        echo("<p title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></p>\n");
+        echo($liste_salles);
+        echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
+        echo('</div>'."\n");
+        // salles et connexions
+        echo('<div id="loaddiv">'."\n");
+        include('reload_salles.php');
+        echo('</div>');
+        // footer
+        $texte = '<br/><br/><a href="recup_salles.php"><i>rechargement des comptes, machines et salles</i></a>';
+    }
+    else
+    {
+    // sinon on affiche un message
+        $texte = "Vous n'avez pas l'autorisation d'afficher cette page";
+    }
+    echo($texte);
+?>    
     <script> 
+
+    // fonction de permutation enroulé/déroulé de la liste de connexions d'une salle
+    var toggle = function(el, enrouleurs) {
+        var listeId = (el.id).replace('b-', 'c-');
+        var liste = document.getElementById(listeId);
+        if (enrouleurs[el.id]) {
+            liste.className = "enroule";
+            el.innerHTML = "[+] ";
+            enrouleurs[el.id] = false;
+        } else {
+            liste.className = "deroule";
+            el.innerHTML = "[-] ";
+            enrouleurs[el.id] = true;
+        }
+    };
+
+    // fonction de mise à jour des bouton enrouleurs/dérouleurs
+    var  enroule = function(enrouleurs) {
+        for (var e in enrouleurs) {
+            var el = document.getElementById(e);
+            var listeId = (el.id).replace('b-', 'c-');
+            var liste = document.getElementById(listeId);
+            if (enrouleurs[e]) {
+                liste.className = "deroule";
+                el.innerHTML = "[-] ";
+            } else {
+                liste.className = "enroule";
+                el.innerHTML = "[+] ";
+            }
+        }
+    };
 
     // fonction d'affichage d'erreur dans la console
     var erreurXHR = function(url) {
@@ -144,7 +174,7 @@ function InfoWinlog() {
     }
 
     // emission requête XHR et récupération du résultat dans div
-    var reload = function(url, div) {
+    var reload = function(url, div, enrouleurs) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);
         xhr.onload = function(e) {
@@ -152,6 +182,7 @@ function InfoWinlog() {
                 if (xhr.status === 200) {
                     div.innerHTML = xhr.responseText;
                     flash();
+                    enroule(enrouleurs);
 
                 } else {
                     erreurXHR(url);
@@ -170,11 +201,22 @@ function InfoWinlog() {
     var init = function() {
         var div = document.getElementById('loaddiv');
         if (div) {
-            window.setInterval(function() {
-                reload(url, div);
-                }, <?php echo($delayMs); ?>);
-            reload(url, div);
+
             jourListeSalle(div);
+            var enrouleurs = {};        // tableau associatif des enrouleurs pour garder l'état de chaque liste sur reload
+            var elems = document.getElementsByClassName("toggler");
+            // initialisation des enrouleurs (true = déroulé, par défaut)
+            for (var i = 0; i < elems.length; i++) {
+                enrouleurs[elems[i].id] = true;
+            }
+
+            div.addEventListener("click", function(e) { toggle(e.target, enrouleurs); }, false);
+
+            window.setInterval(function() {
+                reload(url, div, enrouleurs);
+                }, <?php echo($delayMs); ?>);
+            reload(url, div, enrouleurs);
+            enroule(enrouleurs);
         }
     };
     window.onload = init;
