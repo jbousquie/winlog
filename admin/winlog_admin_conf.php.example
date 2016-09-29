@@ -38,7 +38,14 @@ $salles_invisibles = array("STOCK","TEST", "SOUK"); // liste des salles à ne pa
 // Utilisateurs autorisés
 $autorises = array("user1", "user2", "user3");
 
+// Comportement par défaut des listes de connexions : enroulé/déroulé 
+// défaut : $deroule = true;
+$deroule = false;
+
 // Messages
 // ma_salle_live.php : non connecté depuis une salle
 $msg_salle_live_non_autorise = "Vous n'&ecirc;tes actuellement pas authentifi&eacute; comme enseignant dans une salle informatique de l'IUT.<br/>";
+
+// Version
+$version = "0.9";
 ?>
