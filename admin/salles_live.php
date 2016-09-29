@@ -50,7 +50,7 @@ function InfoWinlog() {
         $infobulle = InfoWinlog();
         echo("<div id=\"menu_salles\">\n");
         echo("<span title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></span>");
-        echo("<span class=\"right toggler_general\"><span id=\"\">[+]</span><span id=\"\">[-]</span></span><br/>\n");
+        echo("<span class=\"right\"><span id=\"g-deroule\" class=\"toggler_general toggler\">[+]</span><span id=\"g-enroule\" class=\"toggler_general toggler\">[-]</span></span><br/>\n");
         echo($liste_salles);
         echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
         echo('</div>'."\n");
@@ -76,7 +76,6 @@ function InfoWinlog() {
     // bascule : true => on demande la permutation de l'état enroulé/déroulé
     // force : null ou boolean. Si boolean, c'est la valeur a affecter de force (true = deroule, false = enroule)
     var toggle = function(el, enrouleurs, bascule, force) {
-        if (!el.classList.contains("toggler")) { return; }
         var htmlDeroule = "[-] ";
         var htmlEnroule = "[+] ";
         var classDeroule = "deroule";
@@ -124,10 +123,23 @@ function InfoWinlog() {
     };
 
     // fonction de mise à jour des bouton enrouleurs/dérouleurs
-    var  enroule = function(enrouleurs) {
+    var enroule = function(enrouleurs, bascule, force) {
         for (var e in enrouleurs) {
             var el = document.getElementById(e);
-            toggle(el, enrouleurs, false);
+            toggle(el, enrouleurs, bascule, force);
+        }
+    };
+
+    // fonction de bascule vers un état enroulé/déroulé
+    var bascule = function(el, enrouleurs) {
+        if (!el.classList.contains("toggler")) { return; } // ne traite que les éléments toogler
+        if (el.classList.contains("toggler_general")) {    // si toggler général, on force la mise à jour de tous les togglers
+            var force = (el.id == 'g-deroule') ? true : false;
+            enroule(enrouleurs, false, force);
+        } 
+        else
+        {
+            toggle(el, enrouleurs, true);               // si toggler individuel, on bascule sa valeur
         }
     };
 
@@ -232,22 +244,21 @@ function InfoWinlog() {
     var init = function() {
         var div = document.getElementById('loaddiv');
         if (div) {
-
             jourListeSalle(div);
             var enrouleurs = {};        // tableau associatif des enrouleurs pour garder l'état de chaque liste sur reload
-            var elems = document.getElementsByClassName("toggler");
+            var elems = div.getElementsByClassName("toggler");
             // initialisation des enrouleurs (true = déroulé, par défaut)
             for (var i = 0; i < elems.length; i++) {
                 enrouleurs[elems[i].id] = <?php echo(json_encode($deroule)); ?>;
             }
 
-            div.addEventListener("click", function(e) { toggle(e.target, enrouleurs, true); }, false);
+            document.addEventListener("click", function(e) { bascule(e.target, enrouleurs); }, false);
 
             window.setInterval(function() {
                 reload(url, div, enrouleurs);
                 }, <?php echo($delayMs); ?>);
             reload(url, div, enrouleurs);
-            enroule(enrouleurs);
+            enroule(enrouleurs, false);         // remise à jour de l'état de tous les togglers de la page
         }
     };
     window.onload = init;
