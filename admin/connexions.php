@@ -248,13 +248,12 @@ function Connexions_wifi() {
 //            $connexion_bl_live[$i]["target"] : thème de la blacklist concerné - adult, warez, games, etc
 //            $connexion_bl_live[$i]["hote"] : le nom de la machine s'il existe dans la table connexions
 
-function Connexions_blacklist_live($delay) {
+function Connexions_blacklist_live($delay, $machines) {
     $connexions_bl_live = array();
     $db = db_connect();
 
     $req = 'select proxy.ip, proxy.username, target, hote from proxy left join connexions ON proxy.ip = connexions.ip where timestampdiff(SECOND, timestamp(logts), timestamp(now())) < '.$delay.' and connexions.close = 0'; // on récupère les logs non checkés datant moins de 15s
     $res = db_query($db, $req);
-    $machines = Machines();
     $i = 0;
     while ($log = db_fetch_row($res)) {
         $connexions_bl_live[$i]["ip"] = $log[0];
