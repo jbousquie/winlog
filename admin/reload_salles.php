@@ -106,7 +106,7 @@ echo $lien_purge;
 
 // Récupération des connexions sur la blacklist Squid
 // Stockage du résultat dans un dataset d'une <div> dédiée
-$connexions_blacklist_live = Connexions_blacklist_live();
+$connexions_blacklist_live = Connexions_blacklist_live($delay);
 $div_blacklist = '<div id="blacklist" data-rejected=\''.json_encode($connexions_blacklist_live).'\'></div>';
 echo($div_blacklist);
 
