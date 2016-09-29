@@ -45,10 +45,18 @@ a.anchor {
     font-size: 75%;
 }
 
-.toggler {
+.toggler_style {
     cursor: pointer;
     font-family: courier;
     font-size : 60%;
+    position: relative;
+    bottom: 2px;
+}
+
+.toggler_general {
+    cursor: pointer;
+    font-family: courier;
+    font-size : 90%;
     position: relative;
     bottom: 2px;
 }
