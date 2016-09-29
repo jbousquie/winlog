@@ -25,11 +25,13 @@ function ListeSalles() {
 
 function InfoWinlog() {
     global $delay;
+    global $version;
     $nb = NbConnexions();
     $debut = date("d/m/Y", strtotime(PremiereConnexion()));
     $info = "nb connexions stockées : ".$nb."\n";
-    $info = $info."initiées le : ".$debut."\n";
-    $info = $info."rafraichissement données : ".$delay." s\n";
+    $info = $info."initiées le : ".$debut."\n\n";
+    $info = $info."rafraichissement connexions : ".$delay." s\n";
+    $info = $info."winlog version : ".$version."\n";
     return $info;
 }
 
