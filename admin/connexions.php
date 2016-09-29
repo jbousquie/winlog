@@ -240,19 +240,19 @@ function Connexions_wifi() {
     return $connexions_wifi;   
 }
 
-// function connexions_blacklist_live()
-// Renvoie les enregistrements de la table proxy de moins de 15 secondes : dernières touches sur la blacklist
+// function connexions_blacklist_live($delay)
+// Renvoie les enregistrements de la table proxy de moins de $delay secondes : dernières touches sur la blacklist
 // Retourne un array indexés : (ip, username, thème_blacklist) :
 //            $connexion_bl_live[$i]["ip"] : ip de la machine à l'origine de la requête sur une URL blacklistée
 //            $connexion_bl_live[$i]["username"] : username CAS à l'origine de la requête sur une URL blacklistée
 //            $connexion_bl_live[$i]["target"] : thème de la blacklist concerné - adult, warez, games, etc
 //            $connexion_bl_live[$i]["hote"] : le nom de la machine s'il existe dans la table connexions
 
-function Connexions_blacklist_live() {
+function Connexions_blacklist_live($delay) {
     $connexions_bl_live = array();
     $db = db_connect();
 
-    $req = 'select proxy.ip, proxy.username, target, hote from proxy left join connexions ON proxy.ip = connexions.ip where timestampdiff(SECOND, timestamp(logts), timestamp(now())) < 15 and connexions.close = 0'; // on récupère les logs non checkés datant moins de 15s
+    $req = 'select proxy.ip, proxy.username, target, hote from proxy left join connexions ON proxy.ip = connexions.ip where timestampdiff(SECOND, timestamp(logts), timestamp(now())) < '.$delay.' and connexions.close = 0'; // on récupère les logs non checkés datant moins de 15s
     $res = db_query($db, $req);
     $machines = Machines();
     $i = 0;
