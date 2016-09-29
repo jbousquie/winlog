@@ -49,7 +49,8 @@ function InfoWinlog() {
         $liste_salles = ListeSalles();
         $infobulle = InfoWinlog();
         echo("<div id=\"menu_salles\">\n");
-        echo("<p title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></p>\n");
+        echo("<span title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></span>");
+        echo("<span class=\"right toggler_general\"><span id=\"\">[+]</span><span id=\"\">[-]</span></span><br/>\n");
         echo($liste_salles);
         echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
         echo('</div>'."\n");
@@ -70,18 +71,55 @@ function InfoWinlog() {
     <script> 
 
     // fonction de permutation enroulé/déroulé de la liste de connexions d'une salle
-    var toggle = function(el, enrouleurs) {
-        if (el.className != "toggler") { return; }
+    // el : element html toggler
+    // enrouleurs : tableau de stockage des états des togglers
+    // bascule : true => on demande la permutation de l'état enroulé/déroulé
+    // force : null ou boolean. Si boolean, c'est la valeur a affecter de force (true = deroule, false = enroule)
+    var toggle = function(el, enrouleurs, bascule, force) {
+        if (!el.classList.contains("toggler")) { return; }
+        var htmlDeroule = "[-] ";
+        var htmlEnroule = "[+] ";
+        var classDeroule = "deroule";
+        var classEnroule = "enroule";
         var listeId = (el.id).replace('b-', 'c-');
         var liste = document.getElementById(listeId);
-        if (enrouleurs[el.id]) {
-            liste.className = "enroule";
-            el.innerHTML = "[+] ";
-            enrouleurs[el.id] = false;
-        } else {
-            liste.className = "deroule";
-            el.innerHTML = "[-] ";
-            enrouleurs[el.id] = true;
+        // si la valeur forcée "force" n'est pas transmise, on permute ou on garde les valeurs existantes deroule/enroule
+        // selon la valeur de bascule :bascule == true => on permute, sinon on rétablit les valeurs stockées
+        if (force == null || force == undefined) {
+            if (enrouleurs[el.id]) {                    // si initialement déroulé
+                if (bascule) {
+                    liste.className = classEnroule;
+                    el.innerHTML = htmlEnroule; 
+                    enrouleurs[el.id] = false               
+                } else {
+                    liste.className = classDeroule;
+                    el.innerHTML = htmlDeroule; 
+                    enrouleurs[el.id] = true;                    
+                }
+            } 
+            else                                        // si initialement enroulé
+            {
+                if (bascule) {
+                    liste.className = classDeroule;
+                    el.innerHTML = htmlDeroule;
+                    enrouleurs[el.id] = true;  
+                } else {
+                    liste.className = classEnroule;
+                    el.innerHTML = htmlEnroule;
+                    enrouleurs[el.id] = false;               
+                }
+            }
+        }
+        // sinon on affecte la valeur forcée
+        else {
+            enrouleurs[el.id] = force;
+            if (force) {
+                liste.className = classDeroule;
+                el.innerHTML = htmlDeroule;
+            } else {
+                liste.className = classEnroule;
+                el.innerHTML = htmlEnroule;
+            }
         }
     };
 
@@ -89,15 +127,7 @@ function InfoWinlog() {
     var  enroule = function(enrouleurs) {
         for (var e in enrouleurs) {
             var el = document.getElementById(e);
-            var listeId = (el.id).replace('b-', 'c-');
-            var liste = document.getElementById(listeId);
-            if (enrouleurs[e]) {
-                liste.className = "deroule";
-                el.innerHTML = "[-] ";
-            } else {
-                liste.className = "enroule";
-                el.innerHTML = "[+] ";
-            }
+            toggle(el, enrouleurs, false);
         }
     };
 
@@ -208,10 +238,10 @@ function InfoWinlog() {
             var elems = document.getElementsByClassName("toggler");
             // initialisation des enrouleurs (true = déroulé, par défaut)
             for (var i = 0; i < elems.length; i++) {
-                enrouleurs[elems[i].id] = true;
+                enrouleurs[elems[i].id] = <?php echo(json_encode($deroule)); ?>;
             }
 
-            div.addEventListener("click", function(e) { toggle(e.target, enrouleurs); }, false);
+            div.addEventListener("click", function(e) { toggle(e.target, enrouleurs, true); }, false);
 
             window.setInterval(function() {
                 reload(url, div, enrouleurs);
