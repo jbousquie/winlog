@@ -35,6 +35,15 @@ function InfoWinlog() {
     return $info;
 }
 
+function InfoCouleurs() {
+    global $blacklist_colors;
+    $color_table = "<table>\n";
+    foreach ($blacklist_colors as $target => $colors) {
+        $color_table = $color_table."<tr><td>$target</td><td style=\"background-color: rgb($colors[0], $colors[1], $colors[2]);\">&nbsp;</td></tr>\n";
+    }
+    $color_table = $color_table."</table>\n";
+    return $color_table;
+}
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
@@ -50,9 +59,10 @@ function InfoWinlog() {
         // header
         $liste_salles = ListeSalles();
         $infobulle = InfoWinlog();
+        $table_couleurs = InfoCouleurs();
         echo("<div id=\"menu_salles\">\n");
         echo("<span title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></span>");
-        echo("<span class=\"right\"><span id=\"g-deroule\" class=\"toggler_general toggler\">[+]</span><span id=\"g-enroule\" class=\"toggler_general toggler\">[-]</span></span><br/>\n");
+        echo("<span class=\"right\"><div id=\"g-deroule\" class=\"toggler_general toggler\">[+]</div><div id=\"g-enroule\" class=\"toggler_general toggler\">[-]</div>\n<div id=\"bouton-couleurs\">&nbsp;<div id=\"couleurs\">\n$table_couleurs</div></div>\n</span><br/>\n");
         echo($liste_salles);
         echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
         echo('</div>'."\n");
@@ -162,11 +172,17 @@ function InfoWinlog() {
         }
     }
 
+    // renvoie une chaine rgba avec alpha = "x"
+    var rgbaString = function(colorArray) {
+        var rgba = "rgba(" + String(colorArray[0]) + ", " + String(colorArray[1]) + ", " + String(colorArray[2]) + ", x)";
+        return rgba;
+    }
+
     // flash : clignotement des lignes correspondant au dataset "rejected" du <div> blacklist
      var flash = function() {
         var div_blacklist = document.getElementById("blacklist");           // récupération du div blacklist 
         var ips = JSON.parse(div_blacklist.dataset.rejected);               // récupération du dataset de ce div
-        var rgbaString = "rgba(255, 140, 0, x)";                         
+        var rgbaDefault = rgbaString(defaultColor);                         
         var alpha = 0;
         var bright = false;
         var finished = false;
@@ -175,24 +191,29 @@ function InfoWinlog() {
         for (var i = 0; i < ips.length; i++) {
             // recuperation des <tr> ip et des elements salles du header
             var ip = ips[i]["ip"].replace(/\./g, '-');                      // remplacement des '.' par des '-'
+            var target = ips[i]["target"];
+            var rgba;
+            if (colors[target]) {
+                rgba = rgbaString(colors[target]);
+            } else {
+                rgba = rgbaDefault;
+            }
             var tr_ip = document.getElementById(ip);                        // récupération de la ligne de la connexion par son IP
-            tr_ip.style.backgroundColor = rgbaString.replace("x", alpha);
-            stylesToFade.push(tr_ip.style);
+            stylesToFade.push({style: tr_ip.style, rgba: rgba});
             if (ips[i]["salle"]) {                                          // récupération de la salle si elle est présente
                 var salleH = 'h-' + ips[i]["salle"];                        
                 var el_salleH = document.getElementById(salleH);            // élément salle dans le menu header
                 var salleL = 'l-' + ips[i]["salle"];
                 var el_salleL = document.getElementById(salleL);            // élément salle dans la liste
-                el_salleH.style.backgroundColor = rgbaString.replace("x", alpha);
-                el_salleL.style.backgroundColor = rgbaString.replace("x", alpha);
-                stylesToFade.push(el_salleH.style, el_salleL.style);
+                stylesToFade.push({style: el_salleH.style, rgba: rgba}, {style: el_salleL.style, rgba: rgba});
             }
         }
 
         var fade = function() {
             for (var s = 0; s < stylesToFade.length; s++) {
-                var style = stylesToFade[s];
-                style.backgroundColor = rgbaString.replace("x", alpha);
+                var style = stylesToFade[s].style;
+                var rgba = stylesToFade[s].rgba;
+                style.backgroundColor = rgba.replace("x", alpha);
             }
             // tant que alpha n'a pas atteint 1, il incrémente
             if (!bright) {
@@ -243,6 +264,8 @@ function InfoWinlog() {
 
     // init
     var url = 'reload_salles.php';
+    var colors = <?php echo(json_encode($blacklist_colors)); ?>;
+    var defaultColor = <?php echo(json_encode($blacklist_default_color)); ?>;
     var init = function() {
         var div = document.getElementById('loaddiv');
         if (div) {
