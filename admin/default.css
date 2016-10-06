@@ -25,6 +25,36 @@ a{ text-decoration: none; color: cadetBlue;}
 
 #liste_salles{margin-top: 10px;}
 
+#bouton-couleurs {
+    display: inline;
+    font-family: courier;
+    font-size: 95%;
+    border: 1px solid;
+    background-color: Lightblue;
+    position: relative;
+    bottom: 1px;
+}
+
+#couleurs {
+    display: none;
+    opacity: 0;
+    z-index: 1;
+}
+
+#bouton-couleurs:hover {
+    visibility: hidden;
+}
+
+#bouton-couleurs:hover #couleurs {
+    visibility: visible;
+    display: inline-block;
+    opacity: 1;
+    background-color: White;
+    border: 1px solid;
+    margin: 0;
+    padding: 0;
+}
+
 .lien_salle {margin-left: 25px; padding-top: 5px; display: inline-block;}
 
 .salle { 
@@ -59,6 +89,7 @@ a.anchor {
     font-size : 90%;
     position: relative;
     bottom: 2px;
+    display: inline;
 }
 
 .deroule {
