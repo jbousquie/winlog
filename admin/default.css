@@ -38,7 +38,7 @@ a{ text-decoration: none; color: cadetBlue;}
 #couleurs {
     display: none;
     opacity: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 #bouton-couleurs:hover {
@@ -87,9 +87,9 @@ a.anchor {
     cursor: pointer;
     font-family: courier;
     font-size : 90%;
+    float: right;
     position: relative;
-    bottom: 2px;
-    display: inline;
+    bottom: -1px;
 }
 
 .deroule {
