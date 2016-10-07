@@ -37,10 +37,12 @@ function InfoWinlog() {
 
 function InfoCouleurs() {
     global $blacklist_colors;
+    global $blacklist_default_color;
     $color_table = "<table>\n";
     foreach ($blacklist_colors as $target => $colors) {
         $color_table = $color_table."<tr><td>$target</td><td style=\"background-color: rgb($colors[0], $colors[1], $colors[2]);\">&nbsp;</td></tr>\n";
     }
+    $color_table = $color_table."<tr><td>defaut</td><td style=\"background-color: rgb($blacklist_default_color[0], $blacklist_default_color[1], $blacklist_default_color[2]);\">&nbsp;</td></tr>\n";
     $color_table = $color_table."</table>\n";
     return $color_table;
 }
