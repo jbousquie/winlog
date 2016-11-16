@@ -1,21 +1,22 @@
 <?php
 // Ce script affiche les processus en cours sur une machine windows
 // Pour ceci il interroge (http) un serveur windows du domaine sur le lequel sera exécuté une commande tasklist /s $host
+require_once 'HTTP/Request2.php';
 
 Function get_tasks($url) {
-	$salles_bloquees = array();
-	$r = new HttpRequest($url, HttpRequest::METH_GET);
+  $taches = array();
+	$r = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
 	try {
-		$r->send();
-		if ($r->getResponseCode() == 200) {
-	        	$r->getResponseBody();
-			$reponse = json_decode($r->getResponseBody());
+    $response = $r->send();
+		if (200 == $response->getStatus()) {
+      $body = $response->getBody();
+			$taches = json_decode($body);
 	    		}
 		} 
-	catch (HttpException $ex) {
-		echo $ex;
+	catch (HTTP_Request2_Exception $ex) {
+		echo $ex->getMessage();
 		}
-	return $reponse;
+	return $taches;
 }
 
 // Variables
