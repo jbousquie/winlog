@@ -1,6 +1,8 @@
 <?php
 // Ce script récupère une action (shutdown ou restart) et un tableau json de machines
 // Il émet une requête POST à Ghost:81 pour executer le psshutdown sur le domaine
+require_once 'HTTP/Request2.php';
+
 
 // URL du script stop.php sur Ghost:81
 $url = "http://10.5.0.15:81/stop.php";
@@ -25,9 +27,14 @@ if (in_array($action, $action_logout)) { $act = "l"; }
 if (in_array($action, $action_stop)) { $act = "s"; }
 if (in_array($action, $action_restart)) { $act = "r"; }
 if ($act != "") {
-  $http = new HttpRequest( $url, HttpRequest::METH_POST);
-  $http->addPostFields(array('act'=>$act, 'hosts'=>$hosts ));
-  try { $http->send(); } catch (HttpException $ex) { echo $ex; }
+  $http = new HTTP_Request2( $url, HTTP_Request2::METHOD_POST);
+  $http->addPostParameter(array('act'=>$act, 'hosts'=>$hosts ));
+  try { 
+    $http->send(); 
+  } 
+  catch (HTTP_Request2_Exception $ex) { 
+    echo $ex;
+ }
 }
 header('Location: salles_live.php');
 ?>
