@@ -18,6 +18,11 @@ $attr_enseignants = array("sAMAccountname", "givenName", "sn");
 $filtre_etudiants = "ObjectClass=user";
 $attr_etudiants = array("cn", "givenName", "sn");
 
+$ldap_personnes = array(
+    array("base" => $base_enseignants, "filtre" => $filtre_enseignants, "attr" => $attr_enseignants, "type" => "Enseignant"),
+    array("base" => $base_etudiants,   "filtre" => $filtre_etudiants,   "attr" => $attr_etudiants,   "type" => NULL)
+);
+
 // Paramètres MySQL
 $db_server = "p:localhost";         // "p:host" pour des connexions persistantes
 $db_dbname ="winlog";
@@ -47,5 +52,20 @@ $deroule = false;
 $msg_salle_live_non_autorise = "Vous n'&ecirc;tes actuellement pas authentifi&eacute; comme enseignant dans une salle informatique de l'IUT.<br/>";
 
 // Version
-$version = "0.9";
+$version = "0.10";
+
+// Codes couleurs blacklist
+// key : dest (ou target) de squidguard
+// value : [r,g,b] color (https://web.njit.edu/~kevin/rgb.txt.html)
+$blacklist_colors = array(
+    "adult" => [255, 192, 203],         // Pink
+    "haine" => [165, 42, 42],           // Brown
+    "telechargement" => [255, 165, 0],  // Orange
+    "jeu" => [112, 219, 147],           // Aquamarine
+    "tricheur" => [255, 215, 0],        // Gold
+    "proxies" => [30, 144, 255],        // DodgerBlue
+    "warez" => [143, 188, 143]          // DarkSeaGreen
+    );
+
+$blacklist_default_color = [255, 140, 0];  // DarkOrange
 ?>
