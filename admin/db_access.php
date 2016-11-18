@@ -21,6 +21,13 @@ function db_fetch_row($res) {
     return $row;
 }
 
+// Fonction db_escape_string
+// Retourne ûne chaîne échappée
+function db_escape_string($db, $string) {
+    $str = $db->real_escape_string($string);
+    return $str;
+}
+
 // Fonction : db_free
 // Libère la mémoire
 function db_free($res) {
