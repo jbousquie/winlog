@@ -55,7 +55,7 @@ while ($mdc = current($machines_de_salle)) {
         }
         // affichage ligne de salle
         echo "<a class=\"anchor\" id=\"$salle\"></a>\n";
-        echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler\"></span><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
+        echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler_style toggler\"></span><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
         echo "<div class=\"connexions\" id=\"c-$salle\"><table>\n";
 
         if (!empty($connexion_machine)) {
@@ -106,7 +106,7 @@ echo $lien_purge;
 
 // Récupération des connexions sur la blacklist Squid
 // Stockage du résultat dans un dataset d'une <div> dédiée
-$connexions_blacklist_live = Connexions_blacklist_live($delay);
+$connexions_blacklist_live = Connexions_blacklist_live($delay, $machines);
 $div_blacklist = '<div id="blacklist" data-rejected=\''.json_encode($connexions_blacklist_live).'\'></div>';
 echo($div_blacklist);
 
