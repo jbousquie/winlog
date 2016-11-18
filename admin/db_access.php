@@ -30,7 +30,7 @@ function db_escape_string($db, $string) {
 
 // Fonction : db_free
 // Libère la mémoire
-function db_free($db, $res) {
-    $db->free($res);
+function db_free($res) {
+    $res->free();
 }
 ?>
