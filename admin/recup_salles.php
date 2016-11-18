@@ -27,7 +27,7 @@ db_query($db, $req_purge_machine);
 
 	// salles pédagiques
 $salles = array();  // Ce tableau indexé contiendra les salles qui possèdent des machines
-for ($i=0; $i<$entry_salles["count"];$i++) {
+for ($i = 0; $i < $entry_salles["count"]; $i++) {
 	$dn_tab = ldap_explode_dn($entry_salles[$i]["dn"],1);
 	$salle = $dn_tab[1];  // le nom de la salle dans laquelle elle se trouve est le 2° élément du DN d'une machine
 	$salles[$i] = $salle; // tableau des salles construit à la volée
@@ -45,10 +45,10 @@ for ($i=0; $i<$entry_salles["count"];$i++) {
 
 	// machines personnels
 $salles_perso = array();  // Ce tableau indexé contiendra les salles qui possèdent des machines
-for ($i=0; $i<$entry_salles_personnel["count"];$i++) {
+for ($i = 0; $i < $entry_salles_personnel["count"]; $i++) {
 	$dn_tab = ldap_explode_dn($entry_salles_personnel[$i]["dn"],1);
-	$salle_perso = $dn_tab[1];  // le nom de la salle dans laquelle elle se trouve est le 2° élément du DN d'une machine
-	$salles_perso[$i] = $salle_perso; // tableau des salles construit à la volée
+	$salle_perso = $dn_tab[1];  		// le nom de la salle dans laquelle elle se trouve est le 2° élément du DN d'une machine
+	$salles_perso[$i] = $salle_perso; 	// tableau des salles construit à la volée
 	$machine_id = $entry_salles_personnel[$i]["cn"][0];
 	$os = "";
 	$os_sp = "";
@@ -75,41 +75,56 @@ foreach($salles_perso as $s) {
 	db_query($db, $req_salle);
 }
 
-// Lecture des enseignants dans AD
-$res_enseignants = ldap_search($ldap_con, $base_enseignants, $filtre_enseignants, $attr_enseignants);
-$entry_enseignants = ldap_get_entries($ldap_con, $res_enseignants);
 
-// Insertions des enseignants
+
+
+
+// Fonction d'insertion des personnes dans la base de données à partir des base, filtre et attributs LDAP
+// Si le $libelle_type est passé, il remplace la valeur du champ groupe dans la table
+function Insere_personnes($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr, $db, $libelle_type) {
+
+	$libelle_type = db_escape_string($db, $libelle_type);
+	$res = ldap_search($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr);
+	$entry = ldap_get_entries($ldap_con, $res);
+
+	for ($i = 0; $i < $entry["count"]; $i++) {
+		$dn_tab = ldap_explode_dn($entry[$i]["dn"], 1);
+		$groupe = array_key_exists(1, $dn_tab) ? $dn_tab[1] : "";		// s'il existe, le groupe est le $dn_tab[1]
+		$username = array_key_exists("samaccountname", $entry[$i]) ? $entry[$i]["samaccountname"][0] : $entry[$i]["cn"][0];	// le username est le samaccountname s'il existe, le cn sinon
+		$libelle_groupe = $libelle_type ? $libelle_type : $groupe;
+		$prenom = "";
+		$nom = "";
+		if (array_key_exists("givenname", $entry[$i])) { 
+			$prenom = db_escape_string($db, $entry[$i]["givenname"][0]);
+		}
+		if (array_key_exists("sn", $entry[$i])) { 
+			$nom = db_escape_string($db, $entry[$i]["sn"][0]); 
+		}
+		$req = "INSERT INTO comptes (username, prenom, nom, groupe) VALUES ('{$username}', '{$prenom}', '{$nom}', '{$libelle_groupe}')";
+		db_query($db, $req);		
+	}
+};
+
+
+// Insertion des personnes
+// =======================
+
+// purge initiale de la table
 db_query($db, $req_purge_compte);
-for ($i=0; $i<$entry_enseignants["count"];$i++) {
-	$dn_tab = ldap_explode_dn($entry_salles[$i]["dn"],1);
-	$username = $entry_enseignants[$i]["samaccountname"][0];
-	$prenom = "";
-	$nom = "";
-	if (array_key_exists("givenname", $entry_enseignants[$i])) { $prenom = addslashes($entry_enseignants[$i]["givenname"][0]); }
-	if (array_key_exists("sn", $entry_enseignants[$i])) { $nom = addslashes($entry_enseignants[$i]["sn"][0]); }
-	$req_enseignant = "INSERT INTO comptes (username, prenom, nom, groupe) VALUES ('{$username}', '{$prenom}', '{$nom}', 'Enseignant')";
-	db_query($db, $req_enseignant);
+
+// boucle sur chaque branche déclarée dans $ldap_personnes
+foreach ($ldap_personnes as $ldap_branche) {
+	$ldap_base = $ldap_branche["base"];
+	$ldap_filtre = $ldap_branche["filtre"];
+	$ldap_attr = $ldap_branche["attr"];
+	$libelle_type = $ldap_branche["type"];
+	Insere_personnes($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr, $db, $libelle_type);
 }
 
-// Lecture des étudiants dans AD
-$res_etudiants = ldap_search($ldap_con, $base_etudiants, $filtre_etudiants, $attr_etudiants);
-$entry_etudiants = ldap_get_entries($ldap_con, $res_etudiants);
-
-// Insertions des étudiants
-for ($i=0; $i<$entry_etudiants["count"];$i++) {
-	$dn_tab = ldap_explode_dn($entry_etudiants[$i]["dn"],1);
-	$groupe = $dn_tab[1];
-	$username = $entry_etudiants[$i]["cn"][0];
-	$prenom = "";
-	$nom = "";
-	if (array_key_exists("givenname", $entry_etudiants[$i])) { $prenom = addslashes($entry_etudiants[$i]["givenname"][0]); }
-	if (array_key_exists("sn", $entry_etudiants[$i])) { $nom = addslashes($entry_etudiants[$i]["sn"][0]); }
-	
-	$req_etudiant = "INSERT INTO comptes (username, prenom, nom, groupe) VALUES ('{$username}', '{$prenom}', '{$nom}', '{$groupe}')";
-	db_query($db, $req_etudiant);
-}
-
+// fermeture ldap et base de données
 ldap_close($ldap_con);
+db_free($db);
+
+// retour sur la page salles_live.php
 header('Location: '.$winlog_url.'/admin/salles_live.php');
 ?>
