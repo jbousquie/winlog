@@ -3,21 +3,14 @@ include_once('winlogconf.php');
 include_once('admin/db_access.php');
 
 // ne traiter que sur des requêtes POST sur le port 443
-if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443") {
+if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" && strcmp(addslashes($_POST["code"]), addslashes($server_code)) ) {
 
-    $action = addslashes($_POST["action"]);
-	$username = addslashes($_POST["username"]);
-	$computer = addslashes($_POST["computer"]);
-	$code = $_POST["code"];
-	$ip = $_SERVER["REMOTE_ADDR"];
-
-	// se protéger des POST anonymes par un code partagé entre client et serveur
-	if (strcmp(addslashes($code), addslashes($server_code)) != 0) { 
-		exit; 
-	 } 
-
-	 
 	$db = db_connect();
+
+    $action = db_escape_string($db, $_POST["action"]);
+	$username = db_escape_string($db, $_POST["username"]);
+	$computer = db_escape_string($db, $_POST["computer"]);
+	$ip = $_SERVER["REMOTE_ADDR"];
 
 	// requête de purge d'une éventuelle connexion restée ouverte sur une machine (multi-session non autorisée sur les PC)
 	$req_purge_C = 'UPDATE connexions SET close = 1 WHERE close = 0 AND hote = "'.$computer.'"';
