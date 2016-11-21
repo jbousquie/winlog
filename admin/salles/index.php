@@ -22,7 +22,14 @@ function Affiche_plan_salle($salle) {
     include_once($salle.'.php');
     $date_now = time();
     $machines_des_salles = Machines_de_salle(Machines());
-    $machines_de_la_salle = $machines_des_salles[$salle];
+    // on ne récupère que les machines déclarées dans le fichier plan de salle
+    $machines_de_la_salle = array();
+    foreach ($ligne_machines[$salle] as $ligne) {
+        foreach ($ligne as $machinePlan) {
+            $machines_de_la_salle[] = $machinePlan;
+        }
+    }
+    $ligne_machines[$salle];
     $machines_connectees = Connexion_machine();
     $portes = $porte_coord[$salle];
   
