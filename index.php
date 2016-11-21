@@ -18,10 +18,13 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
 	$req_con_C ='INSERT INTO connexions (username, hote, ip, debut_con, close) VALUES ("'.$username.'", "'.$computer.'", "'.$ip.'", CURRENT_TIMESTAMP(),0)';
 	//requête de mise à jour (fermeture) de la connexion
 	$req_con_D = 'UPDATE connexions SET close = 1 WHERE close = 0 AND username = "'.$username.'" AND hote = "'.$computer.'"';
+	// requête de mise à jour de l'adresse IP dans la table machines
+	$req_ip_machine = 'UPDATE machines SET adresse_ip = "'. $ip . '" WHERE machine_id = "'. $computer . '"';
 	
 	if ($action == "C") { 
 		db_query($db, $req_purge_C); // on commence par purger avant de créer une connexion
 		db_query($db, $req_con_C);
+		db_query($db, $req_ip_machine);
 	} 
 	else {
 		db_query($db, $req_con_D);
