@@ -80,4 +80,9 @@ $blacklist_colors = array(
     );
 
 $blacklist_default_color = [255, 140, 0];  // DarkOrange
+
+// Blocage Web des salles :
+$url_bloque = "http://cache.iut-rodez.fr/salles/bloque_salle.php";
+$url_debloque = "http://cache.iut-rodez.fr/salles/debloque_salle.php";
+$url_salles_bloquees = "http://cache.iut-rodez.fr/salles/salles_bloquees.php";
 ?>
