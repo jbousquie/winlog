@@ -83,10 +83,21 @@ function Compte($username) {
     return $compte;
 }
 
+// Fonction IP_machine($machine_id)
+// Renvoie la chaîne adresse_ip de la machine dans la table machines
+function IP_machine($machine_id) {
+    $db = db_connect();
+    $req = "SELECT adresse_ip FROM machines WHERE machine_id = \"{$machine_id}\"";
+    $res = db_query($db, $req);
+    $ip = db_fetch_row($res)[0];
+    db_free($res);
+    return $ip;
+}
+
+
 // Fonction : Con_ip($ip)
 // Renvoie les informations de la connexion en cours relative à l'IP donnée
 // Retourne un array (con_id, username, hote, stamp, nom, prenom, groupe)
-
 function Con_ip($ip) {
     $con = Connexions();
     $con_ip = array();
