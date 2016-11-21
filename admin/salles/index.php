@@ -54,11 +54,12 @@ function Affiche_plan_salle($salle) {
         if ($nb_jours >= $j30) { $class_jour = ' j30'; }
 
         $class_connexion='';
-        $link = '';
+        $link = '<a href=../taches.php?machine='.$machine.'>';
         $username = '';
-        $ip = '';
+        $ip = IP_machine($machine);
+        // s'il existe une connexion sur la machine
         if (array_key_exists($machine, $machines_connectees)) {
-            $class_connexion = ' conn'; $link = '<a href=../taches.php?machine='.$machine.'>';
+            $class_connexion = ' conn'; 
             $username = $machines_connectees[$machine]["username"];
             $ip = $machines_connectees[$machine]["ip"];
         }
