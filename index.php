@@ -3,7 +3,7 @@ include_once('winlogconf.php');
 include_once('admin/db_access.php');
 
 // ne traiter que sur des requêtes POST sur le port 443
-if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" && strcmp(addslashes($_POST["code"]), addslashes($server_code)) ) {
+if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" && strcmp(addslashes($_POST["code"]), addslashes($server_code)) == 0 ) {
 
 	$db = db_connect();
 
