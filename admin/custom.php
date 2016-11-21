@@ -6,7 +6,22 @@
 function SalleDeMachine($machine, $defaut) {
     $salle = $defaut;
 
+    // traitement local spécifique
+    // ===========================
 
+    // Uniformisation du nom VM ou pas
+    $machineNonVM = str_replace("VM-", "", $machine);
+
+    // Si le nom de la machine commence par un nom de bâtiment, alors $salle = 4 premier cars de $machine
+    if ($machineNonVM[0] == "A" || $machineNonVM[0] == "B" || $machineNonVM[0] == "C") {
+        $salle = substr($machineNonVM, 0, 4);
+    }
+    // Cas particulier CRDOC
+    if (strstr($machineNonVM, "CRDOC") != false) {
+        $salle = "CRDOC";
+    };
+
+    // retourne le nom de la salle
     return $salle;
 };
 
