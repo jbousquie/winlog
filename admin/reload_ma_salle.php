@@ -1,23 +1,24 @@
 <?php 
+include_once("winlog_admin_conf.php");
 include_once("connexions.php");
 require_once 'HTTP/Request2.php';
 
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
-Function Get_salles_bloquees() {
+Function Get_salles_bloquees($url) {
 	$salles_bloquees = array();
-	$r = new HTTP_Request2("http://cache.iut-rodez.fr/salles/salles_bloquees.php", HTTP_Request2::METHOD_GET);
+	$r = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
 	try {
 		$response = $r->send();
 		if (200 == $response->getStatus()) {
 	        $body = $response->getBody();
 			$salles_bloquees = json_decode($body);
-	    		}
-		} 
+	    }
+	} 
 	catch (HTTP_Request2_Exception $ex) {
 		echo $ex->getMessage();
-		}
+	}
 	return $salles_bloquees;
-  }
+}
 
 // Récupération de l'IP origine de la requête
 if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) )
@@ -44,7 +45,7 @@ if ( is_null($salle) ) {
 $bloque = '<i><a href="bloque_salle.php?a=b&s='.strtolower($salle).'">bloque</a></i>';
 $debloque = '<i><a href="bloque_salle.php?a=d&s='.strtolower($salle).'">debloque</a></i>';
 $lien = $bloque;
-$salles_bloquees = Get_salles_bloquees();
+$salles_bloquees = Get_salles_bloquees($url_salles_bloquees);
 if (in_array(strtolower($salle), $salles_bloquees)) { 
 	$lien = $debloque; 
 }
