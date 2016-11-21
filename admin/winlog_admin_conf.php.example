@@ -9,19 +9,31 @@ $ldap_rdn = "CN=ldapview,CN=Users,DC=iut,DC=local";
 $ldap_passwd ="password";
 $base_salles = "OU=Salles,DC=iut,DC=local";
 $base_salles_personnel = "OU=Salles Admin,DC=iut,DC=local";
-$base_enseignants = "OU=Enseignants,DC=iut,DC=local";
-$base_etudiants = "OU=Etudiants,DC=iut,DC=local";
 $filtre_salles = "ObjectClass=computer";
 $attr_salles = array("cn", "operatingSystem", "operatingSystemServicePack", "operatingSystemVersion");
+
+    // ces variables ne servent qu'à rendre plus lisible le tableau $ldap_personnes requis
+$base_enseignants = "OU=Enseignants,DC=iut,DC=local";
+$base_etudiants = "OU=Etudiants,DC=iut,DC=local";
 $filtre_enseignants = "ObjectClass=user";
 $attr_enseignants = array("sAMAccountname", "givenName", "sn");
 $filtre_etudiants = "ObjectClass=user";
 $attr_etudiants = array("cn", "givenName", "sn");
 
+    // tableaux de configuration requis : $ldap_personnes et $ldap_machines, utilisés par recup_salles.php
 $ldap_personnes = array(
     array("base" => $base_enseignants, "filtre" => $filtre_enseignants, "attr" => $attr_enseignants, "type" => "Enseignant"),
     array("base" => $base_etudiants,   "filtre" => $filtre_etudiants,   "attr" => $attr_etudiants,   "type" => NULL)
 );
+
+$ldap_machines = array(
+    array("base" => $base_salles, "filtre" => $filtre_salles, "attr" => $attr_salles),
+    array("base" => $base_salles_personnel, "filtre" => $filtre_salles, "attr" => $attr_salles)
+);
+
+// Liste des OU (dn) à ne pas récupérer dans les tableaux précédents
+$OU_machines_exclusion = array( "TEST" );
+$OU_personnes_exclusion = array( "TEST" );
 
 // Paramètres MySQL
 $db_server = "p:localhost";         // "p:host" pour des connexions persistantes
