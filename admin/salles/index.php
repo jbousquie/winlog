@@ -104,7 +104,8 @@ if (in_array($username, $autorises)) {
     $info_cours = '&nbsp;&nbsp;&nbsp;&nbsp;<a href="../salles_live.php">[retour]</a>';
     echo("<h3>Salle ".$salle.$info_cours."</h3>");
     $form ='<form action="../stop.php" method="POST">';
-    $form = $form.'<input type="submit" value="fermer toutes les sessions" name="stop"><input type="submit" value="redémarrer toute la salle" name="stop"><input type="submit" value="éteindre toute la salle" name="stop">';
+    //$form = $form.'<input type="submit" value="fermer toutes les sessions" name="stop">';
+    $form = $form.'<input type="submit" value="redémarrer toute la salle" name="stop"><input type="submit" value="éteindre toute la salle" name="stop">';
     $form = $form.'<input type="hidden" name="host" value=\''.$host_json.'\'>';
     $form = $form.'</form>';
     echo $form;
