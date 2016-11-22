@@ -85,4 +85,7 @@ $blacklist_default_color = [255, 140, 0];  // DarkOrange
 $url_bloque = "http://cache.iut-rodez.fr/salles/bloque_salle.php";
 $url_debloque = "http://cache.iut-rodez.fr/salles/debloque_salle.php";
 $url_salles_bloquees = "http://cache.iut-rodez.fr/salles/salles_bloquees.php";
+
+// Serveur Windows pour liste des tâches
+$url_taches = "http://10.5.0.15:81/task.php";
 ?>
