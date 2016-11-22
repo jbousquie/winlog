@@ -5,23 +5,24 @@ include_once('db_access.php');
 // Fonction : Connexions_par_salle
 // Renvoie les connexions par salle sous la forme d'un Array 
 function Connexions_par_salle($salle) {
-  $machine_de_salle = Machines_de_salle(Machines());
-  $machines_de_ma_salle = $machine_de_salle[$salle];
-  $machines_connectees = Connexion_machine();
-  $connexions_par_salle = array();
-  if (!empty($machines_connectees)) {
-      $i = 0;
-      foreach($machines_de_ma_salle as $machine) {
+    $machines_de_salles = Machines_de_salle(Machines());
+    $machines_de_ma_salle = $machines_de_salles[$salle];
+    $machines_connectees = Connexion_machine();
+    $connexions_par_salle = array();
+    $i = 0;
+    foreach($machines_de_ma_salle as $machine) {
+        if (array_key_exists($machine, $machines_connectees)) {
             $connexions_par_salle[$i] = array();
             $connexions_par_salle[$i]["machine"] = $machine;
             $connexions_par_salle[$i]["username"] = $machines_connectees[$machine]["username"];
             $connexions_par_salle[$i]["stamp"] = $machines_connectees[$machine]["stamp"];
             $connexions_par_salle[$i]["ip"] = $machines_connectees[$machine]["ip"];
             $i++;
-      }
-  }
+        }
+    }
+
   return $connexions_par_salle; 
-}
+};
 
 // Fonction : Machines()
 // Renvoie toutes les machines existantes
