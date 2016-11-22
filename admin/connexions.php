@@ -31,10 +31,10 @@ function Machines() {
     //$machines = array() ;
     $db = db_connect();
 
-    $req = 'select machine_id, salle, os, os_sp, os_version from machines order by salle, machine_id';
+    $req = 'select machine_id, salle, os, os_sp, os_version, adresse_ip from machines order by salle, machine_id';
     $res = db_query($db, $req);
     while ($mac = db_fetch_row($res)) {
-        $machines[$mac[0]] = array($mac[1], $mac[2], $mac[3], $mac[4]);
+        $machines[$mac[0]] = array($mac[1], $mac[2], $mac[3], $mac[4], $mac[5]);
         }
     db_free($res);
     return $machines;
