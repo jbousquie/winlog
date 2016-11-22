@@ -14,28 +14,26 @@ if ($salle == '') {
     header ('Location: ../salles_live.php'); 
 }
 
-$machines_des_salles = Machines_de_salle(Machines());
-$host_json = json_encode($machines_des_salles[$salle]);
-
-// fonction d'affichage du plan 2D d'une salle
-function Affiche_plan_salle($salle) {
-    include_once($salle.'.php');
-    $date_now = time();
-    $machines_des_salles = Machines_de_salle(Machines());
-    // on ne récupère que les machines déclarées dans le fichier plan de salle
+// fonction renvoyant les machines du plan de la salle
+function Machines_plan(&$ligne_machines) {
     $machines_de_la_salle = array();
-    foreach ($ligne_machines[$salle] as $ligne) {
+    foreach ($ligne_machines as $ligne) {
         foreach ($ligne as $machinePlan) {
             $machines_de_la_salle[] = $machinePlan;
         }
     }
-    $ligne_machines[$salle];
+    return $machines_de_la_salle;
+};
+
+
+// fonction d'affichage du plan 2D d'une salle
+function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
+    
+    $date_now = time();
     $machines_connectees = Connexion_machine();
-    $portes = $porte_coord[$salle];
-  
+      
     // Affichage des machines
     foreach($machines_de_la_salle as $machine) {
-
         // recherche du nombre de jours passés depuis la dernière utilisation de la machine
         $last_conn = Derniere_connexion_machine($machine);
         if (empty($last_conn)) {
@@ -98,6 +96,10 @@ function Affiche_plan_salle($salle) {
 <?php
 // Si le compte est autorisé à voir les salles, on affiche le div
 if (in_array($username, $autorises)) {
+    include_once($salle.'.php');
+    $machines_du_plan = Machines_plan($ligne_machines[$salle]);
+    $portes = $porte_coord[$salle];
+    $host_json = json_encode($machines_du_plan);
 
     $info_cours = '&nbsp;&nbsp;&nbsp;&nbsp;<a href="../salles_live.php">[retour]</a>';
     echo("<h3>Salle ".$salle.$info_cours."</h3>");
@@ -107,10 +109,9 @@ if (in_array($username, $autorises)) {
     $form = $form.'</form>';
     echo $form;
     echo("<p><span class='conn'>bleu</span> : connecté &nbsp;<span class='pc'>gris</span> : inactif &nbsp;<span class='j10'>jaune</span> : inactif 10j &nbsp;<span class='j20'>orange</span> : inactif 20j &nbsp;<span class='j30'>rouge</span> : inactif 30j</p>");
-    Affiche_plan_salle($salle);
+    Affiche_plan_salle($machines_du_plan, $portes);
 }
-else
-{
+else {
     // sinon on affiche un message
     echo("Vous n'avez pas l'autorisation d'afficher cette page");
 }
