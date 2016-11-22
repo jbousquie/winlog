@@ -88,4 +88,5 @@ $url_salles_bloquees = "http://cache.iut-rodez.fr/salles/salles_bloquees.php";
 
 // Serveur Windows pour liste des tâches
 $url_taches = "http://10.5.0.15:81/task.php";
+$url_stop = "http://10.5.0.15:81/stop.php";
 ?>
