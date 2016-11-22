@@ -18,13 +18,17 @@ Function Get_salles_bloquees($url) {
 		echo $ex->getMessage();
 	}
 	return $salles_bloquees;
-}
+};
+
 
 // Récupération de l'IP origine de la requête
-if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) )
-        $ip_connectee = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    else
-        $ip_connectee = $_SERVER["REMOTE_ADDR"];
+if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
+    $ip_connectee = $_SERVER["HTTP_X_FORWARDED_FOR"];
+}
+else {
+	$ip_connectee = $_SERVER["REMOTE_ADDR"];
+}
+
 
 // récupération de la personne connectée à l'adresse IP
 $con = Con_ip($ip_connectee);
@@ -38,7 +42,7 @@ $hote = $con[2];
 $machines = Machines();
 $salle = $machines[$hote][0];
 if ( is_null($salle) ) { 
-	echo "hors d'une salle"; 
+	echo "Connecté hors d'une salle d'une salle connue."; 
 	return; 			//on quitte immédiatement si on n'est pas sur une machine d'une salle
 } 
 
@@ -49,15 +53,16 @@ $salles_bloquees = Get_salles_bloquees($url_salles_bloquees);
 if (in_array(strtolower($salle), $salles_bloquees)) { 
 	$lien = $debloque; 
 }
+
 $connexions_de_ma_salle = Connexions_par_salle($salle);
 $machines_de_salle = machines_de_salle($machines);
 $nb_machines_de_ma_salle = count($machines_de_salle[$salle]);
 $nb_connexions = 0;
 foreach($connexions_de_ma_salle as $con) {
 		if ($con["username"]) { // on ne compte que les machines connectées
-		                                          $nb_connexions++;
-		                                          }
+			$nb_connexions++;
 		}
+}
 echo "<div class=\"salle\">$salle ($nb_connexions connexions sur $nb_machines_de_ma_salle machines) ($lien)</div>\n";
 echo "<table>";
 foreach($connexions_de_ma_salle as $con) {
@@ -78,4 +83,5 @@ foreach($connexions_de_ma_salle as $con) {
 			}
 	}
 echo "</table>";
+
  ?>
