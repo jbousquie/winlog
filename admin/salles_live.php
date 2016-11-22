@@ -158,7 +158,7 @@ function InfoCouleurs() {
     };
 
     // fonction d'affichage d'erreur dans la console
-    var erreurXHR = function(url) {
+    var erreurXHR = function(url, xhr) {
         console.log("erreur chargement" + url + " : " + xhr.statusText);
     };
 
@@ -253,12 +253,12 @@ function InfoCouleurs() {
                     enroule(enrouleurs);
 
                 } else {
-                    erreurXHR(url);
+                    erreurXHR(url, xhr);
                 }
             }
         };
         xhr.onerror = function(e) {
-            erreurXHR(url);
+            erreurXHR(url, xhr);
         };
 
     xhr.send(null);  // initie la requête xhr
