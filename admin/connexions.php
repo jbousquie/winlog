@@ -43,7 +43,7 @@ function Machines() {
 // Renvoie les machines existantes des salles du tableau $machine (si le tableau est vide, alors appel à Machines()
 // Retourne un tableau associatif machines_de_salle[$salle_id]=($machine_id1, $machine_id2, ...)
 // En fait, cette fonction inverse le tableau associatif de la fonction machine sur la clé $salle
-function Machines_de_salle($machines) {
+function Machines_de_salle(&$machines) {
     $machines_de_salle = array() ;
     if (!$machines ) { $machines = Machines(); }
     while ($mac = current($machines)) {
@@ -172,7 +172,7 @@ function Derniere_connexion_machine($hote) {
 // Fonction Connexion_doyenne_salle 
 // Renvoie la plus plus ancienne connexion d'une salle :
 // renvoie un entier correspondant au nombre de jours depuis la dernière connexion la plus ancienne dans la salle
-function Connexion_doyenne_salle($machines_de_la_salle) {
+function Connexion_doyenne_salle(&$machines_de_la_salle) {
   $date_now = time();
   $date_last = $date_now;
   foreach($machines_de_la_salle as $machine) {
@@ -252,7 +252,7 @@ function Connexions_wifi() {
     return $connexions_wifi;   
 }
 
-// function connexions_blacklist_live($delay)
+// function Connexions_blacklist_live($delay, $machines)
 // Renvoie les enregistrements de la table proxy de moins de $delay secondes : dernières touches sur la blacklist
 // Retourne un array indexés : (ip, username, thème_blacklist) :
 //            $connexion_bl_live[$i]["ip"] : ip de la machine à l'origine de la requête sur une URL blacklistée
@@ -260,7 +260,7 @@ function Connexions_wifi() {
 //            $connexion_bl_live[$i]["target"] : thème de la blacklist concerné - adult, warez, games, etc
 //            $connexion_bl_live[$i]["hote"] : le nom de la machine s'il existe dans la table connexions
 
-function Connexions_blacklist_live($delay, $machines) {
+function Connexions_blacklist_live($delay, &$machines) {
     $connexions_bl_live = array();
     $db = db_connect();
 
