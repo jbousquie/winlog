@@ -11,3 +11,9 @@ php-http-request2
 ```
 pear install http_request2
 ```
+
+Pour le contrôle Web :  
+* Squid + SquidGuard  
+
+Pour le contrôle des PC à distance :  
+* Windows Server + Apache/PHP + commande `shutdown`  
