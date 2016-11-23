@@ -32,8 +32,11 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
 		$marque = db_escape_string($db, $_POST["manufacturer"]);
 		$modele = db_escape_string($db, $_POST["model"]);
 		$type = db_escape_string($db, $_POST["systemType"]);
+		$mac = db_escape_string($db, $_POST["mac"]);
+		$ip = db_escape_string($db, $_POST["ip"]);
+		$descr = db_escape_string($db, $_POST["descr"]);
 		// requête de mise à jour des marque, modèle et type système de la machine
-		$req_modele_machine = 'UPDATE machines SET marque = "'. $marque .'", modele = "'. $modele .'", type_systeme ="'. $type .'" WHERE machine_id = "'. $computer .'"';
+		$req_modele_machine = 'UPDATE machines SET marque = "'. $marque .'", modele = "'. $modele .'", type_systeme ="'. $type .'", mac = "'. $mac .'", ip_mac = "'. $ip.'", mac_description = "'. $descr .'"  WHERE machine_id = "'. $computer .'"';
 		db_query($db, $req_modele_machine);
 	}
 }
