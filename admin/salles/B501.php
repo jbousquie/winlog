@@ -47,8 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
-$orix["B501"] = 100;
-$oriy["B501"] = 150;
+$orix_salle["B501"] = 50;
+$oriy_salle["B501"] = 200;
+$largeur_salle["B501"] = 950;
+$hauteur_salle["B501"] = 570;
+$orix["B501"] = 10;
+$oriy["B501"] = 10;
 $largeur["B501"] = 120;
 $hauteur["B501"] = 60;
 $police["B501"] = 11;
