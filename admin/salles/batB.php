@@ -47,8 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
-$orix["batB"] = 100;
-$oriy["batB"] = 150;
+$orix_salle["batB"] = 50;
+$oriy_salle["batB"] = 200;
+$largeur_salle["batB"] = 600;
+$hauteur_salle["batB"] = 570;
+$orix["batB"] = 10;
+$oriy["batB"] = 15;
 $largeur["batB"] = 120;
 $hauteur["batB"] = 60;
 $police["batB"] = 11;
