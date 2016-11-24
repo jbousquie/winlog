@@ -1,6 +1,8 @@
 <?php
 // URL hôte
 $winlog_url = "http://winlog.iut.rdz";
+// Code partagé entre client et serveur
+$server_code = "salt";           // ne pas mettre les caractères "&" ou "="
 
 // Paramètres LDAP
 $ldap_host = "ldap_hostname_or_ip";
