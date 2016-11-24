@@ -47,8 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
-$orix["A307"] = 100;
-$oriy["A307"] = 150;
+$orix_salle["A307"] = 50;
+$oriy_salle["A307"] = 200;
+$largeur_salle["A307"] = 850;
+$hauteur_salle["A307"] = 600;
+$orix["A307"] = 30;
+$oriy["A307"] = 30;
 $largeur["A307"] = 120;
 $hauteur["A307"] = 60;
 $police["A307"] = 11;
