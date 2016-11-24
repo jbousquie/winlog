@@ -48,8 +48,12 @@
 // $porte_coord["AAA"][1]=array(800,600);
 
 // A104
-$orix["A104"] = 250;
-$oriy["A104"] = 150;
+$orix_salle["A104"] = 50;
+$oriy_salle["A104"] = 200;
+$largeur_salle["A104"] = 500;
+$hauteur_salle["A104"] = 500;
+$orix["A104"] = 50;
+$oriy["A104"] = 10;
 $largeur["A104"] = 120;
 $hauteur["A104"] = 60;
 
