@@ -49,9 +49,9 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
 		$req_modele_machine = 'UPDATE machines SET marque = "'. $marque .'", modele = "'. $modele .'", type_systeme ="'. $type .'", mac = "'. $mac .'", mac_description = "'. $descr .'"  WHERE machine_id = "'. $computer .'"';
 		db_query($db, $req_modele_machine);
 	}
-	else {
-		// renvoi sur le menu principal
-		header('Location: '.$winlog_url.'/admin/index.php');
-	}
+}
+else {
+	// renvoi sur le menu principal
+	header('Location: '.$winlog_url.'/admin/index.php');
 }
 ?>
