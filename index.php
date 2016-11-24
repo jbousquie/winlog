@@ -1,5 +1,5 @@
 <?php
-include_once('winlogconf.php');
+include_once('admin/winlog_admin_conf.php');
 include_once('admin/db_access.php');
 
 // ne traiter que sur des requêtes POST sur le port 443
