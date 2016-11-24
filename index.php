@@ -28,15 +28,25 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
 		db_query($db, $req_ip_machine);
 	} 
 	else {
+		// requête déconnexion
 		db_query($db, $req_con_D);
+		// collecte marque, modèle, architecture
 		$marque = db_escape_string($db, $_POST["manufacturer"]);
 		$modele = db_escape_string($db, $_POST["model"]);
 		$type = db_escape_string($db, $_POST["systemType"]);
-		$mac = db_escape_string($db, $_POST["mac"]);
-		$ip = db_escape_string($db, $_POST["ip"]);
-		$descr = db_escape_string($db, $_POST["descr"]);
-		// requête de mise à jour des marque, modèle et type système de la machine
-		$req_modele_machine = 'UPDATE machines SET marque = "'. $marque .'", modele = "'. $modele .'", type_systeme ="'. $type .'", mac = "'. $mac .'", ip_mac = "'. $ip.'", mac_description = "'. $descr .'"  WHERE machine_id = "'. $computer .'"';
+		// collecte mac address et description à partir des tableaux JSON des itnerfaces de la machine
+		$mac = "";
+		$descr = "";
+		$mac_array = json_decode(str_replace(",]", "]", $_POST["mac"]));	// nettoyage la virgule de fin dans le tableau json avant decode()
+		$ip_array = json_decode(str_replace(",]", "]", $_POST["ip"]));
+		$descr_array = json_decode(str_replace(",]", "]", $_POST["descr"]));
+		$ip_index = array_search($ip, $ip_array);							// recherche de l'IP de connexion dans la liste des IP json
+		if (false !== $ip_index) {											// si l'IP existe dans le tableau, on récupère la mac et la description associées
+			$mac = db_escape_string($db, $mac_array[$ip_index]);
+			$descr = db_escape_string($db, $descr_array[$ip_index]);
+		}
+		// requête de mise à jour des marque, modèle, archi et mac address de la machine
+		$req_modele_machine = 'UPDATE machines SET marque = "'. $marque .'", modele = "'. $modele .'", type_systeme ="'. $type .'", mac = "'. $mac .'", mac_description = "'. $descr .'"  WHERE machine_id = "'. $computer .'"';
 		db_query($db, $req_modele_machine);
 	}
 }
