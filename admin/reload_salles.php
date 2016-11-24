@@ -2,31 +2,27 @@
 // Cette page affiche le code HTML (sans les en-têtes) de la liste des connexions par salle.
 // Elle est incluse dans un <div> et rechargée à intervalles réguliers par le script salles_live.php.
 
+include_once("winlog_admin_conf.php");
 include_once('connexions.php');
+include_once('client_http.php');
 
 $machines = Machines();                             // récupération de toutes les machines connues
 $machines_de_salle = Machines_de_salle($machines);  // range les machines dans le tableau $machines_de_salle
 $connexion_machine = Connexion_machine();           // récupère toutes les connexions en cours
 
-Function Get_salles_bloquees() {
+// Fonction de récupération de la liste des salles bloquées sur SquidGuard
+Function Get_salles_bloquees($url) {
     $salles_bloquees = array();
-    $r = new HttpRequest("http://cache.iut-rodez.fr/salles/salles_bloquees.php", HttpRequest::METH_GET);
-    try {
-        $r->send();
-        if ($r->getResponseCode() == 200) {
-            $r->getResponseBody();
-            $salles_bloquees = json_decode($r->getResponseBody());
-        }
-    } 
-    catch (HttpException $ex) {
-        echo $ex;
+    $res = GetURL($url);
+    if ($res != "") {
+        $salles_bloquees = json_decode($res);
     }
     return $salles_bloquees;
-}
+};
 
 
 // connexions dans les salles
-//$salles_bloquees = Get_salles_bloquees();
+$salles_bloquees = Get_salles_bloquees($url_salles_bloquees);
 
 while ($mdc = current($machines_de_salle)) {
     $salle = key($machines_de_salle);
@@ -42,7 +38,9 @@ while ($mdc = current($machines_de_salle)) {
         if ($jours_last_con >= $j30) { $class_jour = 'jours j30'; }
 
         // lien bloque/debloque
-        //if (in_array(strtolower($salle), $salles_bloquees)) { $lien = $debloque; }
+        if (in_array(strtolower($salle), $salles_bloquees)) { 
+            $lien = $debloque; 
+        }
         // calcul nombre de machines connectées / nombre machines de la salle
         $nb_machines_salle = count($mdc);
         $i = 0;
@@ -55,7 +53,7 @@ while ($mdc = current($machines_de_salle)) {
         }
         // affichage ligne de salle
         echo "<a class=\"anchor\" id=\"$salle\"></a>\n";
-        echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler_style toggler\"></span><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
+        echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler_style toggler\"></span><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines = ". number_format($i / $nb_machines_salle * 100, 1) ." %) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
         echo "<div class=\"connexions\" id=\"c-$salle\"><table>\n";
 
         if (!empty($connexion_machine)) {
