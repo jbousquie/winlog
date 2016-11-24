@@ -1,4 +1,6 @@
 <?php
+// Version
+$version = "0.10";
 // URL hôte
 $winlog_url = "http://winlog.iut.rdz";
 // Code partagé entre client et serveur
@@ -64,9 +66,6 @@ $deroule = false;
 // Messages
 // ma_salle_live.php : non connecté depuis une salle
 $msg_salle_live_non_autorise = "Vous n'&ecirc;tes actuellement pas authentifi&eacute; comme enseignant dans une salle informatique de l'IUT.<br/>";
-
-// Version
-$version = "0.10";
 
 // Codes couleurs blacklist
 // key : dest (ou target) de squidguard
