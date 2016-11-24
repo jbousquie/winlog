@@ -47,8 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
-$orix["A205"] = 100;
-$oriy["A205"] = 150;
+$orix_salle["A205"] = 50;
+$oriy_salle["A205"] = 200;
+$largeur_salle["A205"] = 1000;
+$hauteur_salle["A205"] = 530;
+$orix["A205"] = 40;
+$oriy["A205"] = 40;
 $largeur["A205"] = 120;
 $hauteur["A205"] = 60;
 $police["A205"] = 11;
