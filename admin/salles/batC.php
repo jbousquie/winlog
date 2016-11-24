@@ -47,9 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
-
-$orix["batC"] = 100;
-$oriy["batC"] = 150;
+$orix_salle["batC"] = 50;
+$oriy_salle["batC"] = 200;
+$largeur_salle["batC"] = 500;
+$hauteur_salle["batC"] = 500;
+$orix["batC"] = 10;
+$oriy["batC"] = 10;
 $largeur["batC"] = 120;
 $hauteur["batC"] = 60;
 $police["batC"] = 11;
@@ -67,9 +70,7 @@ $shift["batC"][1] = 20;
 
 
 $orien_porte["batC"][0]="H";
-$porte_coord["batC"][0]=array(100,500);
+$porte_coord["batC"][0]=array(100,450);
 
-$orien_porte["batC"][1]="H";
-$porte_coord["batC"][1]=array(800,500);
 
 ?>
