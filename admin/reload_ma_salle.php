@@ -6,16 +6,9 @@ require_once 'HTTP/Request2.php';
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
 Function Get_salles_bloquees($url) {
 	$salles_bloquees = array();
-	$r = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
-	try {
-		$response = $r->send();
-		if (200 == $response->getStatus()) {
-	        $body = $response->getBody();
-			$salles_bloquees = json_decode($body);
-	    }
-	} 
-	catch (HTTP_Request2_Exception $ex) {
-		echo $ex->getMessage();
+	$res = GetURL($url);
+	if ($res != "") {
+		$salles_bloquees = json_decode($res);
 	}
 	return $salles_bloquees;
 };
