@@ -1,21 +1,9 @@
 <?php
-require_once 'HTTP/Request2.php';
 include_once('winlog_admin_conf.php');
+include_once('client_http.php');
 
 Function bascule_salle($url) {
-	$salles_bloquees = array();
-	$r = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
-	try {
-		$response = $r->send();
-        if (200 == $response->getStatus()) {
-	        	$body = $response->getBody();
-				$reponse = json_decode($body);
-	    }
-	} 
-	catch (HTTP_Request2_Exception $ex) {
-		echo $$ex->getMessage();
-	}
-	return $reponse;
+	GetURL($url);
 }
 
 $action = $_GET["a"];
