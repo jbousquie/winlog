@@ -49,8 +49,12 @@
 
 
 // A105
-$orix["A105"] = 250;
-$oriy["A105"] = 150;
+$orix_salle["A105"] = 50;
+$oriy_salle["A105"] = 200;
+$largeur_salle["A105"] = 1050;
+$hauteur_salle["A105"] = 570;
+$orix["A105"] = 50;
+$oriy["A105"] = 50;
 $largeur["A105"] = 120;
 $hauteur["A105"] = 60;
 
