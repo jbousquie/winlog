@@ -47,8 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
+$orix_salle["CRDOC"] = 50;
+$oriy_salle["CRDOC"] = 200;
+$largeur_salle["CRDOC"] = 1050;
+$hauteur_salle["CRDOC"] = 700;
 $orix["CRDOC"] = 20;
-$oriy["CRDOC"] = 150;
+$oriy["CRDOC"] = 20;
 $largeur["CRDOC"] = 120;
 $hauteur["CRDOC"] = 60;
 $police["CRDOC"] = 11;
