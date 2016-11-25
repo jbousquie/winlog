@@ -1,7 +1,7 @@
 <?php 
 include_once("winlog_admin_conf.php");
 include_once("connexions.php");
-require_once 'HTTP/Request2.php';
+include_once("client_http.php");
 
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
 Function Get_salles_bloquees($url) {
