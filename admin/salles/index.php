@@ -114,12 +114,14 @@ if ($admin or $supervis) {
 
     $info_cours = '&nbsp;&nbsp;&nbsp;&nbsp;<a href="../salles_live.php">[retour]</a>';
     echo("<h3>Salle ".$salle.$info_cours."</h3>");
-    $form ='<form action="../stop.php" method="POST">';
-    //$form = $form.'<input type="submit" value="fermer toutes les sessions" name="stop">';
-    $form = $form.'<input type="submit" value="redémarrer toute la salle" name="stop"><input type="submit" value="éteindre toute la salle" name="stop">';
-    $form = $form.'<input type="hidden" name="host" value=\''.$host_json.'\'>';
-    $form = $form.'</form>';
-    echo $form;
+    if ($admin) {
+        $form ='<form action="../stop.php" method="POST">';
+        //$form = $form.'<input type="submit" value="fermer toutes les sessions" name="stop">';
+        $form = $form.'<input type="submit" value="redémarrer toute la salle" name="stop"><input type="submit" value="éteindre toute la salle" name="stop">';
+        $form = $form.'<input type="hidden" name="host" value=\''.$host_json.'\'>';
+        $form = $form.'</form>';
+        echo $form;
+    }
     echo("<p><span class='conn'>bleu</span> : connecté &nbsp;<span class='pc'>gris</span> : inactif &nbsp;<span class='j10'>jaune</span> : inactif 10j &nbsp;<span class='j20'>orange</span> : inactif 20j &nbsp;<span class='j30'>rouge</span> : inactif 30j</p>");
     Affiche_plan_salle($machines_du_plan, $portes);
 }
