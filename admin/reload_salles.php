@@ -1,14 +1,21 @@
 <?php
 // Cette page affiche le code HTML (sans les en-têtes) de la liste des connexions par salle.
 // Elle est incluse dans un <div> et rechargée à intervalles réguliers par le script salles_live.php.
-
+include_once('libhome.php');
 include_once("winlog_admin_conf.php");
 include_once('connexions.php');
 include_once('client_http.php');
 
+$username = phpCAS::getUser();
+
 $machines = Machines();                             // récupération de toutes les machines connues
 $machines_de_salle = Machines_de_salle($machines);  // range les machines dans le tableau $machines_de_salle
 $connexion_machine = Connexion_machine();           // récupère toutes les connexions en cours
+
+$admin = false;                                     // booleen : utilisateur administrateur ?
+if (in_array($username, $administrateurs)) {
+    $admin = true;
+}
 
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
 Function Get_salles_bloquees($url) {
@@ -26,10 +33,18 @@ $salles_bloquees = Get_salles_bloquees($url_salles_bloquees);
 
 while ($mdc = current($machines_de_salle)) {
     $salle = key($machines_de_salle);
+    
     if (!in_array($salle, $salles_invisibles)) {
-        $bloque = '<i><a href="bloque_salle.php?a=b&s='.strtolower($salle).'">bloque</a></i>';
-        $debloque = '<i><a href="bloque_salle.php?a=d&s='.strtolower($salle).'">debloque</a></i>';
+        
+        // si utilisateur administrateur alors lien bloque/débloque activé
+        $bloque = '<i>débloqué</i>';
+        $debloque = '<i>bloqué</i>';
+        if ($admin) {
+            $bloque = '<i><a href="bloque_salle.php?a=b&s='.strtolower($salle).'">bloque</a></i>';
+            $debloque = '<i><a href="bloque_salle.php?a=d&s='.strtolower($salle).'">debloque</a></i>';
+        }
         $lien = $bloque;
+
         // calcul dernière plus ancienne connexion
         $jours_last_con = Connexion_doyenne_salle($machines_de_salle[$salle]);
         $class_jour ='jours j-10';
@@ -41,6 +56,7 @@ while ($mdc = current($machines_de_salle)) {
         if (in_array(strtolower($salle), $salles_bloquees)) { 
             $lien = $debloque; 
         }
+
         // calcul nombre de machines connectées / nombre machines de la salle
         $nb_machines_salle = count($mdc);
         $i = 0;
@@ -51,6 +67,7 @@ while ($mdc = current($machines_de_salle)) {
                 }
             }
         }
+
         // affichage ligne de salle
         echo "<a class=\"anchor\" id=\"$salle\"></a>\n";
         echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler_style toggler\"></span><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines = ". number_format($i / $nb_machines_salle * 100, 1) ." %) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
