@@ -25,13 +25,13 @@ function ListeSalles() {
 
 function InfoWinlog() {
     global $delay;
-    global $version;
+    global $winlog_version;
     $nb = NbConnexions();
     $debut = date("d/m/Y", strtotime(PremiereConnexion()));
     $info = "nb connexions stockées : ".$nb."\n";
     $info = $info."initiées le : ".$debut."\n\n";
     $info = $info."rafraichissement connexions : ".$delay." s\n";
-    $info = $info."winlog version : ".$version."\n";
+    $info = $info."winlog version : ".$winlog_version."\n";
     return $info;
 }
 
@@ -57,7 +57,15 @@ function InfoCouleurs() {
 <body>
 <?php
     // Si le compte est autorisé à voir les salles, on affiche le div
-    if (in_array($username, $autorises)) {
+    $admin = false;                     // booleen : utilisateur administrateur ?
+    $supervis = false;                  // booleen : utilisateur superviseur ?
+    if (in_array($username, $administrateurs)) {
+        $admin = true;
+    }
+    if (in_array($username, $superviseurs)) {
+        $supervis = true;
+    }
+    if ($admin or $supervis) {
         // header
         $liste_salles = ListeSalles();
         $infobulle = InfoWinlog();
@@ -66,14 +74,14 @@ function InfoCouleurs() {
         echo("<span title=\"$infobulle\"><b>Connexions Windows en cours par salle</b></span>");
         echo("<span class=\"right\"><div id=\"g-deroule\" class=\"toggler_general toggler\">[+]</div><div id=\"g-enroule\" class=\"toggler_general toggler\">[-]</div>\n<div id=\"bouton-couleurs\">&nbsp;<div id=\"couleurs\">\n$table_couleurs</div></div>\n</span><br/>\n");
         echo($liste_salles);
-        echo("<br/><a href=\"recup_salles.php\" class=\"right\"><i>rechargement</i></a>\n</div>\n");
+        echo("<br/><a href=\"index.php\" class=\"right\"><i>menu</i></a>\n</div>\n");
         echo('</div>'."\n");
         // salles et connexions
         echo('<div id="loaddiv">'."\n");
         include('reload_salles.php');
         echo('</div>');
         // footer
-        $texte = '<br/><br/><a href="recup_salles.php"><i>rechargement des comptes, machines et salles</i></a>';
+        $texte = '<br/><br/><a href="index.php"><i>Menu principal</i></a>';
     }
     else
     {
