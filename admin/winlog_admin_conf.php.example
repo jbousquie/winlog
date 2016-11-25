@@ -56,8 +56,9 @@ $j30 = 30;      // rouge : plus de 30 jours sans connexion
 // Salle à ne pas afficher
 $salles_invisibles = array("STOCK","TEST", "SOUK"); // liste des salles à ne pas afficher
 
-// Utilisateurs autorisés
-$autorises = array("user1", "user2", "user3");
+// Utilisateurs autorisés : les superviseurs peuvent tout voir, les administrateurs peuvent modifier
+$administrateurs = array("admin1", "admin2", "adminN");
+$superviseurs = array("user1", "user2", "userN");
 
 // Comportement par défaut des listes de connexions : enroulé/déroulé 
 // défaut : $deroule = true;
