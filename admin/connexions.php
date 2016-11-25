@@ -206,7 +206,7 @@ function Salles() {
 // Renvoie le total des connexions dans la table
 function NbConnexions() {
     $db = db_connect();
-    $req = 'select count(*) from connexions';
+    $req = 'SELECT COUNT(*) FROM connexions';
     $res = db_query($db, $req);
     $count = db_fetch_row($res);
     return $count[0];
@@ -216,7 +216,7 @@ function NbConnexions() {
 // renvoie la date de la toute première connexion
 function PremiereConnexion() {
     $db = db_connect();
-    $req = 'select debut_con from connexions order by con_id limit 1';
+    $req = 'SELECT debut_con FROM connexions ORDER BY con_id LIMIT 1';
     $res = db_query($db, $req);
     $prem = db_fetch_row($res);
     return $prem[0];
@@ -285,5 +285,28 @@ function Connexions_blacklist_live($delay, &$machines) {
     return $connexions_bl_live;   
 }
 
+// Fonction ArchiveConnexions() : 
+// Ferme les connexions encore ouvertes des jours antérieurs au jour courant dans la table connexions
+// Copie toutes les connexions fermées des jours antérieurs dans la table total_connexions
+// Purge les connexions copiées de la table connexions
+// Retourne le nombre de connexions archivées
+function ArchiveConnexions() {
+    $db = db_connect();
+
+    $req_compte_archivables = 'SELECT count(*) FROM connexions WHERE archivable = 1';
+    $res = db_query($db, $req_compte_archivables);
+    $count = db_fetch_row($res);
+    $nb_archivables = $count[0];
+
+    if ($nb_archivables != 0) {
+        $req_marque_archivables = 'UPDATE connexions SET close = 1, archivable = 1 where DATE(fin_con) < CURDATE()';
+        $req_archive = 'INSERT INTO total_connexions SELECT con_id, username, hote, ip, fin_con, debut_con FROM connexions WHERE archivable = 1';
+        $req_purge_archivees = 'DELETE FROM connexions WHERE archivable = 1';
+        db_query($db, $req_marque_archivables);
+        db_query($db, $req_archive);
+        db_query($db, $req_purge_archivees);
+    }
+    return $nb_archivables;
+}
 
 ?>
