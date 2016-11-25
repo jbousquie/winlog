@@ -1,18 +1,35 @@
 <?php
 // Cette page est la fiche machine d'un poste
 // Variables
+include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
 $delayMs = $delay * 1000;
+$username = phpCAS::getUser();
 
-$host = $_GET['id'];
-
-// si le script est appelé sans paramètre, on revient à la page précédente
-if ($host == "" ) { 
-    $precedent = $_SERVER["HTTP_REFERER"];
-    header("Location: $precedent"); 
-    exit; 
+// test profil utilisateur
+$admin = false;                     // booleen : utilisateur administrateur ?
+$supervis = false;                  // booleen : utilisateur superviseur ?
+if (in_array($username, $administrateurs)) {
+    $admin = true;
 }
+if (in_array($username, $superviseurs)) {
+    $supervis = true;
+}
+
+// on quitte immédiatement si non autorisé
+if (!$supervis and !$admin) {
+    header("Location: $winlog_url");
+    exit();
+}
+
+// si le script est appelé sans paramètre, on quitte aussi
+$host = $_GET['id'];
+if ($host == "" ) { 
+    header("Location: $winlog_url"); 
+    exit(); 
+}
+
 $host_json = json_encode(array($host));
 
 $machines = Machines();
@@ -56,8 +73,8 @@ $mac_descr = $machine[9];
         <input type="submit" value="éteindre cette machine" name="stop">
     </form>
     <br/>
-    <p><u>Liste des processus de la machine :</u></p>
-    <div id="processus"></div>
+    <p><u>Liste des processus en cours sur la machine <?php echo($host); ?></u></p>
+    <div id="processus"><i>Veuillez patienter ...</i></div>
     <script>
     
     // fonction d'affichage d'erreur dans la console
