@@ -9,6 +9,14 @@ include_once('winlog_admin_conf.php');
 include_once('connexions.php');
 $delayMs = $delay * 1000;
 $username = phpCAS::getUser();
+$admin = false;                     // booleen : utilisateur administrateur ?
+$supervis = false;                  // booleen : utilisateur superviseur ?
+if (in_array($username, $administrateurs)) {
+    $admin = true;
+}
+if (in_array($username, $superviseurs)) {
+    $supervis = true;
+}
 
 function ListeSalles() {
     $salles = Salles();
@@ -57,14 +65,6 @@ function InfoCouleurs() {
 <body>
 <?php
     // Si le compte est autorisé à voir les salles, on affiche le div
-    $admin = false;                     // booleen : utilisateur administrateur ?
-    $supervis = false;                  // booleen : utilisateur superviseur ?
-    if (in_array($username, $administrateurs)) {
-        $admin = true;
-    }
-    if (in_array($username, $superviseurs)) {
-        $supervis = true;
-    }
     if ($admin or $supervis) {
         // header
         $liste_salles = ListeSalles();
