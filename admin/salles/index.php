@@ -31,6 +31,8 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
     
     $date_now = time();
     $machines_connectees = Connexion_machine();
+
+    echo('<div id="plan">');
       
     // Affichage des machines
     foreach($machines_de_la_salle as $machine) {
@@ -52,7 +54,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
         if ($nb_jours >= $j30) { $class_jour = ' j30'; }
 
         $class_connexion='';
-        $link = '<a href=../taches.php?machine='.$machine.'>';
+        $link = '<a href=../machine.php?id='.$machine.'>';
         $username = '';
         $ip = IP_machine($machine);
         // s'il existe une connexion sur la machine
@@ -79,6 +81,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
         $div_porte = "<div id='porte".$key."' ></div>";
         echo $div_porte;
     }
+    echo('</div>');
 }
 ?>
 <!DOCTYPE HTML>
