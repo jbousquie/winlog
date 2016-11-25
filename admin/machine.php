@@ -1,10 +1,10 @@
 <?php
 // Cette page est la fiche machine d'un poste
-// Variables
+// Le délais de reload de la liste des tâches est le délais Winlog x 3 pour limiter les appels vers $url_taches
 include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
-$delayMs = $delay * 1000;
+$delayMs = $delay * 3000;
 $username = phpCAS::getUser();
 
 // test profil utilisateur
@@ -66,6 +66,9 @@ $mac_descr = $machine[9];
         adresse MAC : <?php echo($mac_addr) ?><br/>
         adresse IP : <b><?php echo($adresse_ip) ?></b></p>
 
+    <?php
+        if ($admin) { 
+    ?>
     <form action="stop.php" method="POST">
         <input type="hidden" name="host" value='<?php echo($host_json); ?>'>
         <!--<input type="submit" value="fermer la session" name="stop">-->
@@ -73,6 +76,9 @@ $mac_descr = $machine[9];
         <input type="submit" value="éteindre cette machine" name="stop">
     </form>
     <br/>
+    <?php
+        }
+    ?>
     <p><u>Liste des processus en cours sur la machine <?php echo($host); ?></u></p>
     <div id="processus"><i>Veuillez patienter ...</i></div>
     <script>
