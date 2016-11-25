@@ -7,6 +7,14 @@ include_once('../winlog_admin_conf.php');
 
 // récupération du user CAS pour autorisation
 $username = phpCAS::getUser();
+$admin = false;                     // booleen : utilisateur administrateur ?
+$supervis = false;                  // booleen : utilisateur superviseur ?
+if (in_array($username, $administrateurs)) {
+    $admin = true;
+}
+if (in_array($username, $superviseurs)) {
+    $supervis = true;
+}
 
 // récupération de la salle demandée
 $salle = addslashes($_GET['salle']);
@@ -88,7 +96,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
 <html lang="fr">
 <head>   
     <title>Winlog :  Connexions en cours dans les salles</title>
-    <meta http-equiv="refresh" content=10>
+    <meta http-equiv="refresh" content=<?php echo($delay); ?> >
     <meta charset="utf-8">
     <meta http-equiv="Content-Style-Type" content="text/css">
     <meta http-equiv="Content-Language" content="fr">
@@ -98,7 +106,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
 <body>
 <?php
 // Si le compte est autorisé à voir les salles, on affiche le div
-if (in_array($username, $autorises)) {
+if ($admin or $supervis) {
     include_once($salle.'.php');
     $machines_du_plan = Machines_plan($ligne_machines[$salle]);
     $portes = $porte_coord[$salle];
