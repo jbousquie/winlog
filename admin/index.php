@@ -43,7 +43,7 @@ if ($nb_archives > 0) {
 </head>
 <body>
     <p class="header">WINLOG</p>
-    <p>compte : <?php echo($username); ?><br/>rôle : </p>
+    <p>compte : <i><?php echo($username); ?></i><br/>rôle : <i><?php echo($role); ?></i></p>
     <div class="menu"><a href="salles_live.php">Connexion Windows en cours dans les salles</a></div>
     <div class="menu"><a href="">Connexion Wifi en cours</a></div>
     <br/>
