@@ -7,6 +7,25 @@ include_once('connexions.php');
 
 $username = phpCAS::getUser();
 
+// test profil utilisateur
+$admin = false;                     // booleen : utilisateur administrateur ?
+$supervis = false;                  // booleen : utilisateur superviseur ?
+$role = "";
+if (in_array($username, $administrateurs)) {
+    $admin = true;
+    $role = "Administrateur";
+}
+if (in_array($username, $superviseurs)) {
+    $supervis = true;
+    $role = "Superviseur";
+}
+// on quitte immédiatement si non autorisé
+if (!$supervis and !$admin) {
+    header("Location: interdit.php");
+    exit();
+}
+
+
 // archive les connexions de la veille
 $nb_archives = ArchiveConnexions();
 $msg_archive = "";
