@@ -1,8 +1,21 @@
 <?php
 // Récupération des salles et des machines dans l'AD, chargement dans la base
+include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('db_access.php');
 include_once('custom.php');
+$username = phpCAS::getUser();
+// test profil utilisateur
+$admin = false;                     // booleen : utilisateur administrateur ?
+if (in_array($username, $administrateurs)) {
+    $admin = true;
+}
+
+// on quitte immédiatement si non autorisé
+if (!$admin) {
+    header("Location: $winlog_url");
+    exit();
+}
 
 
 // Connexion à la base winlog
