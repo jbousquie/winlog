@@ -16,4 +16,8 @@ Pour le contrôle Web :
 * Squid + SquidGuard  
 
 Pour le contrôle des PC à distance :  
-* Windows Server + Apache/PHP + commande `shutdown`  
+* Windows Server + Apache/PHP + commande `shutdown`  du Server ToolKit  
+  
+  
+  
+© Jérôme Bousquié
