@@ -1,9 +1,23 @@
 <?php
 // Ce script récupère une action (shutdown ou restart) et un tableau json de machines
-// Il émet une requête POST à Ghost:81 pour executer le psshutdown sur le domaine
-require_once 'HTTP/Request2.php';
+// Il émet une requête POST à $url_stop pour executer le shutdown sur le domaine
+include_once('libhome.php');
 include_once('winlog_admin_conf.php');
-
+include_once('client_http.php');
+$username = phpCAS::getUser();
+$admin = false;                     // booleen : utilisateur administrateur ?
+$supervis = false;                  // booleen : utilisateur superviseur ?
+if (in_array($username, $administrateurs)) {
+    $admin = true;
+}
+if (in_array($username, $superviseurs)) {
+    $supervis = true;
+}
+// on quitte immédiatement si non autorisé
+if (!$supervis and !$admin) {
+    header("Location: $winlog_url");
+    exit();
+}
 
 $act = "";
 $logout = "fermer la session";
@@ -33,14 +47,7 @@ if (in_array($action, $action_restart)) {
 }
 if ($act != "") {
     foreach ($hosts as $host) {
-        $http = new HTTP_Request2( $url_stop, HTTP_Request2::METHOD_POST);
-        $http->addPostParameter( array('act'=>$act, 'host'=>$host) );
-        try { 
-            $http->send(); 
-        } 
-        catch (HTTP_Request2_Exception $ex) { 
-            echo $ex;
-        }
+        PostURL($url_stop, array('act'=>$act, 'host'=>$host));
     }
 }
 header('Location: salles_live.php');
