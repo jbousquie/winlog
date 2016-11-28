@@ -1,26 +1,14 @@
 <?php
 // Ce script affiche les processus en cours sur une machine windows
 // Pour ceci il interroge (http) un serveur windows du domaine sur le lequel sera exécuté une commande tasklist /s $host
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
 include_once('client_http.php');
-$username = phpCAS::getUser();
+include_once('session.php');
+$username = Username();
 
-$admin = false;                     // booleen : utilisateur administrateur ?
-$supervis = false;                  // booleen : utilisateur superviseur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
-if (in_array($username, $superviseurs)) {
-    $supervis = true;
-}
-
-// on quitte immédiatement si non autorisé
-if (!$supervis and !$admin) {
-    header("Location: $winlog_url");
-    exit();
-}
+$profil = Profil($username);
+FiltreProfil($profil);
 
 Function Get_tasks($url) {
     $taches = array();
