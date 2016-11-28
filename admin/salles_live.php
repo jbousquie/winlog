@@ -76,9 +76,7 @@ function InfoCouleurs() {
         echo("<br/><a href=\"index.php\" class=\"right\"><i>menu</i></a>\n</div>\n");
         echo('</div>'."\n");
         // salles et connexions
-        echo('<div id="loaddiv">'."\n");
-        include('reload_salles.php');
-        echo('</div>');
+        echo('<div id="loaddiv"></div>'."\n");
         // footer
         $texte = '<br/><br/><a href="index.php"><i>Menu principal</i></a>';
     }
