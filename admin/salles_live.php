@@ -4,19 +4,15 @@
 //
 
 header ('Content-Type: text/html; charset=utf-8');
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
+include_once('session.php');
+
 $delayMs = $delay * 1000;
-$username = phpCAS::getUser();
-$admin = false;                     // booleen : utilisateur administrateur ?
-$supervis = false;                  // booleen : utilisateur superviseur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
-if (in_array($username, $superviseurs)) {
-    $supervis = true;
-}
+$username = Username();
+$profil = Profil($username);
+FiltreProfil($profil);
+$role = $roles[$profil];
 
 function ListeSalles() {
     $salles = Salles();
@@ -32,11 +28,14 @@ function ListeSalles() {
 }
 
 function InfoWinlog() {
+    global $username, $role;
     global $delay;
     global $winlog_version;
     $nb = NbConnexions();
     $debut = date("d/m/Y", strtotime(PremiereConnexion()));
-    $info = "nb connexions stockées : ".$nb."\n";
+    $info = "utilisateur : ".$username."\n";
+    $info = $info."rôle : ".$role."\n\n";
+    $info = $info."nb connexions stockées : ".$nb."\n";
     $info = $info."initiées le : ".$debut."\n\n";
     $info = $info."rafraichissement connexions : ".$delay." s\n";
     $info = $info."winlog version : ".$winlog_version."\n";
@@ -65,7 +64,7 @@ function InfoCouleurs() {
 <body>
 <?php
     // Si le compte est autorisé à voir les salles, on affiche le div
-    if ($admin or $supervis) {
+    if ($profil > 0) {
         // header
         $liste_salles = ListeSalles();
         $infobulle = InfoWinlog();
