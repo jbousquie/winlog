@@ -169,8 +169,7 @@ function InfoCouleurs() {
 
     // Met à jour les indicateurs de jours des salles du menu header à partir des valeurs de la liste des salles/connexions
     var jourListeSalle = function(div) {
-        var salles = div.getElementsByClassName('jours');
-        var liste = {};
+        var salles = div.querySelectorAll(".jours");
         for (var i = 0; i < salles.length; i++) {
             var id = (salles[i].id).replace('j-', 'hj-');
             var classJ = salles[i].className;
@@ -256,6 +255,7 @@ function InfoCouleurs() {
                     div.innerHTML = xhr.responseText;
                     flash();
                     enroule(enrouleurs);
+                    jourListeSalle(div);
 
                 } else {
                     erreurXHR(url, xhr);
@@ -276,7 +276,6 @@ function InfoCouleurs() {
     var init = function() {
         var div = document.getElementById('loaddiv');
         if (div) {
-            jourListeSalle(div);
             var enrouleurs = {};        // tableau associatif des enrouleurs pour garder l'état de chaque liste sur reload
             var elems = div.getElementsByClassName("toggler");
             // initialisation des enrouleurs (true = déroulé, par défaut)
