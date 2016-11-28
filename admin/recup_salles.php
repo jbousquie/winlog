@@ -10,12 +10,16 @@ $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
 
+// paramètre update
+$update = false;
+if (isset($_GET["p"]) && $_GET["p"] == "u") {
+	$update = true;
+}
 
 // Connexion à la base winlog
 $db = db_connect();
 $req_purge_machine = "TRUNCATE machines";
 $req_purge_salle = "TRUNCATE salles";
-$req_purge_compte = "TRUNCATE comptes";
 
 // connexion LDAP à l'AD
 $ldap_con = ldap_connect($ldap_host, $ldap_port);
@@ -24,7 +28,7 @@ $ldap_auth = ldap_bind($ldap_con, $ldap_rdn, $ldap_passwd);
 // Gonction d'insertion des machines dans la base de données à partir des base, filtre et attributs LDAP
 // $salles est explicitement passé par référence
 // retourne le nombre d'enregistrements ajoutés dans la base
-function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$exclusion, &$db, &$salles) {
+function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$exclusion, &$db, &$salles, $update) {
 	
 	$res = ldap_search($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr);
 	$entry = ldap_get_entries($ldap_con, $res);
@@ -51,7 +55,9 @@ function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$ex
 			$os_version = db_escape_string($db, $entry[$i]["operatingsystemversion"][0]); 
 		}
 
-		$req_machine = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}')";
+		$req_machine_insert = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}')";
+		$req_machine_update = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version} ON DUPLICATE KEY UPDATE salle = {$nom_salle}, os = {$os}, os_sp = {$os_sp}, os_version = {$os_version} ')";
+		$req_machine = ($update) ? $req_machine_update : $req_machine_insert;
 		db_query($db, $req_machine);
 		$count = $count + 1;
 	}
@@ -63,7 +69,9 @@ function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$ex
 // Insertion des machines
 // ======================
 $salles = array();						// tableau des salles contenant des machines
-db_query($db, $req_purge_machine);
+if (!$update) {
+	db_query($db, $req_purge_machine);
+}
 
 // boucle sur chaque branche déclarée dans $ldap_machines
 $nb_total = 0;
@@ -72,7 +80,7 @@ foreach ($ldap_machines as $ldap_branche) {
 	$ldap_base = $ldap_branche["base"];
 	$ldap_filtre = $ldap_branche["filtre"];
 	$ldap_attr = $ldap_branche["attr"];
-	$nb = Insere_machines($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr, $OU_machines_exclusion, $db, $salles);
+	$nb = Insere_machines($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr, $OU_machines_exclusion, $db, $salles, $update);
 	$nb_total = $nb_total + $nb;
 }
 
