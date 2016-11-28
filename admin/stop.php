@@ -1,23 +1,14 @@
 <?php
 // Ce script récupère une action (shutdown ou restart) et un tableau json de machines
 // Il émet une requête POST à $url_stop pour executer le shutdown sur le domaine
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('client_http.php');
-$username = phpCAS::getUser();
-$admin = false;                     // booleen : utilisateur administrateur ?
-$supervis = false;                  // booleen : utilisateur superviseur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
-if (in_array($username, $superviseurs)) {
-    $supervis = true;
-}
-// on quitte immédiatement si non autorisé
-if (!$supervis and !$admin) {
-    header("Location: $winlog_url");
-    exit();
-}
+include_once('session.php');
+
+$username = Username();
+
+$profil = Profil($username);
+FiltreProfil($profil);
 
 $act = "";
 $logout = "fermer la session";
