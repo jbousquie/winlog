@@ -1,21 +1,20 @@
 <?php
 // Cette page affiche le code HTML (sans les en-têtes) de la liste des connexions par salle.
 // Elle est incluse dans un <div> et rechargée à intervalles réguliers par le script salles_live.php.
-include_once('libhome.php');
 include_once("winlog_admin_conf.php");
 include_once('connexions.php');
 include_once('client_http.php');
+include_once('session.php');
 
-$username = phpCAS::getUser();
+$username = Username();
+$profil = Profil($username);
+FiltreProfil($profil);
 
 $machines = Machines();                             // récupération de toutes les machines connues
 $machines_de_salle = Machines_de_salle($machines);  // range les machines dans le tableau $machines_de_salle
 $connexion_machine = Connexion_machine();           // récupère toutes les connexions en cours
 
-$admin = false;                                     // booleen : utilisateur administrateur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
+$admin = ($profil == 2);                            // booleen : utilisateur administrateur ?
 
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
 Function Get_salles_bloquees($url) {
@@ -37,7 +36,7 @@ while ($mdc = current($machines_de_salle)) {
     if (!in_array($salle, $salles_invisibles)) {
         
         // si utilisateur administrateur alors lien bloque/débloque activé
-        $bloque = '<i>débloqué</i>';
+        $bloque = '<i>autorisé</i>';
         $debloque = '<i>bloqué</i>';
         if ($admin) {
             $bloque = '<i><a href="bloque_salle.php?a=b&s='.strtolower($salle).'">bloque</a></i>';
