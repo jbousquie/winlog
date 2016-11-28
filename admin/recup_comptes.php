@@ -1,20 +1,12 @@
 <?php
 // Récupération des comptes dans l'AD, chargement dans la base
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('db_access.php');
-$username = phpCAS::getUser();
+include_once('session.php');
+$username = Username();
 // test profil utilisateur
-$admin = false;                     // booleen : utilisateur administrateur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
-
-// on quitte immédiatement si non autorisé
-if (!$admin) {
-    header("Location: $winlog_url");
-    exit();
-}
+$profil = Profil($username);
+FiltreProfil($profil);
 
 // Connexion à la base winlog
 $db = db_connect();
