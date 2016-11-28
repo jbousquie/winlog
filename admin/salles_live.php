@@ -93,7 +93,7 @@ function InfoCouleurs() {
     // el : element html toggler
     // enrouleurs : tableau de stockage des états des togglers
     // bascule : true => on demande la permutation de l'état enroulé/déroulé
-    // force : null ou boolean. Si boolean, c'est la valeur a affecter de force (true = deroule, false = enroule)
+    // force : null ou boolean. Si boolean, c'est la valeur à affecter de force (true = deroule, false = enroule)
     var toggle = function(el, enrouleurs, bascule, force) {
         var htmlDeroule = "[-] ";
         var htmlEnroule = "[+] ";
@@ -246,13 +246,21 @@ function InfoCouleurs() {
     }
 
     // emission requête XHR et récupération du résultat dans div
-    var reload = function(url, div, enrouleurs) {
+    // si init = true alors initialise le tableau des enrouleurs
+    var reload = function(url, div, enrouleurs, init) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);
         xhr.onload = function(e) {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     div.innerHTML = xhr.responseText;
+                    if (init) {
+                        var elems = div.querySelectorAll(".toggler");
+                        // initialisation des enrouleurs (true = déroulé, par défaut)
+                        for (var i = 0; i < elems.length; i++) {
+                            enrouleurs[elems[i].id] = <?php echo(json_encode($deroule)); ?>;
+                        }
+                    }
                     flash();
                     enroule(enrouleurs);
                     jourListeSalle(div);
@@ -265,7 +273,6 @@ function InfoCouleurs() {
         xhr.onerror = function(e) {
             erreurXHR(url, xhr);
         };
-
     xhr.send(null);  // initie la requête xhr
     };
 
@@ -277,20 +284,12 @@ function InfoCouleurs() {
         var div = document.getElementById('loaddiv');
         if (div) {
             var enrouleurs = {};        // tableau associatif des enrouleurs pour garder l'état de chaque liste sur reload
-            var elems = div.getElementsByClassName("toggler");
-            // initialisation des enrouleurs (true = déroulé, par défaut)
-            for (var i = 0; i < elems.length; i++) {
-                enrouleurs[elems[i].id] = <?php echo(json_encode($deroule)); ?>;
-            }
-
+            reload(url, div, enrouleurs, true);
             document.addEventListener("click", function(e) { bascule(e.target, enrouleurs); }, false);
-
             window.setInterval(function() {
                 reload(url, div, enrouleurs);
                 }, <?php echo($delayMs); ?>);
-            reload(url, div, enrouleurs);
-            enroule(enrouleurs, false);         // remise à jour de l'état de tous les togglers de la page
-        }
+            }        }
     };
     window.onload = init;
     </script>
