@@ -4,27 +4,16 @@ header ('Content-Type: text/html; charset=utf-8');
 include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
+include_once('session.php');
 
+// récupération du username CAS et stockage en session PHP.
+// note : la session PHP est déjà démarrée par la lib phpCAS.
 $username = phpCAS::getUser();
+$_SESSION['username'] = $username;
 
-// test profil utilisateur
-$admin = false;                     // booleen : utilisateur administrateur ?
-$supervis = false;                  // booleen : utilisateur superviseur ?
-$role = "";
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-    $role = "Administrateur";
-}
-if (in_array($username, $superviseurs)) {
-    $supervis = true;
-    $role = "Superviseur";
-}
-// on quitte immédiatement si non autorisé
-if (!$supervis and !$admin) {
-    header("Location: interdit.php");
-    exit();
-}
-
+$profil = Profil($username);
+FiltreProfil($profil);
+$role = $roles[$profil];
 
 // archive les connexions de la veille
 $nb_archives = ArchiveConnexions();
@@ -45,7 +34,7 @@ if ($nb_archives > 0) {
     <p class="header">WINLOG</p>
     <p>compte : <i><?php echo($username); ?></i><br/>rôle : <i><?php echo($role); ?></i></p>
     <div class="menu"><a href="salles_live.php">Connexion Windows en cours dans les salles</a></div>
-    <div class="menu"><a href="">Connexion Wifi en cours</a></div>
+    <div class="menu"><a href="../wifi/index.php">Connexion Wifi en cours</a></div>
     <br/>
     <br/>
     <br/>
