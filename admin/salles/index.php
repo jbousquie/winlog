@@ -1,20 +1,15 @@
 <?php
 header ('Content-Type: text/html; charset=utf-8');
 
-include_once('../libhome.php');
 include_once('../connexions.php');
 include_once('../winlog_admin_conf.php');
+include_once('../session.php');
 
 // récupération du user CAS pour autorisation
-$username = phpCAS::getUser();
-$admin = false;                     // booleen : utilisateur administrateur ?
-$supervis = false;                  // booleen : utilisateur superviseur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
-if (in_array($username, $superviseurs)) {
-    $supervis = true;
-}
+$username = Username();
+$profil = Profil($username);
+FiltreProfil($profil);
+$admin = ($profil == 2);
 
 // récupération de la salle demandée
 $salle = addslashes($_GET['salle']);
@@ -106,7 +101,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
 <body>
 <?php
 // Si le compte est autorisé à voir les salles, on affiche le div
-if ($admin or $supervis) {
+if ($profil > 0) {
     include_once($salle.'.php');
     $machines_du_plan = Machines_plan($ligne_machines[$salle]);
     $portes = $porte_coord[$salle];
