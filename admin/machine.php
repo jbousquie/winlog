@@ -1,27 +1,16 @@
 <?php
 // Cette page est la fiche machine d'un poste
 // Le délais de reload de la liste des tâches est le délais Winlog x 3 pour limiter les appels vers $url_taches
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
+include_once('session.php');
 $delayMs = $delay * 3000;
-$username = phpCAS::getUser();
+$username = Username();
 
 // test profil utilisateur
-$admin = false;                     // booleen : utilisateur administrateur ?
-$supervis = false;                  // booleen : utilisateur superviseur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
-if (in_array($username, $superviseurs)) {
-    $supervis = true;
-}
-
-// on quitte immédiatement si non autorisé
-if (!$supervis and !$admin) {
-    header("Location: $winlog_url");
-    exit();
-}
+$profil = Profil($username);
+FiltreProfil($profil);
+$admin = ($profil == 2);
 
 // si le script est appelé sans paramètre, on quitte aussi
 $host = $_GET['id'];
