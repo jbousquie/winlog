@@ -206,7 +206,7 @@ function Salles() {
 // Renvoie le total des connexions dans la table
 function NbConnexions() {
     $db = db_connect();
-    $req = 'SELECT COUNT(*) FROM connexions';
+    $req = 'SELECT COUNT(*) FROM total_connexions';
     $res = db_query($db, $req);
     $count = db_fetch_row($res);
     return $count[0];
@@ -216,7 +216,7 @@ function NbConnexions() {
 // renvoie la date de la toute première connexion
 function PremiereConnexion() {
     $db = db_connect();
-    $req = 'SELECT debut_con FROM connexions ORDER BY con_id LIMIT 1';
+    $req = 'SELECT debut_con FROM total_connexions ORDER BY con_id LIMIT 1';
     $res = db_query($db, $req);
     $prem = db_fetch_row($res);
     return $prem[0];
