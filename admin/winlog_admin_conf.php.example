@@ -60,6 +60,12 @@ $salles_invisibles = array("STOCK","TEST", "SOUK"); // liste des salles à ne pa
 $administrateurs = array("admin1", "admin2", "adminN");
 $superviseurs = array("user1", "user2", "userN");
 
+// Noms des rôles
+$roles = array();
+$roles[0] = "Utilisateur";
+$roles[1] = "Superviseur";
+$roles[2] = "Administrateur";
+
 // Comportement par défaut des listes de connexions : enroulé/déroulé 
 // défaut : $deroule = true;
 $deroule = false;
