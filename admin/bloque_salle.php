@@ -1,19 +1,17 @@
 <?php
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('client_http.php');
+include_once('session.php');
 
-$username = phpCAS::getUser();
-$admin = false;                                     // booleen : utilisateur administrateur ?
-if (in_array($username, $administrateurs)) {
-    $admin = true;
-}
+$username = Username();
+$profil = Profil($username);
+FiltreProfil($profil);
 
 Function bascule_salle($url) {
     GetURL($url);
 }
 
-if ($admin) {
+if ($profil == 2) {
 
     $action = $_GET["a"];
     $salle  = $_GET["s"];
