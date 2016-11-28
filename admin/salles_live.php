@@ -289,7 +289,7 @@ function InfoCouleurs() {
             window.setInterval(function() {
                 reload(url, div, enrouleurs);
                 }, <?php echo($delayMs); ?>);
-            }        }
+            }        
     };
     window.onload = init;
     </script>
