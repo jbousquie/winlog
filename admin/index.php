@@ -41,6 +41,8 @@ if ($nb_archives > 0) {
     <br/>
     <h3>Statistiques</h3>
     <br/>
+<?php
+if ($profil == 2) { ?>
     <h3>Gestion</h3>
     <div class="menu"><a href="scripts_clients.php">Génération des fichiers VBS</a> : re-génére les fichiers de scripts clients à déployer dans les GPO de Active Directory</div> 
     <div class="menu"><a href="recup_comptes.php">Rechargement des comptes</a> : recharge tous les comptes utilisateurs depuis Active Directory</div>
@@ -48,6 +50,9 @@ if ($nb_archives > 0) {
     <br/>
     <div class="menu"><a href="recup_salles.php">Rechargement intégral des machines et des salles</a> (attention : ràz de toutes les machines) : à faire quand les machines ou les salles ont changé de nom par exemple</div>
     <p id="msg_archive"><?php echo($msg_archive); ?></p>
+<?php
+} 
+?>
     <p class="footer">version <?php echo($winlog_version); ?></p>
 </body>
 </html>
