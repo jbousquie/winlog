@@ -10,36 +10,40 @@ $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
 
-$act = "";
-$logout = "fermer la session";
-$logout_salle = "fermer toutes les sessions";
-$eteindre = "éteindre cette machine";
-$eteindre_salle = "éteindre toute la salle";
-$restart = "redémarrer cette machine";
-$restart_salle = "redémarrer toute la salle";
+if ($profil == 2) {
 
-$action_logout = array($logout, $logout_salle);
-$action_stop = array($eteindre, $eteindre_salle);
-$action_restart = array($restart, $restart_salle);
+    $act = "";
+    $logout = "fermer la session";
+    $logout_salle = "fermer toutes les sessions";
+    $eteindre = "éteindre cette machine";
+    $eteindre_salle = "éteindre toute la salle";
+    $restart = "redémarrer cette machine";
+    $restart_salle = "redémarrer toute la salle";
 
-$action = $_POST["stop"];
-$host_json = $_POST["host"];         // on récupère une chaîne de caractères représentant un tableau json
-$hosts = json_decode($host_json);
+    $action_logout = array($logout, $logout_salle);
+    $action_stop = array($eteindre, $eteindre_salle);
+    $action_restart = array($restart, $restart_salle);
 
-// on choisit la valeur de l'option à passer à la commande shutdown sur Ghost
-if (in_array($action, $action_logout)) { 
-    $act = "l"; 
-} 
-if (in_array($action, $action_stop)) { 
-    $act = "s"; 
-}
-if (in_array($action, $action_restart)) { 
-    $act = "r"; 
-}
-if ($act != "") {
-    foreach ($hosts as $host) {
-        PostURL($url_stop, array('act'=>$act, 'host'=>$host));
+    $action = $_POST["stop"];
+    $host_json = $_POST["host"];         // on récupère une chaîne de caractères représentant un tableau json
+    $hosts = json_decode($host_json);
+
+    // on choisit la valeur de l'option à passer à la commande shutdown sur Ghost
+    if (in_array($action, $action_logout)) { 
+        $act = "l"; 
+    } 
+    if (in_array($action, $action_stop)) { 
+        $act = "s"; 
     }
+    if (in_array($action, $action_restart)) { 
+        $act = "r"; 
+    }
+    if ($act != "") {
+        foreach ($hosts as $host) {
+            PostURL($url_stop, array('act'=>$act, 'host'=>$host));
+        }
+    }
+    
 }
 header('Location: salles_live.php');
 ?>
