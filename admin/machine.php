@@ -33,6 +33,10 @@ $modele = $machine[6];
 $arch = $machine[7];
 $mac_addr = $machine[8];
 $mac_descr = $machine[9];
+$ram = $machine[10];
+$procSpeed = $machine[11];
+$diskSize = $machine[12];
+$freeSpace = $machine[13];
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
@@ -43,18 +47,33 @@ $mac_descr = $machine[9];
 </head>
 <body>
     <h2>Machine <?php echo $host; ?> (<?php echo($salle); ?>)&nbsp;&nbsp;&nbsp;&nbsp;<a href="salles_live.php">[retour]</a></h2>
-    <p> Marque : <?php echo($marque); ?><br/>
-        Modèle : <?php echo($modele); ?><br/>
-        Architecture : <?php echo($arch); ?></p>
-
-    <p> OS : <?php echo($os); ?><br/>
-        sp : <?php echo($os_sp); ?><br/> 
-        version <?php echo($os_version) ?></p>
-
-    <p> Interface réseau : <?php echo($mac_descr) ?><br/>
-        adresse MAC : <?php echo($mac_addr) ?><br/>
-        adresse IP : <b><?php echo($adresse_ip) ?></b></p>
-
+    <table>
+    <tr class="materiel_ligne1"> 
+        <td>Marque : <?php echo($marque); ?><br/>
+            Modèle : <?php echo($modele); ?><br/>
+        </td>
+        <td>
+            OS : <?php echo($os); ?><br/>
+            sp : <?php echo($os_sp); ?><br/> 
+            version <?php echo($os_version) ?>
+        </td>
+    </tr>
+    <tr class="materiel_ligne2">
+         <td>
+            adresse IP : <b><?php echo($adresse_ip) ?></b><br/>
+            adresse MAC : <?php echo($mac_addr) ?><br/>
+            Interface réseau : <?php echo($mac_descr) ?>
+        </td>
+        <td>
+            Taille disque C: <?php echo(number_format($diskSize / 1024000000, 1)); ?> Go<br/>
+            Espace libre sur C: <?php echo(number_format($freeSpace / 1024000000, 1)); ?> Go<br/>
+        </td>
+        <td>
+            Architecture : <?php echo($arch); ?><br/>
+            Vitesse processeur : <?php echo($procSpeed / 1000); ?> GHz
+        </td>
+    </tr>
+    </table>
     <?php
         if ($admin) { 
     ?>
