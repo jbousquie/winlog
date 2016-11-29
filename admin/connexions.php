@@ -152,11 +152,14 @@ function Connexions() {
 //          last_conn["debut"] : timestamp du début de la dernière connexion
 //          last_conn["fin"] : timestamp de la fin de la dernière connexion ( = debut, si connexion non encore terminée)
 //          last_conn["close"] : 0 | 1 booléen indiquant si la connexion est terminée (1=close)
+// NOTE : la recherche est faite sur les tables connexions ET total_connexions au cas la dernière connexion soit très ancienne
 function Derniere_connexion_machine($hote) {  
     $last_conn = array();
     $db = db_connect();
 
-    $req = 'SELECT username, debut_con, fin_con, close FROM `connexions` WHERE hote="'.$hote.'" order by con_id desc limit 1';
+    $req = '(SELECT username, debut_con, fin_con, close, con_id FROM `connexions` WHERE hote="'.$hote.'")';
+    $req = $req . ' UNION (SELECT username, debut_con, fin_con, 1, con_id FROM `total_connexions` WHERE hote="'.$hote.'")';
+    $req = $req . ' ORDER BY con_id DESC LIMIT 1';
     $res = db_query($db, $req); 
     while ($con = db_fetch_row($res)) {
         $last_conn["username"] = $con[0];
@@ -293,13 +296,11 @@ function Connexions_blacklist_live($delay, &$machines) {
 function ArchiveConnexions() {
     $db = db_connect();
 
-    $req_compte_archivables = 'SELECT count(*) FROM connexions WHERE archivable = 1';
-    $res = db_query($db, $req_compte_archivables);
-    $count = db_fetch_row($res);
-    $nb_archivables = $count[0];
+    $req_marque_archivables = 'UPDATE connexions SET close = 1, archivable = 1 where DATE(fin_con) < CURDATE()';
+    $res = db_query($db, $req_marque_archivables);
+    $nb_archivables = db_affected_rows($db);
 
     if ($nb_archivables != 0) {
-        $req_marque_archivables = 'UPDATE connexions SET close = 1, archivable = 1 where DATE(fin_con) < CURDATE()';
         $req_archive = 'INSERT INTO total_connexions SELECT con_id, username, hote, ip, fin_con, debut_con FROM connexions WHERE archivable = 1';
         $req_purge_archivees = 'DELETE FROM connexions WHERE archivable = 1';
         db_query($db, $req_marque_archivables);
