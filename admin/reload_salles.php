@@ -69,7 +69,12 @@ while ($mdc = current($machines_de_salle)) {
 
         // affichage ligne de salle
         echo "<a class=\"anchor\" id=\"$salle\"></a>\n";
-        echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler_style toggler\"></span><a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a> ($i connexions sur $nb_machines_salle machines = ". number_format($i / $nb_machines_salle * 100, 1) ." %) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
+        $fichier_salle = $repertoire_salles.$salle.".php";
+        $lien_salle = "<span id=\"l-$salle\">$salle</span>";
+        if ( file_exists($fichier_salle) ) {
+            $lien_salle = "<a href=\"salles/?salle=$salle\" id=\"l-$salle\">$salle</a>";
+        }
+        echo "<div class=\"salle\"><span id=\"b-$salle\" class=\"toggler_style toggler\"></span>$lien_salle ($i connexions sur $nb_machines_salle machines = ". number_format($i / $nb_machines_salle * 100, 1) ." %) <span id='j-".$salle."' class='".$class_jour."' title='".$class_jour."'>&nbsp;&nbsp;&nbsp;&nbsp;</span> ($lien)</div>\n";
         echo "<div class=\"connexions\" id=\"c-$salle\"><table>\n";
 
         if (!empty($connexion_machine)) {
