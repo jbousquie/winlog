@@ -70,7 +70,7 @@ $freeSpace = $machine[13];
         </td>
         <td>
             Architecture : <?php echo($arch); ?><br/>
-            Vitesse processeur : <?php echo($procSpeed / 1000); ?> GHz
+            Vitesse processeur : <?php echo(number_format($procSpeed / 1000, 1)); ?> GHz
         </td>
     </tr>
     </table>
