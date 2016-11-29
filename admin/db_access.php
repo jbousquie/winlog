@@ -29,6 +29,13 @@ function db_escape_string(&$db, $string) {
     return $str;
 }
 
+// Fonction db_affected_rows
+// Retourne le nombre de lignes affectées par la dernière opération
+function db_affected_rows(&$db) {
+    $nb = $db->affected_rows;
+    return $nb;
+}
+
 // Fonction : db_free
 // Libère la mémoire
 function db_free(&$res) {
