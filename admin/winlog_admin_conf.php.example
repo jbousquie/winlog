@@ -100,4 +100,7 @@ $url_stop = "http://10.5.0.15:81/stop.php";
 
 // Répertoire des plans de salles
 $repertoire_salles = "./salles/";
+
+// Répertoire des templates de scripts VBS
+$repertoire_scripts = "./vbs/";
 ?>
