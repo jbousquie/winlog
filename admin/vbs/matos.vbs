@@ -49,7 +49,7 @@ description = description & "]"
 Set n = CreateObject("wscript.network")
 o.setproxy 1
 o.Option(4) = 13056 'pour forcer à ignorer toutes les erreurs de certificats
-o.open "POST", "https://winlog.iut.local/", False
+o.open "POST", "##serverwinlog##", False
 o.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
 data = "code=#####&action=M&computer=" & n.ComputerName
 data = data & "&manufacturer=" & manufacturer & "&model=" & model & "&systemType=" & systemType
