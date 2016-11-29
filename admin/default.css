@@ -106,3 +106,23 @@ a.anchor {
 
 .proc { background-color: LightSteelBlue;}
 .p_user { background-color: PowderBlue;}
+
+.footer {
+    margin-top: 30px;
+    font-size: 75%;
+    text-align: center;
+}
+
+.header {
+    font-size: 300%;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.materiel_ligne1 {
+    background-color: LavenderBlush;
+}
+
+.materiel_ligne2 {
+    background-color: Lavender;
+}
