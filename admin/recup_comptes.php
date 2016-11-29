@@ -7,6 +7,9 @@ $username = Username();
 // test profil utilisateur
 $profil = Profil($username);
 FiltreProfil($profil);
+if ($profil < 2) {
+    header('Location: '.$winlog_url);
+}
 
 // Connexion à la base winlog
 $db = db_connect();
