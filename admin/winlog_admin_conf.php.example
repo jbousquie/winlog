@@ -1,8 +1,10 @@
 <?php
 // Version
 $version = "0.10";
-// URL hôte
-$winlog_url = "http://winlog.iut.rdz";
+// URL administration de Winlog
+$winlog_url = "https://winlog.iut-rodez.fr/admin/";
+// URL serveur Winlog : URL sur laquelle les requêtes des PC clients arrivent
+$server_url = "https://winlog.iut.rdz/";
 // Code partagé entre client et serveur
 $server_code = "salt";           // ne pas mettre les caractères "&" ou "="
 
