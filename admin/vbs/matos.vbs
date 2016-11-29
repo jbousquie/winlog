@@ -51,7 +51,7 @@ o.setproxy 1
 o.Option(4) = 13056 'pour forcer à ignorer toutes les erreurs de certificats
 o.open "POST", "https://winlog.iut.local/", False
 o.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-data = "code=HK9!-uu&action=M&computer=" & n.ComputerName
+data = "code=#####&action=M&computer=" & n.ComputerName
 data = data & "&manufacturer=" & manufacturer & "&model=" & model & "&systemType=" & systemType
 data = data & "&ram=" & ram & "&procSpeed=" & procSpeed & "&diskSize=" & diskSize & "&diskFreeSpace=" & diskFreeSpace
 data = data & "&mac=" & mac & "&ip=" & ip & "&descr=" & description
