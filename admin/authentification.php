@@ -1,6 +1,11 @@
 <?php
 // Formulaire d'authentification simple
 include_once('winlog_admin_conf.php');
+// on sort immédiatement si login.php est appelé sans les paramètres attendus
+if ($mod_auth !="simple") {
+    header('Location: interdit.php');
+    exit();
+}
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
