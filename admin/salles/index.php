@@ -9,7 +9,7 @@ include_once('../session.php');
 $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
-$admin = ($profil == 2);
+$admin = ($profil == $niveaux[$roles[3]]);
 
 // récupération de la salle demandée
 $salle = addslashes($_GET['salle']);
