@@ -22,6 +22,17 @@ function db_fetch_row(&$res) {
     return $row;
 }
 
+// Fonction : db_fetch_column_names()
+// Renvoie un tableau indexé contenant les noms des colonnes du résultat
+function db_fetch_column_names(&$res) {
+    $fields = $res->fetch_fields();
+    $col_names = array();
+    foreach($fields as $col) {
+        $col_names[] = $fields->name;
+    }
+    return $col_names;
+}
+
 // Fonction db_escape_string
 // Retourne ûne chaîne échappée
 function db_escape_string(&$db, $string) {
