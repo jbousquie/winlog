@@ -119,6 +119,17 @@ a.anchor {
     text-align: center;
 }
 
+.login {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.bouton_valide {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
 .materiel_ligne1 {
     background-color: LavenderBlush;
 }
