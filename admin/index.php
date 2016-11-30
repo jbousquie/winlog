@@ -42,7 +42,7 @@ if ($nb_archives > 0) {
     <h3>Statistiques</h3>
     <br/>
 <?php
-if ($profil == 2) { ?>
+if ($profil == $niveaux[$roles[3]]) { ?>
     <h3>Gestion</h3>
     <div class="menu"><a href="scripts_clients.php">Génération des fichiers VBS</a> : re-génére les fichiers de scripts clients à déployer dans les GPO de Active Directory</div> 
     <div class="menu"><a href="recup_comptes.php">Rechargement des comptes</a> : recharge tous les comptes utilisateurs depuis Active Directory</div>
