@@ -10,7 +10,7 @@ $username = Username();
 // test profil utilisateur
 $profil = Profil($username);
 FiltreProfil($profil);
-$admin = ($profil == 2);
+$admin = ($profil == $niveaux[$roles[3]]);
 
 // si le script est appelé sans paramètre, on quitte aussi
 $host = $_GET['id'];
