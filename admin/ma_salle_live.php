@@ -1,6 +1,8 @@
 <?php
     include_once('winlog_admin_conf.php');
+    include_once('session.php');
     $delayMs = $delay * 1000;
+    $username = Username();
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
@@ -14,14 +16,13 @@
     <!-- faire un bouton bloquer/débloquer l'accès Web de cette salle -->
     <!-- faire un bouton (sur un autre formulaire) bloquer/débloquer l'accès Windows de cette salle -->
     </form>
-    <div class="salle"></div>
-    <div class="connexions">
-        <div id="loaddiv">
-          <?php
-              include('reload_ma_salle.php'); 
-          ?>
-        </div>
+    <div class="header">WINLOG</div>
+    <div id="loaddiv">
+      <?php
+          include('reload_ma_salle.php'); 
+      ?>
     </div>
+    <p class="footer">version <?php echo($winlog_version); ?></p>
     <script>
     // fonction d'affichage d'erreur dans la console
     var erreurXHR = function(url, xhr) {
