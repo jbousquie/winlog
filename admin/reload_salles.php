@@ -14,7 +14,7 @@ $machines = Machines();                             // récupération de toutes 
 $machines_de_salle = Machines_de_salle($machines);  // range les machines dans le tableau $machines_de_salle
 $connexion_machine = Connexion_machine();           // récupère toutes les connexions en cours
 
-$admin = ($profil == 2);                            // booleen : utilisateur administrateur ?
+$supervis = ($profil >= $niveaux[$roles[2]]);          // booleen : utilisateur superviseur ?
 
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
 Function Get_salles_bloquees($url) {
@@ -38,7 +38,7 @@ while ($mdc = current($machines_de_salle)) {
         // si utilisateur administrateur alors lien bloque/débloque activé
         $bloque = '<i>autorisé</i>';
         $debloque = '<i>bloqué</i>';
-        if ($admin) {
+        if ($supervis) {
             $bloque = '<i><a href="bloque_salle.php?a=b&s='.strtolower($salle).'">bloque</a></i>';
             $debloque = '<i><a href="bloque_salle.php?a=d&s='.strtolower($salle).'">debloque</a></i>';
         }
@@ -85,7 +85,10 @@ while ($mdc = current($machines_de_salle)) {
                     $cpt = Compte($username);                       // récupère les informations sur l'utilisateur courant
                     $style = "";
                     $fin_style = "";
-                    if ($cpt[2]=="Enseignant") { $style = "<b>"; $fin_style="</b>"; }
+                    if ($cpt[2] == $lib_personnel) { 
+                        $style = "<b>"; 
+                        $fin_style="</b>"; 
+                    }
                     echo "<tr id=\"".str_replace('.','-',$connexion_machine[$mac]["ip"])."\">";
                     echo "<td><a href=\"machine.php?id=".$mac."\">".$style.$mac.$fin_style."</a></td>";
                     echo "<td>".$style.date("H:i:s",$connexion_machine[$mac]["stamp"]).$fin_style."</td>";
