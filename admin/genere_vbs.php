@@ -12,7 +12,7 @@ function Quitte() {
     Quitte(); 
 }
 
-if ($profil < 2 OR !isset($_GET["f"])) {
+if ($profil < $niveaux[$roles[3]] OR !isset($_GET["f"])) {
 
 }
 
