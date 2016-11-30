@@ -1,14 +1,33 @@
 <?php
 // Menu principal de Winlog
-header ('Content-Type: text/html; charset=utf-8');
-include_once('libhome.php');
 include_once('winlog_admin_conf.php');
 include_once('connexions.php');
 include_once('session.php');
 
-// récupération du username CAS et stockage en session PHP.
-// note : la session PHP est déjà démarrée par la lib phpCAS.
-$username = phpCAS::getUser();
+// test mode authentification
+switch ($auth_mode) {
+
+    case "simple":
+        session_start();
+        if (!isset($_SESSION['username'])) {
+            header('Location: authentification.php');
+            exit();
+        }
+        $username = $_SESSION['username'];
+        break;
+    
+    case "CAS":
+        // la session PHP est déjà démarrée par la lib phpCAS.
+        include('libhome.php');
+        $username = phpCAS::getUser();
+        break;
+    
+    default:
+        header('Location: interdit.php');
+        exit();
+}
+
+// Stockage du username en session PHP.
 $_SESSION['username'] = $username;
 
 $profil = Profil($username);
