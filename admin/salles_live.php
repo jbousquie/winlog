@@ -63,8 +63,8 @@ function InfoCouleurs() {
 </head>
 <body>
 <?php
-    // Si le compte est autorisé à voir les salles, on affiche le div
-    if ($profil > 0) {
+    // Si le compte est autorisé à voir les salles (admins et superviseurs), on affiche le div
+    if ($profil >= $niveaux[$roles[2]]) {
         // header
         $liste_salles = ListeSalles();
         $infobulle = InfoWinlog();
