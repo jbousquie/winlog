@@ -57,7 +57,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
         if ($nb_jours >= $j30) { $class_jour = ' j30'; }
 
         $class_connexion='';
-        $link = '<a href=../machine.php?id='.$machine.'>';
+        $link = '<a href=../machine.php?id='.$machine.' target="blank">';
         $username = '';
         $ip = IP_machine($machine);
         // s'il existe une connexion sur la machine
