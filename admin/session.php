@@ -19,28 +19,29 @@ function Username() {
 // autre            => 0
 function Profil($username) {
     global $administrateurs, $superviseurs;
-    global $roles, $niveaux, $lib_personnel;
+    global $niveaux, $lib_personnel;
     if (in_array($username, $administrateurs)) {
-        return $niveaux[$roles[3]];
+        return $niveaux[3];
     } 
     elseif (in_array($username, $superviseurs)) {
-        return $niveaux[$roles[2]];
+        return $niveaux[2];
     }
     else {
         $compte = Compte($username);
         if ($compte[2] == $lib_personnel) {
-            return $niveaux[$roles[1]];
+            return $niveaux[1];
         }
         else
         {
-            return $niveaux[$roles[0]];
+            return $niveaux[0];
         }
     }
 };
 
-// Fonction FiltreProfil() : redirige vers interdit.php si profil pas autorisé
+// Fonction FiltreProfil() : redirige vers interdit.php si profil inférieur à niveau Superviseur
 function FiltreProfil($profil) {
-    if ($profil == 0) {
+    global $niveaux;
+    if ($profil < $niveau[2]) {
         header('Location: interdit.php');
         exit();
     }
