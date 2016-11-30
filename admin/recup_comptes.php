@@ -7,7 +7,7 @@ $username = Username();
 // test profil utilisateur
 $profil = Profil($username);
 FiltreProfil($profil);
-if ($profil < 2) {
+if ($profil < $niveaux[$roles[3]]) {
     header('Location: '.$winlog_url);
 }
 
