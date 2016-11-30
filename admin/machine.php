@@ -46,7 +46,7 @@ $freeSpace = $machine[13];
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
 </head>
 <body>
-    <h2>Machine <?php echo $host; ?> (<?php echo($salle); ?>)&nbsp;&nbsp;&nbsp;&nbsp;<a href="salles_live.php">[retour]</a></h2>
+    <h2>Machine <?php echo $host; ?> (<?php echo($salle); ?>)&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript: ferme();" title="ferme la fenêtre">[X]</a></h2>
     <table>
     <tr class="materiel_ligne1"> 
         <td>Marque : <?php echo($marque); ?><br/>
@@ -90,7 +90,12 @@ $freeSpace = $machine[13];
     <p><u>Liste des processus en cours sur la machine <?php echo($host); ?></u></p>
     <div id="processus"><i>Veuillez patienter ...</i></div>
     <script>
-    
+
+    // fonction ferme() la fenêtre
+    var ferme = function() {
+        window.close();
+    };
+
     // fonction d'affichage d'erreur dans la console
     var erreurXHR = function(url, xhr) {
         console.log("erreur chargement" + url + " : " + xhr.statusText);
