@@ -10,7 +10,7 @@ $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
 
-if ($profil == 2) {
+if ($profil == $niveaux[$roles[3]]) {
 
     $act = "";
     $logout = "fermer la session";
