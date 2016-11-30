@@ -6,9 +6,11 @@ $winlog_url = "https://winlog.iut-rodez.fr/admin/";
 // URL serveur Winlog : URL sur laquelle les requêtes des PC clients arrivent
 $server_url = "https://winlog.iut.rdz/";
 // Code partagé entre client et serveur
-$server_code = "salt";           // ne pas mettre les caractères "&" ou "="
+$server_code = "salt";           // ne pas mettre les caractères "&" ou "=", ni la chaîne "##serverwinlog##"
+// mode d'authentification : "CAS", "simple", "LDAP"
+$auth_mode = "CAS";
 
-// Paramètres LDAP
+// Paramètres LDAP pour Active Directory
 $ldap_host = "ldap_hostname_or_ip";
 $ldap_port = 389;
 $ldap_rdn = "CN=ldapview,CN=Users,DC=iut,DC=local";
