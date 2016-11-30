@@ -27,8 +27,9 @@ $filtre_etudiants = "ObjectClass=user";
 $attr_etudiants = array("cn", "givenName", "sn");
 
     // tableaux de configuration requis : $ldap_personnes et $ldap_machines, utilisés par recup_salles.php
+$lib_personnel = "Enseignant";          // libellé par défaut
 $ldap_personnes = array(
-    array("base" => $base_enseignants, "filtre" => $filtre_enseignants, "attr" => $attr_enseignants, "type" => "Enseignant"),
+    array("base" => $base_enseignants, "filtre" => $filtre_enseignants, "attr" => $attr_enseignants, "type" => $lib_personnel),
     array("base" => $base_etudiants,   "filtre" => $filtre_etudiants,   "attr" => $attr_etudiants,   "type" => NULL)
 );
 
@@ -63,7 +64,6 @@ $administrateurs = array("admin1", "admin2", "adminN");
 $superviseurs = array("user1", "user2", "userN");
 
 // Noms des rôles. Seuls les libellés sont modifiables ici, pas les index du tableau.
-$lib_personnel = "Enseignant";          // libellé par défaut
 $roles = array();
 $roles[0] = "Utilisateur";              // libellé utilisateur sans droit
 $roles[1] = $lib_personnel;             // libellé utilisateur avec droit minimal
