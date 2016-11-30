@@ -39,7 +39,7 @@ $msg = "";
 
 $proc = Get_tasks($url);
 if (sizeof($proc) == 0) { 
-    $msg = "La machine ".$host." n'a renvoyé aucune réponse.<br/>Causes possibles : machine arrêtée, en veille ou non accesible par le réseau."; 
+    $msg = "La machine ".$host." n'a renvoyé aucune réponse.<br/>Causes possibles : machine arrêtée, en veille ou non accessible par le réseau."; 
 }
 else {
     $msg="<table>\n<th>Processus</th><th>mémoire</th><th>Propriétaire</th>\n";
