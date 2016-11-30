@@ -65,8 +65,8 @@ $freeSpace = $machine[13];
             Interface réseau : <?php echo($mac_descr) ?>
         </td>
         <td>
-            Taille disque C: <?php echo(number_format($diskSize / 1024000000, 1)); ?> Go<br/>
-            Espace libre sur C: <?php echo(number_format($freeSpace / 1024000000, 1)); ?> Go<br/>
+            Taille disque C: <?php echo(number_format($diskSize / 1000000000, 1)); ?> Go<br/>
+            Espace libre sur C: <?php echo(number_format($freeSpace / 1000000000, 1)); ?> Go<br/>
         </td>
         <td>
             Architecture : <?php echo($arch); ?><br/>
