@@ -63,7 +63,7 @@ $salles_invisibles = array("STOCK","TEST", "SOUK"); // liste des salles à ne pa
 $administrateurs = array("jerome.bousquie", "rosalie.viala", "caroline.pons");
 $superviseurs = array("dominique.seryies", "nicolas.gaven", "systeme.ut1", "thierry.deltort");
 
-// Noms des rôles
+// Noms des rôles. Seuls les libellés sont modifiables ici, pas les index du tableau.
 $lib_personnel = "Enseignant";          // libellé par défaut
 $roles = array();
 $roles[0] = "Utilisateur";              // libellé utilisateur sans droit
