@@ -1,6 +1,7 @@
 <?php
 // Ce fichier contient la gestion de la gestion applicative Winlog, différente de la session CAS/
 include_once('winlog_admin_conf.php');
+include_once('connexions.php');
 
 // fonction Username() vérifie que la session PHP existe et retourne $username, sinon renvoie sur $winlog_url
 function Username() {
