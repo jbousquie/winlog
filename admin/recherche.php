@@ -23,7 +23,13 @@ switch ($objet) {
         break;
 }
 
-$resultats = FormatteResultats($db, $donnees);
+
+if (!$donnees) {
+    $resultats = "Vous devez saisir au moins un critère.";
+}
+else {
+    $resultats = FormatteResultats($db, $donnees);
+}
 
 
 // fonction RechercheConnexions() : renvoie un tableau de résultats 
@@ -46,32 +52,31 @@ function RechercheConnexions(&$db) {
         $req_total_connexions = $req_total_connexions.", machines";
         $where = $where . "hote = machine_id AND salle = \"$salle\" ";
         $contrainte = true;
-        $liste_const = $liste_const. "salle = $salle<br/>";
+        $liste_const = $liste_const. "salle = <i>$salle</i><br/>";
     }
     if ($machine != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . "hote = \"{$machine}\"";
         $contrainte = true;
-        $liste_const = $liste_const. "machine = $machine<br/>";
+        $liste_const = $liste_const. "machine = <i>$machine</i><br/>";
     }
     if ($compte != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . "username = \"{$compte}\"";
         $contrainte = true;
-        $liste_const = $liste_const. "compte = $compte<br/>";
+        $liste_const = $liste_const. "compte = <i>$compte</i><br/>";
     }
     if ($ip != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . " ip = \"{$ip}\"";
         $contrainte = true;
-        $liste_const = $liste_const. "ip = $ip<br/>";
+        $liste_const = $liste_const. "ip = <i>$ip</i><br/>";
     }
 
     if (!$contrainte) {
-        echo("vous devez saisir au moins un critère<br/>");
+        return false;
     }
     $req = "($req_connexions $where) UNION ($req_total_connexions $where) ORDER BY con_id DESC";
-    //echo $req;
     $res = db_query($db, $req);
 
     return $res;
@@ -105,9 +110,10 @@ function FormatteResultats(&$db, &$res) {
 </head>
 <body>
     <p class="header">WINLOG</p>
-    <p>Rappel critères :<br/>
+    <p><b><u>Rappel critères</u> :</b><br/><br/>
     <?php echo($liste_const); ?>
     </p>
+    <p><b><u>Résultats</u> :</b></p>
     <?php
         echo($resultats);
     ?>
