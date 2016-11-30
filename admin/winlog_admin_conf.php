@@ -64,19 +64,19 @@ $administrateurs = array("jerome.bousquie", "rosalie.viala", "caroline.pons");
 $superviseurs = array("dominique.seryies", "nicolas.gaven", "systeme.ut1", "thierry.deltort");
 
 // Noms des rôles
-$lib_personnel = "Enseignant";
+$lib_personnel = "Enseignant";          // libellé par défaut
 $roles = array();
-$roles[0] = "Utilisateur";
-$roles[1] = $lib_personnel;
-$roles[2] = "Superviseur";
-$roles[3] = "Administrateur";
+$roles[0] = "Utilisateur";              // libellé utilisateur sans droit
+$roles[1] = $lib_personnel;             // libellé utilisateur avec droit minimal
+$roles[2] = "Superviseur";              // libellé Superviseur : accès global en lecture
+$roles[3] = "Administrateur";           // libellé Administrateur : accès global
 
 // Niveau des rôles
 $niveaux = array();
-$niveaux[$roles[3]] = 3;
-$niveaux[$roles[2]] = 2;
-$niveaux[$roles[1]] = 1;
-$niveaux[$roles[0]] = 0;
+$niveaux[$roles[3]] = 3;                // niveau Administrateur
+$niveaux[$roles[2]] = 2;                // niveau Superviseur
+$niveaux[$roles[1]] = 1;                // niveau utilisateur autorisé
+$niveaux[$roles[0]] = 0;                // niveau utilisateur sans droit
 
 // Comportement par défaut des listes de connexions : enroulé/déroulé 
 // défaut : $deroule = true;
