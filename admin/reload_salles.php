@@ -90,7 +90,7 @@ while ($mdc = current($machines_de_salle)) {
                         $fin_style="</b>"; 
                     }
                     echo "<tr id=\"".str_replace('.','-',$connexion_machine[$mac]["ip"])."\">";
-                    echo "<td><a href=\"machine.php?id=".$mac."\">".$style.$mac.$fin_style."</a></td>";
+                    echo "<td><a href=\"machine.php?id=".$mac."\" target=\"blank\">".$style.$mac.$fin_style."</a></td>";
                     echo "<td>".$style.date("H:i:s",$connexion_machine[$mac]["stamp"]).$fin_style."</td>";
                     echo "<td>".$style.$connexion_machine[$mac]["ip"].$fin_style."</td>";
                     echo "<td>".$style.$username.$fin_style."</td>"; 
