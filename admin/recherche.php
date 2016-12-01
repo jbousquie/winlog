@@ -43,8 +43,8 @@ function RechercheConnexions(&$db) {
     $date_debut = db_escape_string($db, $_POST["date_debut"]);
     $date_fin = db_escape_string($db, $_POST["date_fin"]);
 
-    $req_connexions = "SELECT con_id, username, hote, ip, fin_con, debut_con, close FROM connexions";
-    $req_total_connexions = "SELECT con_id, username, hote, ip, fin_con, debut_con, 1 FROM total_connexions";
+    $req_connexions = "SELECT username AS 'Compte', hote AS 'Machine', debut_con AS 'Début connexion', fin_con AS 'Fin connexion', close AS 'fermée ?', ip AS 'Adresse IP', con_id AS 'Id connexion' FROM connexions";
+    $req_total_connexions = "SELECT username AS 'Compte', hote AS 'Machine', debut_con AS 'Début connexion', fin_con AS 'Fin connexion', 1 AS 'fermée ?', ip AS 'Adresse IP', con_id AS 'Id connexion' FROM total_connexions";
     $where = " WHERE ";
     $contrainte = false;
     if ($salle != "") {
@@ -72,11 +72,35 @@ function RechercheConnexions(&$db) {
         $contrainte = true;
         $liste_const = $liste_const. "ip = <i>$ip</i><br/>";
     }
+    if ($date_debut != "" && $date_fin != "") {
+        // transformation de la date JJ/MM/AAAA en date iso AAAA-MM-JJ
+        $tab_deb = explode("/", $date_debut);
+        $tab_fin = explode("/", $date_fin);
+        $isodate_d = sprintf( "%04d-%02d-%02d", (int)trim($tab_deb[2]), (int)trim($tab_deb[1]), (int)trim($tab_deb[0]) );
+        $isodate_f = sprintf( "%04d-%02d-%02d", (int)trim($tab_fin[2]), (int)trim($tab_fin[1]), (int)trim($tab_fin[0]) );
+        $and = ($contrainte) ? " AND " : "";
+        $date_debut_00 = "$isodate_d 00:00:00";
+        $date_fin_24 = "$isodate_f 23:59:59";
+        $where = $where . $and . " debut_con >= \"{$date_debut_00}\" AND fin_con <= \"{$date_fin_24}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "du <i>$date_debut</i> au <i>$date_fin</i><br/>";         
+    } 
+    elseif ($date_debut != "") {
+        // transformation de la date JJ/MM/AAAA en date iso AAAA-MM-JJ
+        $tab_deb = explode("/", $date_debut);
+        $isodate_d = sprintf( "%04d-%02d-%02d", (int)trim($tab_deb[2]), (int)trim($tab_deb[1]), (int)trim($tab_deb[0]) );
+        $and = ($contrainte) ? " AND " : "";
+        $date_debut_00 = "$isodate_d 00:00:00";
+        $date_debut_24 = "$isodate_d 23:59:59";
+        $where = $where . $and . " debut_con >= \"{$date_debut_00}\" AND fin_con <= \"{$date_debut_24}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";        
+    }
 
     if (!$contrainte) {
         return false;
     }
-    $req = "($req_connexions $where) UNION ($req_total_connexions $where) ORDER BY con_id DESC";
+    $req = "($req_connexions $where) UNION ($req_total_connexions $where) ORDER BY 'Id connexion' DESC";
     $res = db_query($db, $req);
 
     return $res;
@@ -84,20 +108,27 @@ function RechercheConnexions(&$db) {
 
 // fonction AfficheResultats($tab) : formatte l'affichage d'un jeu de résultats
 function FormatteResultats(&$db, &$res) {
-    $r = "";
-    $cols = db_fetch_column_names($res);
-    foreach($cols as $name) {
-        $r = $r . "<th>$name</th>";
+    $r = "<th>n°</th>";
+    $resultats = "La recherche n'a abouti à aucun résultat.";
+    $nb = db_num_rows($res);
+    if ($nb != 0) {
+        $cols = db_fetch_column_names($res);
+        foreach($cols as $name) {
+            $r = $r . "<th>$name</th>";
+        }
+        $cpt = 1;
+        while ($li = db_fetch_row($res)) {
+            $li_coul = ($cpt % 2 == 0) ? "odd" : "even";
+            $r = $r . "<tr class=\"$li_coul\"><td>$cpt</td>";
+            foreach($li as $col) {
+                $r = $r . "<td>$col</td>";
+            }   
+            $r = $r . "</tr>\n";
+            $cpt = $cpt + 1;
+        }
+        db_free($res);
+        $resultats = "$nb résultats trouvés<br/>\n<table>\n$r</table>";
     }
-    while ($li = db_fetch_row($res)) {
-        $r = $r . "<tr>";
-        foreach($li as $col) {
-            $r = $r . "<td>$col</td>";
-        }   
-        $r = $r . "</tr>\n";
-    }
-    db_free($res);
-    $resultats = "<table>\n$r</table>";
     return $resultats;
 }
 ?>
@@ -110,6 +141,7 @@ function FormatteResultats(&$db, &$res) {
 </head>
 <body>
     <p class="header">WINLOG</p>
+    <p><a href="<?php echo($_SERVER['HTTP_REFERER']); ?>">Retour au menu de recherche</a></p>
     <p><b><u>Rappel critères</u> :</b><br/><br/>
     <?php echo($liste_const); ?>
     </p>
@@ -117,6 +149,7 @@ function FormatteResultats(&$db, &$res) {
     <?php
         echo($resultats);
     ?>
+    <p><a href="<?php echo($_SERVER['HTTP_REFERER']); ?>">Retour au menu de recherche</a></p>
     <p class="footer">version <?php echo($winlog_version); ?></p>
 </body>
 </html>
