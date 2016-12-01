@@ -134,6 +134,102 @@ function RechercheUtilisateurs(&$db) {
 
 }
 
+// fonction RechercheMachines : renvoie un tableau de résultats contenant les machines demandées
+function RechercheMachines(&$db) {
+    global $_POST;
+    global $liste_const;   
+
+    $machine = db_escape_string($db, $_POST["machine"]);
+    $salle = db_escape_string($db, $_POST["salle"]);
+    $os = db_escape_string($db, $_POST["os"]);
+    $sp = db_escape_string($db, $_POST["sp"]);
+    $os_version = db_escape_string($db, $_POST["os_version"]);
+    $ip = db_escape_string($db, $_POST["ip"]);
+    $marque = db_escape_string($db, $_POST["marque"]);
+    $modele = db_escape_string($db, $_POST["modele"]);
+    $arch = db_escape_string($db, $_POST["arch"]);
+    $mac = db_escape_string($db, $_POST["mac"]);
+    $iface = db_escape_string($db, $_POST["iface"]);
+
+    $req_machines = "SELECT machine_id AS 'Machine', salle AS 'Salle', adresse_ip AS 'Adresse IP', os AS 'Système', os_sp AS 'Service Pack', os_version AS 'Version'";
+    $req_machines = $req_machines.", type_systeme AS 'archi OS', marque AS 'Marque', modele AS 'Modèle', mac_description AS 'Carte réseau', mac AS 'Adresse MAC', ROUND(ram/1000000000, 1) AS 'RAM (Go)', ROUND(procSpeed/1000, 1) AS 'Proc (GHz)', ROUND(diskSize/1000000000, 1) AS 'Disque C: (Go)', ROUND(freeSpace/1000000000, 1) AS 'Libre C: (Go)'  FROM machines";
+    $where = " WHERE ";
+    $contrainte = false;
+    if ($machine != "") {
+        $where = $where . "machine_id LIKE \"$machine\" ";
+        $contrainte = true;
+        $liste_const = $liste_const. "machine = <i>$machine</i><br/>";
+    }
+    if ($salle != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "salle LIKE \"{$salle}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "salle = <i>$salle</i><br/>";
+    }
+    if ($os != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "os LIKE \"{$os}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "OS = <i>$os</i><br/>";
+    }
+    if ($sp != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "sp LIKE \"{$sp}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "Service Pack = <i>$sp</i><br/>";
+    }    
+    if ($os_version != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "os_version LIKE \"{$os_version}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "version OS = <i>$os_version</i><br/>";
+    } 
+    if ($ip != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "adresse_ip LIKE \"{$ip}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "adresse IP = <i>$ip</i><br/>";
+    }
+    if ($marque != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "marque LIKE \"{$marque}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "marque = <i>$marque</i><br/>";
+    }
+    if ($modele != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "modele LIKE \"{$modele}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "modèle = <i>$modele</i><br/>";
+    } 
+    if ($arch != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "type_systeme LIKE \"{$arch}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "architecture système = <i>$arch</i><br/>";
+    }
+    if ($mac != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "mac LIKE \"{$mac}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "adresse MAC = <i>$mac</i><br/>";
+    } 
+    if ($iface != "") {
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "mac_description LIKE \"{$iface}\"";
+        $contrainte = true;
+        $liste_const = $liste_const. "carte réseau = <i>$iface</i><br/>";
+    }    
+    if (!$contrainte) {
+        return false;
+    }
+    $req = "$req_machines $where ORDER BY machine_id, salle";
+    $res = db_query($db, $req);
+
+    return $res;
+
+}
+
 
 // fonction AfficheResultats($tab) : formatte l'affichage d'un jeu de résultats
 function FormatteResultats(&$db, &$res) {
@@ -176,6 +272,14 @@ switch ($objet) {
     case "utilisateurs":
         $donnees = RechercheUtilisateurs($db);
         break;
+
+    case "machines":
+    $donnees = RechercheMachines($db);
+    break;
+
+    default:
+    $donnees = false;
+    break;
 }
 
 
