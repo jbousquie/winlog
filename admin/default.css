@@ -130,6 +130,20 @@ a.anchor {
     margin-right: auto;
     margin-top: 20px;
 }
+
+.odd {
+    background-color: LavenderBlush;
+
+}
+
+.even {
+    background-color: Lavender;
+}
+
+.odd:hover, .even:hover {
+    background-color: Gold;
+}
+
 .materiel_ligne1 {
     background-color: LavenderBlush;
 }
