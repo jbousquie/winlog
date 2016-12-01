@@ -17,6 +17,7 @@ FiltreProfil($profil);
 </head>
 <body>
     <p class="header">WINLOG</p>
+    <h2 style="text-align: center;">Recherche de connexions Windows</h2>
     <div class = "criteres">
     <form id="recherche" action="recherche.php" method="POST">
         <table>
@@ -28,7 +29,7 @@ FiltreProfil($profil);
         <tr><td><label for="date_debut" title="date ou date début">date ou depuis le : </label></td><td><input type="text" name="date_debut" id="date_debut" /></td></tr>
         <tr><td><label for="date_fin" title="date fin">jusqu'au : </label></td><td><input type="text" name="date_fin" id="date_fin" /></td></tr>
         </table>
-        <p>Écrire les dates sous la forme JJ/MM/AAAA. Les dates non valides seront ignorées.</p>
+        <p style="text-align: center;">Écrire les dates sous la forme <i>JJ/MM/AAAA</i>.<br/>Les dates non valides seront ignorées.</p>
         <button class="bouton_valide">Rechercher</button>
     </form>
     </div>
