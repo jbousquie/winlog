@@ -144,6 +144,12 @@ a.anchor {
     background-color: Gold;
 }
 
+.criteres {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .materiel_ligne1 {
     background-color: LavenderBlush;
 }
