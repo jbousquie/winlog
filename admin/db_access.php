@@ -28,9 +28,16 @@ function db_fetch_column_names(&$res) {
     $fields = $res->fetch_fields();
     $col_names = array();
     foreach($fields as $col) {
-        $col_names[] = $fields->name;
+        $col_names[] = $col->name;
     }
     return $col_names;
+}
+
+// Fonction : db_num_rows()
+// Renvoie le nombre de ligne d'un résultat 
+function db_num_rows(&$res)  {
+    $num = $res->num_rows;
+    return $num;
 }
 
 // Fonction db_escape_string
