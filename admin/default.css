@@ -106,6 +106,7 @@ a.anchor {
 
 .proc { background-color: LightSteelBlue;}
 .p_user { background-color: PowderBlue;}
+.proc:hover, .p_user:hover { background-color: Gold; }
 
 .footer {
     margin-top: 30px;
