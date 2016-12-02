@@ -47,8 +47,12 @@
 // $orien_porte["AAA"][1]="H";
 // $porte_coord["AAA"][1]=array(800,600);
 
-$orix["B502"] = 100;
-$oriy["B502"] = 150;
+$orix_salle["B502"] = 50;
+$oriy_salle["B502"] = 200;
+$largeur_salle["B502"] = 1130;
+$hauteur_salle["B502"] = 450;
+$orix["B502"] = 10;
+$oriy["B502"] = 10;
 $largeur["B502"] = 120;
 $hauteur["B502"] = 60;
 $police["B502"] = 11;
@@ -84,6 +88,6 @@ $ligne_machines["B502"][5] = array('B502Z1');
 $shift["B502"][4] = 20;
 
 $orien_porte["B502"][0]="H";
-$porte_coord["B502"][0]=array(0,500);
+$porte_coord["B502"][0]=array(0,50);
 
 ?>

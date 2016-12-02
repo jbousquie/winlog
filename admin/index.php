@@ -54,20 +54,23 @@ if ($nb_archives > 0) {
     <p>compte : <i><?php echo($username); ?></i><br/>rôle : <i><?php echo($role); ?></i></p>
     <h3>Monitoring</h3>
     <div class="menu"><a href="salles_live.php">Connexion Windows en cours dans les salles</a></div>
-    <div class="menu"><a href="../wifi/index.php">Connexion Wifi en cours</a></div>
+    <div class="menu"><a href="">Connexion Wifi en cours</a></div>
     <br/>
-    <h3>Recherche</h3>
+    <h3>Recherches</h3>
+    <div class="menu"><a href="menu_recherche.php">Recherche de connexions</a></div>
+    <div class="menu"><a href="menu_utilisateur.php">Recherche d'utilisateurs</a></div>
+    <div class="menu"><a href="menu_machine.php">Recherche de machines</a></div>
     <br/>
     <h3>Statistiques</h3>
     <br/>
 <?php
 if ($profil == $niveaux[$roles[3]]) { ?>
     <h3>Gestion</h3>
-    <div class="menu"><a href="scripts_clients.php">Génération des fichiers VBS</a> : re-génére les fichiers de scripts clients à déployer dans les GPO de Active Directory</div> 
-    <div class="menu"><a href="recup_comptes.php">Rechargement des comptes</a> : recharge tous les comptes utilisateurs depuis Active Directory</div>
-    <div class="menu"><a href="recup_salles.php?p=u">Ajout/mise à jour de machines ou de salles</a> : ajoute les nouvelles salles ou machines et met à jour les existantes</div>
+    <div class="menu"><a href="scripts_clients.php">Génération des fichiers VBS</a> : re-génére les fichiers de scripts clients à déployer dans les GPO de Active Directory.</div> 
+    <div class="menu"><a href="recup_comptes.php">Rechargement des comptes</a> : recharge tous les comptes utilisateurs depuis Active Directory.</div>
+    <div class="menu"><a href="recup_salles.php?p=u">Ajout/mise à jour de machines ou de salles</a> : ajoute les nouvelles salles ou machines et met à jour les existantes.</div>
     <br/>
-    <div class="menu"><a href="recup_salles.php">Rechargement intégral des machines et des salles</a> (attention : ràz de toutes les machines) : à faire quand les machines ou les salles ont changé de nom par exemple</div>
+    <div class="menu"><a href="recup_salles.php">Rechargement intégral des machines et des salles</a> <i>(attention : ràz de toutes les machines)</i> : à faire quand les machines ou les salles ont changé de nom par exemple.</div>
     <p id="msg_archive"><?php echo($msg_archive); ?></p>
 <?php
 } 

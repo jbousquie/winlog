@@ -25,7 +25,7 @@ else {
 
 // récupération de la personne connectée à l'adresse IP
 $con = Con_ip($ip_connectee);
-if (empty($con) || $con[6] !== "Enseignant") { 
+if (empty($con) || $con[6] !== $lib_personnel) { 
 	echo($msg_salle_live_non_autorise."<br/>adresse IP : ".$ip_connectee); 
 	return; 			// on quitte immédiatement si non autorisé
 } 	

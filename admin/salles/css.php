@@ -1,7 +1,12 @@
 <?php
+// CSS généré dynamiquement pour chaque plan de salle.
+// Place les <div> de machines en fonction de leurs coordonnées dans les fichiers de salles.
 
 $salle = $_GET["salle"];
-if ($salle == '') {header('Location: ../salles_live.php'); exit;}
+if ($salle == '') {
+    header('Location: ../salles_live.php'); 
+    exit;
+}
 
 // on envoit un header de type CSS
 header('content-type: text/css');
@@ -50,6 +55,7 @@ $coul_hs10 = "#f3e575";
 $coul_hs20 = "#e17b17";
 $coul_hs30 = "#d5382c";
 echo "body {font-family: arial;}\n";
+echo "#plan {background-color: Beige; border:1px solid black; position: absolute; top: ".$oriy_salle[$salle]."px; left: ".$orix_salle[$salle]."px; height: ".$hauteur_salle[$salle]."px; width: ".$largeur_salle[$salle]."px; z-index: -1;}\n";
 echo ".pc {font-size: ".$police[$salle]."pt; background-color:".$coul_libre.";  width: ".$larg."px;\n  height: ".$haut."px;\n  border:1px dotted black;\n }\n";
 echo ".conn {background-color:".$coul_occupe."; }\n";
 echo ".j10 {background-color:".$coul_hs10."; }\n";
@@ -95,5 +101,4 @@ foreach($xy_portes as $key=>$xy_porte) {
     $id_porte = "#porte".$key." {\n  position: absolute;\n  top: ".$y."px;\n  left: ".$x."px;\n  background-size: ".$bcksze.";\n  background-image:url(".$img_porte.");\n  ".$divsze."\n  background-repeat: no-repeat;\n}\n";
     echo $id_porte;
 }
-
 ?>

@@ -29,7 +29,8 @@ FiltreProfil($profil);
         <tr><td><label for="date_debut" title="date ou date début">date ou depuis le : </label></td><td><input type="text" name="date_debut" id="date_debut" /></td></tr>
         <tr><td><label for="date_fin" title="date fin">jusqu'au : </label></td><td><input type="text" name="date_fin" id="date_fin" /></td></tr>
         </table>
-        <p style="text-align: center;">Écrire les dates sous la forme <i>JJ/MM/AAAA</i>.<br/>Les dates non valides seront ignorées.</p>
+        <p style="text-align: center;">Écrire les dates sous la forme <i>JJ/MM/AAAA</i>.<br/>Les dates non valides seront ignorées.<br/><br/>
+            Le caractère de recherche générique % peut être utilisé pour les noms de machines, comptes, salles et adresses IP.</p>
         <button class="bouton_valide">Rechercher</button>
     </form>
     </div>
