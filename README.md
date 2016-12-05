@@ -20,6 +20,8 @@ Pour le contrôle Web :
 
 Pour le contrôle des PC à distance :  
 * Windows Server + Apache/PHP + commande `shutdown`  du Server ToolKit  
+
+![connexions en cours](http://jerome.bousquie.fr/winlog/images/ConnexionsEnCours.png)
   
   
   
