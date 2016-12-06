@@ -4,9 +4,9 @@ Winlog est une architecture simple et un programme léger de surveillance en tem
 Les connexions sont archivées dans une base de données et peuvent faire l'objet ensuite de statistiques, de mesures ou de recherche : qui était connecté quand et sur quelle machine ?  
 
 Voir la [documentation](https://github.com/jbousquie/winlog/wiki)   
-
-NOTE IMPORTANTE : pour l'instant le code de Winlog est lisible/forkable selon les termes de service de Github, mais le copyright demeure applicable (auteur Jérôme Bousquié).   
+ 
 *Licence [CeCILL-B](http://www.cecill.info/)*   
+auteur : Jérôme Bousquié.  
 
 Dépendances :   
 php-ldap  
