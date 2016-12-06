@@ -20,6 +20,7 @@ if ($profil < $niveaux[$roles[3]]) {
 </head>
 <body>
     <p class="header">WINLOG</p>
+    <h2>Génération des scripts clients</h2>
     <div>
         <p>Le fichier <i><b>logon.vbs</b></i> doit être joué par une GPO d'<u>ouverture</u> de session Windows : <a href="genere_vbs.php?f=logon">télécharger logon.vbs</a><br/>
         Par exemple, dans l'outil de Gestion de Stratégie de Groupes, faire <i>"modifier"</i> sur <i>"Domain Users"</i>, puis dans l'éditeur de gestion des stratégies, ouvrir <i>"Configuration utilisateur/Stratégies/Paramètres Windows/Scripts/Ouverture de session"</i> et ajouter logon.vbs à cet endroit.</p>
