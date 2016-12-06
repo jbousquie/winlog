@@ -101,7 +101,7 @@ function RechercheUtilisateurs(&$db) {
     $where = " WHERE ";
     $contrainte = false;
     if ($compte != "") {
-        $where = $where . "compte LIKE \"$compte\" ";
+        $where = $where . "username LIKE \"$compte\" ";
         $contrainte = true;
         $liste_const = $liste_const. "compte = <i>$compte</i><br/>";
     }
@@ -127,7 +127,7 @@ function RechercheUtilisateurs(&$db) {
     if (!$contrainte) {
         return false;
     }
-    $req = "($req_utilisateurs $where) ORDER BY username DESC";
+    $req = "$req_utilisateurs $where ORDER BY username DESC";
     $res = db_query($db, $req);
 
     return $res;
