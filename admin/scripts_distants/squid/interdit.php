@@ -1,9 +1,32 @@
 <?php
+require_once 'HTTP/Request2.php';
+
 $url_winlog = "http://winlog.iut.rdz/proxy/squid.php"; // NE PAS METTRE https à cause de la SOP IE
 $ip = $_GET['ip'];
 $src = $_GET['src'];
 $target = $_GET['tgt'];
 $url = $_GET['url'];
+
+// Fonction GetURL() : renvoie le contenu d'une réponse à un GET http
+// renvoie une string contenant le corps de la réponse http
+Function GetURL($url) {
+    $body = "";
+    $r = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
+    try {
+        $response = $r->send();
+        if (200 == $response->getStatus()) {
+            $body = $response->getBody();
+        }
+    } 
+    catch (HTTP_Request2_Exception $ex) {
+        echo $ex->getMessage();
+    }
+    return $body;
+};
+
+$url_param = "$url_winlog?ip=$ip&src=$src&tgt=$target";
+GetURL($url_param);
+
 
 $loi_porn = "<h3><a href=\"http://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006070719&idArticle=LEGIARTI000006418098&dateTexte=20090929\">Loi article 227-24</a></h3>
 <p>\"Le fait soit de fabriquer, de transporter, de diffuser par quelque moyen que ce soit et quel qu'en soit le support un message à caractère <b>violent</b> ou <b>pornographique</b> ou de <b>nature à porter gravement atteinte à la dignité humaine</b>, soit de faire commerce d'un tel message, est puni de trois ans d'emprisonnement et de 75000 euros d'amende lorsque ce message est susceptible d'être vu ou perçu par un mineur.</p><p>Lorsque les infractions prévues au présent article sont soumises par la voie de la presse écrite ou audiovisuelle ou de la communication au public en ligne, les dispositions particulières des lois qui régissent ces matières sont applicables en ce qui concerne la détermination des personnes responsables.\"</p><br/><p>Rappel : il suffit <b>d'un seul mineur</b> dans l'établissement.</p>";
@@ -27,14 +50,5 @@ if ($target == "adult" or $target == "haine") {
 ;}
 
 ?>
-<div id="if"></div>
-<script>
-var iframe = document.createElement("iframe");
-iframe.height = 0;
-iframe.width = 0;
-iframe.style.display = "none";
-document.getElementById("if").appendChild(iframe);
-iframe.src = "<?php echo("$url_winlog?ip=$ip&src=$src&tgt=$target"); ?>";
-</script>
 </body>
 </html>
