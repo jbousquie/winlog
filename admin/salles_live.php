@@ -205,13 +205,15 @@ function InfoCouleurs() {
                 rgba = rgbaDefault;
             }
             var tr_ip = document.getElementById(ip);                        // récupération de la ligne de la connexion par son IP
-            stylesToFade.push({style: tr_ip.style, rgba: rgba});
-            if (ips[i]["salle"]) {                                          // récupération de la salle si elle est présente
-                var salleH = 'h-' + ips[i]["salle"];                        
-                var el_salleH = document.getElementById(salleH);            // élément salle dans le menu header
-                var salleL = 'l-' + ips[i]["salle"];
-                var el_salleL = document.getElementById(salleL);            // élément salle dans la liste
-                stylesToFade.push({style: el_salleH.style, rgba: rgba}, {style: el_salleL.style, rgba: rgba});
+            if (tr_ip) {
+                stylesToFade.push({style: tr_ip.style, rgba: rgba});
+                if (ips[i]["salle"]) {                                          // récupération de la salle si elle est présente
+                    var salleH = 'h-' + ips[i]["salle"];                        
+                    var el_salleH = document.getElementById(salleH);            // élément salle dans le menu header
+                    var salleL = 'l-' + ips[i]["salle"];
+                    var el_salleL = document.getElementById(salleL);            // élément salle dans la liste
+                    stylesToFade.push({style: el_salleH.style, rgba: rgba}, {style: el_salleL.style, rgba: rgba});
+                }
             }
         }
 
