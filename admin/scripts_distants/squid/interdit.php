@@ -1,14 +1,14 @@
 <?php
-require_once 'HTTP/Request2.php';
 
+// SECTION À COPIER DANS VOTRE PROPRE PAGE interdit.php
+// ====================================================
+
+require_once 'HTTP/Request2.php';
 
 $ip = $_GET['ip'];
 $src = $_GET['src'];
 $target = $_GET['tgt'];
 $url = $_GET['url'];
-
-// SECTION À COPIER DANS VOTRE PROPRE PAGE interdit.php
-// ====================================================
 
 // mettre l'URL de votre propre serveur suivie de "/proxy/squid.php"
 // $url_winlog = "http://monserveur.winlog/proxy/squid";
