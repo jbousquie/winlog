@@ -267,7 +267,7 @@ function Connexions_blacklist_live($delay, &$machines) {
     $connexions_bl_live = array();
     $db = db_connect();
 
-    $req = 'select proxy.ip, proxy.username, target, hote from proxy left join connexions ON proxy.ip = connexions.ip where timestampdiff(SECOND, timestamp(logts), timestamp(now())) < '.$delay.' and connexions.close = 0'; // on récupère les logs non checkés datant moins de 15s
+    $req = 'select proxy.ip, proxy.username, target, hote from proxy left join connexions ON proxy.ip = connexions.ip where timestampdiff(SECOND, timestamp(logts), timestamp(now())) < '.($delay); // on récupère les logs non checkés datant moins de $delay
     $res = db_query($db, $req);
     $i = 0;
     while ($log = db_fetch_row($res)) {
