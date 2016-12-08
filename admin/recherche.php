@@ -20,8 +20,8 @@ function RechercheConnexions(&$db) {
     $date_debut = db_escape_string($db, $_POST["date_debut"]);
     $date_fin = db_escape_string($db, $_POST["date_fin"]);
 
-    $req_connexions = "SELECT username AS 'Compte', hote AS 'Machine', debut_con AS 'Début connexion', fin_con AS 'Fin connexion', close AS 'fermée ?', ip AS 'Adresse IP', con_id AS 'Id connexion' FROM connexions";
-    $req_total_connexions = "SELECT username AS 'Compte', hote AS 'Machine', debut_con AS 'Début connexion', fin_con AS 'Fin connexion', 1 AS 'fermée ?', ip AS 'Adresse IP', con_id AS 'Id connexion' FROM total_connexions";
+    $req_connexions = "SELECT username AS 'Compte', hote AS 'Machine', debut_con AS 'Début connexion', fin_con AS 'Fin connexion', close AS 'fermée ?', ip AS 'Adresse IP', con_id FROM connexions";
+    $req_total_connexions = "SELECT username AS 'Compte', hote AS 'Machine', debut_con AS 'Début connexion', fin_con AS 'Fin connexion', 1 AS 'fermée ?', ip AS 'Adresse IP', con_id FROM total_connexions";
     $where = " WHERE ";
     $contrainte = false;
     if ($salle != "") {
@@ -81,7 +81,7 @@ function RechercheConnexions(&$db) {
     if (!$contrainte) {
         return false;
     }
-    $req = "($req_connexions $where) UNION ($req_total_connexions $where) ORDER BY 'Id connexion' DESC";
+    $req = "($req_connexions $where) UNION ($req_total_connexions $where) ORDER BY con_id DESC";
     $res = db_query($db, $req);
 
     return $res;
