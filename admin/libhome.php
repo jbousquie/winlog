@@ -8,8 +8,6 @@ $cas_server = 'cas.iut-rodez.fr';
 $cas_path = '/cas';
 $cas_port = 443;
 
-include('ldap_connector.php');
-
 // import phpCAS lib
 include_once('CAS.php');
 
