@@ -54,7 +54,7 @@ if ($nb_archives > 0) {
     <p>compte : <i><?php echo($username); ?></i><br/>rôle : <i><?php echo($role); ?></i></p>
     <h3>Monitoring</h3>
     <div class="menu"><a href="salles_live.php">Connexion Windows en cours dans les salles</a></div>
-    <div class="menu"><a href="">Connexion Wifi en cours</a></div>
+    <div class="menu"><i><a href="">Connexion Wifi en cours</a> (à venir ...)</i></div>
     <br/>
     <h3>Recherches</h3>
     <div class="menu"><a href="menu_recherche.php">Recherche de connexions</a></div>
@@ -62,6 +62,7 @@ if ($nb_archives > 0) {
     <div class="menu"><a href="menu_machine.php">Recherche de machines</a></div>
     <br/>
     <h3>Statistiques</h3>
+    <div class="menu"><i><a href="">Stats</a> (à venir ...)</i></div>
     <br/>
 <?php
 if ($profil == $niveaux[$roles[3]]) { ?>
