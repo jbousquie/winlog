@@ -14,7 +14,7 @@ if (!empty($con_ip)) {
 
 $db = db_connect();
 $req_log = 'INSERT INTO proxy (ip, username, target, logts) VALUES ( "'.$ip.'", "'.$username.'", "'.$target.'", CURRENT_TIMESTAMP() )';
-$req_purge = 'DELETE from proxy WHERE timestampdiff(SECOND, timestamp(logts), timestamp(now())) > 60'; // on purge les logs de plus de 1mn
+$req_purge = 'DELETE from proxy WHERE TIMESTAMPDIFF( SECOND, TIMESTAMP( logts ), TIMESTAMP( now() ) ) > 600'; // on purge les logs de plus de 10mn
 $res = db_query($db, $req_purge);
 $res = db_query($db, $req_log);
 ?>
