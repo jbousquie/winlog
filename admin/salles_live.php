@@ -215,6 +215,9 @@ function InfoCouleurs() {
                     stylesToFade.push({style: el_salleH.style, rgba: rgba}, {style: el_salleL.style, rgba: rgba});
                 }
             }
+            else {
+                console.log(ips[i]["hote"], ips[i]["ip"]);
+            }
         }
 
         var fade = function() {
