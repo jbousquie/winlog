@@ -105,27 +105,6 @@ while ($mdc = current($machines_de_salle)) {
     next($machines_de_salle);
 }
 
-// connexions wifi
-/*
-$connexions_wifi = Connexions_wifi();
-echo "<br/>";
-echo "<br/>";
-echo "<b>Connexions WIFI en cours</b> (".count($connexions_wifi) ." connexions)<br/><br/>";
-echo "<div class=\"wifi\">\n";
-echo "<table>\n";
-// boucle sur les connexions wifi en cours
-while ($wc = current($connexions_wifi)) {
-$l = '<tr id="'.str_replace('.','-',$wc["ip"]).'"><td>'.date("H:i:s",$wc["debut"]).'</td><td>'.$wc["ip"].'</td><td>'.$wc["username"].'</td><td><i><a href="http://user-agent-string.info/?Fuas='.$wc["browser"].'" target="_blank">'.$wc["browser"]."</a></i></td></tr>\n";
-echo $l;
-next($connexions_wifi);
-}
-echo "</table>\n</div>\n";
-
-// on ajoute un appel masqué au script wifi/kanet.php pour forcer la purge des connexions wifi fermées
-$lien_purge = "<iframe src='/wifi/kanet.php' width='0' heigth='0' style='display: none;'></iframe>";
-echo $lien_purge;
-*/
-
 // Récupération des connexions sur la blacklist Squid
 // Stockage du résultat dans un dataset d'une <div> dédiée
 $connexions_blacklist_live = Connexions_blacklist_live($delay, $machines);
