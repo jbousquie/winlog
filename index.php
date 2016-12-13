@@ -10,6 +10,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
     $action = db_escape_string($db, $_POST["action"]);
 	$computer = db_escape_string($db, $_POST["computer"]);
 	$ip = $_SERVER["REMOTE_ADDR"];
+	$username = "";
 	if ( isset($_POST["username"]) ) {
     	$username = db_escape_string($db, $_POST["username"]);
     }
