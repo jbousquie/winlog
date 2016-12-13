@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <style type="text/css">
+      html,body{
+        height:100%;
+        padding:0;
+        margin:0;
+      }
+      #header{
+        position: relative;
+        padding-top: 10px;
+        padding-left: 190px;
+        background: url(%%IMAGE:logoIUT_tn.jpg%%) no-repeat scroll 10px center transparent;
+      }
+      #app-name{
+        background: none repeat scroll 0% 0% rgb(167, 168, 170);
+        font-family: "Verdana",Verdana,sans-serif;
+        font-size: 2.2em;
+        padding-top: 55px;
+        padding-bottom: 45px;
+        padding-left: 20px;
+        color: rgb(255,255,255);
+      }
+
+      form{
+        background: none repeat scroll 0% 0% rgb(167, 168, 170);
+        min-height: 8em;
+        padding: 15px;
+        position: relative;
+        width: 350px;
+        margin: 18px 5px 30px;
+        border: 1px dotted rgb(25, 42, 137);
+        color: rgb(255,255,255);
+        font-family: Verdana, sans-serif;
+        text-align: center;
+      }
+      .fer{
+        text-align: left;
+        font-size: 75%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      input{
+        border-width: 1px;
+      }
+      h2{
+        margin:25px 10px;
+        font-weight:bold;
+        text-align:center;
+      }
+      .errors{
+        font-family: Verdana, sans-serif;
+        background: #fed;
+    	border: 1px dotted #d21033;
+    	color: #d21033;
+      margin-top: 5px;
+      padding: 5px;
+      }
+      .notice {
+        background: none repeat scroll 0% 0% rgb(100, 200, 100);
+        font-family: "Verdana",Verdana,sans-serif;
+        font-size: 1em;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+        color: rgb(255,255,255);
+      }
+    </style>
+    <title>
+      Authentification WIFI IUT
+    </title>
+  </head>
+  <body>
+    <div id="header">
+      <div id="app-name">
+        Authentification WIFI IUT
+      </div>
+    </div>
+    <div id="status" class="errors">Les informations transmises n'ont pas permis de vous authentifier.<br/><b>Veuillez à saisir à nouveau vos identifiants.</b></div>
+    <form action="%%AUTH_POST_URL%%" method="post" onsubmit="getU();">
+      Entrez votre compte et votre mot de passe de l'IUT
+      <input type="hidden" name="%%REDIRID%%" value= "%%PROTURI%%">
+      <input type="hidden" name="%%MAGICID%%" value="%%MAGICVAL%%">
+      <div class="fer">
+        <label for="ft_un">
+          compte (tronqué à 20 caractères):
+          <br>
+        </label>
+
+        <input name="%%USERNAMEID%%" id="ft_un" style="width:245px" tabindex="1" autofocus />
+        <br>
+      </div>
+      <div class="fer">
+        <label for="ft_pd">
+          Mot de passe:
+          <br>
+        </label>
+
+        <input name="%%PASSWORDID%%" id="ft_pd" type="password" style="width:245px" tabindex="1" autofocus />
+      </div>
+      <input type="submit" value= "Valider">
+    </form>
+    <div class="notice" style="background: none repeat scroll 0% 0% rgb(244, 164, 96);">
+      <h2>NOTICE</h2>
+      Afin de pouvoir naviguer sur le Web depuis le réseau Wifi de l'IUT, vous devez être authentifié par ce portail.<br/>
+      Vous ne pouvez atteindre ce portail, lors de votre première requête, qu'en tentant d'aller sur un site non sécurisé (<i>http</i> et pas <i>https</i>). Vous n'atteindrez donc pas ce portail les moteurs de recherche (Google, Yahoo, Bing, etc) ou le webmail qui ne fonctionnent qu'avec <i>https</i>.<br/>
+      Aussi nous vous conseillons, tant que vous n'êtes pas authentifié, d'essayer d'aller directement sur un site institutionnel comme <i>http://www.iut-rodez.fr</i> et de ne pas commencer par une requête dans un moteur de recherche.<br/>
+      Cette obligation n'est plus nécessaire dès lors que vous êtes authentifié.
+    </div>
+    <script>
+      var cookieName = "winlog";      // nom du cookie
+      var delay = 60;                 // délai de vie en secondes
+      // suppression du cookie existant
+      document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=iut-rodez.fr;path=/';
+      
+      var date = new Date();
+      date.setTime(date.getTime() + (delay * 1000));
+      var expires = ";expires=" + date.toGMTString();
+      var s = document.getElementById('status').style;
+      s.opacity = 0;
+      var i = 0;
+      (function fade() {
+        i += .05;
+        s.opacity = i;
+        if (s.opacity < 1) {
+          setTimeout(fade, 16);
+        }
+      })();
+
+      var getU = function() {
+        var el_u = document.getElementById("ft_un");
+        if (el_u) {
+          var cookieString = cookieName + "=" + encodeURIComponent(el_u.value) + expires + ";domain=iut-rodez.fr;path=/";
+          document.cookie = cookieString;
+        }
+      };       
+    </script>
+  </body>
+</html>
