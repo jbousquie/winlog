@@ -231,6 +231,84 @@ function RechercheMachines(&$db) {
 }
 
 
+// fonction RechercheWifi : renvoie un tableau de résultats contenant les connexions Wifi demandées
+function RechercheWifi(&$db) {
+    global $_POST;
+    global $liste_const;   
+
+    $compte = db_escape_string($db, $_POST["compte"]);
+    $nom = db_escape_string($db, $_POST["nom"]);
+    $prenom = db_escape_string($db, $_POST["prenom"]);
+    $ip = db_escape_string($db, $_POST["ip"]);
+    $browser = db_escape_string($db, $_POST["browser"]);
+    $date_debut = db_escape_string($db, $_POST["date_debut"]);
+    $date_fin = db_escape_string($db, $_POST["date_fin"]);
+    $contrainte = false;
+
+    $req_wifi = "SELECT nom AS 'Nom', prenom AS 'Prénom', wifi_username AS 'Compte', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
+    $req_wifi = $req_wifi." FROM wifi, comptes WHERE wifi_username = username ";
+    $where = "";
+    if ($compte != "") {
+        $where = $where . " AND wifi_username LIKE \"$compte\" ";
+        $liste_const = $liste_const. "compte = <i>$compte</i><br/>";
+        $contrainte = true;
+    }
+    if ($nom != "") {
+        $where = $where ." AND nom LIKE \"{$nom}\"";
+        $liste_const = $liste_const. "nom = <i>$nom</i><br/>";
+        $contrainte = true;
+    }
+    if ($prenom != "") {
+        $where = $where . " AND prenom LIKE \"{$prenom}\"";
+        $liste_const = $liste_const. "prénom = <i>$prenom</i><br/>";
+        $contrainte = true;
+    }
+    if ($ip != "") {
+        $where = $where ." AND wifi_ip LIKE \"{$ip}\"";
+        $liste_const = $liste_const. "adresse IP = <i>$ip</i><br/>";
+        $contrainte = true;
+    }
+    if ($browser != "") {
+        $where = $where . "AND wifi_browser LIKE \"{$browser}\"";
+        $liste_const = $liste_const. "browser/device = <i>$browser</i><br/>";
+        $contrainte = true;
+    }
+    if ($date_debut != "" && $date_fin != "") {
+        // transformation de la date JJ/MM/AAAA en date iso AAAA-MM-JJ
+        $tab_deb = explode("/", $date_debut);
+        $tab_fin = explode("/", $date_fin);
+        if (isset($tab_deb[2]) && isset($tab_fin[2])) {
+            $isodate_d = sprintf( "%04d-%02d-%02d", (int)trim($tab_deb[2]), (int)trim($tab_deb[1]), (int)trim($tab_deb[0]) );
+            $isodate_f = sprintf( "%04d-%02d-%02d", (int)trim($tab_fin[2]), (int)trim($tab_fin[1]), (int)trim($tab_fin[0]) );
+            $date_debut_00 = "$isodate_d 00:00:00";
+            $date_fin_24 = "$isodate_f 23:59:59";
+            $where = $where . " AND wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_fin_24}\"";
+            $liste_const = $liste_const. "du <i>$date_debut</i> au <i>$date_fin</i><br/>";
+            $contrainte = true;    
+        }     
+    } 
+    elseif ($date_debut != "") {
+        // transformation de la date JJ/MM/AAAA en date iso AAAA-MM-JJ
+        $tab_deb = explode("/", $date_debut);
+        if (isset($tab_deb[2])) {
+            $isodate_d = sprintf( "%04d-%02d-%02d", (int)trim($tab_deb[2]), (int)trim($tab_deb[1]), (int)trim($tab_deb[0]) );
+            $date_debut_00 = "$isodate_d 00:00:00";
+            $date_debut_24 = "$isodate_d 23:59:59";
+            $where = $where . " AND wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_debut_24}\"";
+            $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";   
+            $contrainte = true; 
+        }    
+    }    
+    if (!$contrainte) {
+        return false;
+    }
+    $req = "$req_wifi $where ORDER BY wifi_deb_conn DESC";
+    $res = db_query($db, $req);
+
+    return $res;
+
+}
+
 // fonction AfficheResultats($tab) : formatte l'affichage d'un jeu de résultats
 function FormatteResultats(&$db, &$res) {
     $r = "<th>n°</th>";
@@ -275,6 +353,10 @@ switch ($objet) {
 
     case "machines":
     $donnees = RechercheMachines($db);
+    break;
+
+    case "wifi":
+    $donnees = RechercheWifi($db);
     break;
 
     default:
