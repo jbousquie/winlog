@@ -235,13 +235,14 @@ function PremiereConnexion() {
 //            con_wifi[i]["ip"] : ip allouée
 //            con_wifi[i]["browser"] : user agent
 //            con_wifi[i]["debut"] : timestamp du début de la connexion
-
+//            con_wifi[i]["prenom"] : prénom de l'utilisateur
+//            con_wifi[i]["nom"] : nom de l'utilisateur
 function Connexions_wifi() {
     $connexions_wifi = array();
     $db = db_connect();
 
     $req_close = "UPDATE wifi SET close = 1 WHERE DATE(wifi_deb_conn) < CURDATE()";
-    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn FROM wifi WHERE close = 0 ORDER BY wifi_deb_conn";
+    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn, prenom, nom FROM wifi, comptes WHERE close = 0 AND username = wifi_username ORDER BY wifi_deb_conn DESC";
 
     db_query($db, $req_close);
     $res = db_query($db, $req);
@@ -252,6 +253,8 @@ function Connexions_wifi() {
         $connexions_wifi[$i]["ip"] = $con[2];
         $connexions_wifi[$i]["browser"] = $con[3];
         $connexions_wifi[$i]["debut"] = $con[4];
+        $connexions_wifi[$i]["prenom"] = $con[5];
+        $connexions_wifi[$i]["nom"] = $con[6];
         $i++;
     }
 
