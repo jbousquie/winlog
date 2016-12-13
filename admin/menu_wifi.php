@@ -21,7 +21,7 @@ FiltreProfil($profil);
     <div class = "criteres">
     <form id="recherche" action="recherche.php" method="POST">
         <table>
-        <input type="hidden" name="objet" value="connexions" />
+        <input type="hidden" name="objet" value="wifi" />
         <tr><td><label for="compte" title="compte utilisateur">compte : </label></td><td><input type="text" name="compte" id="compte" /></td></tr>
         <tr><td><label for="nom" title="nom d'un utilisateur">nom utilisateur : </label></td><td><input type="text" name="nom" id="nom" /></td></tr>
         <tr><td><label for="prenom" title="prénom d'un utilisateur">prénom utilisateur : </label></td><td><input type="text" name="prenom" id="prenom" /></td></tr>
