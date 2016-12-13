@@ -5,7 +5,7 @@ Les connexions sont archivées dans une base de données et peuvent faire l'obje
 
 Voir la [documentation](https://github.com/jbousquie/winlog/wiki)   
 
-version : 1.1.2   
+version : 1.2.0   
  
 *Licence [CeCILL-B](http://www.cecill.info/)*   
 auteur : Jérôme Bousquié.  
