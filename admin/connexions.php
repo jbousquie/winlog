@@ -227,6 +227,7 @@ function PremiereConnexion() {
 
 
 // Fonction Connexions_wifi()
+// Ferme les connexions antérieures au jour courant
 // Renvoie les connexions wifi non marquées "close" en base
 // Retourne un array indexé de connexions :     
 //            con_wifi[i]["id"] : id de connexion wifi
@@ -239,7 +240,10 @@ function Connexions_wifi() {
     $connexions_wifi = array();
     $db = db_connect();
 
-    $req = 'select wifi_id, wifi_username, wifi_ip, wifi_browser, unix_timestamp(wifi_deb_conn) from wifi where close=0 and (to_days(now())-to_days(wifi_deb_conn)<1) order by wifi_deb_conn';
+    $req_close = "UPDATE wifi SET close = 1 WHERE DATE(wifi_deb_conn) < CURDATE()";
+    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn FROM wifi WHERE close = 0 ORDER BY wifi_deb_conn";
+
+    db_query($db, $req_close);
     $res = db_query($db, $req);
     $i = 0;
     while ($con = db_fetch_row($res)) {
@@ -249,7 +253,7 @@ function Connexions_wifi() {
         $connexions_wifi[$i]["browser"] = $con[3];
         $connexions_wifi[$i]["debut"] = $con[4];
         $i++;
-        }
+    }
 
     db_free($res);
     return $connexions_wifi;   
@@ -309,5 +313,6 @@ function ArchiveConnexions() {
     }
     return $nb_archivables;
 }
+
 
 ?>
