@@ -88,6 +88,10 @@
     <script>     
       var cookieName = "winlog";      // nom du cookie
       var delay = 60;                 // délai de vie en secondes
+      
+      // suppression du cookie existant
+      document.cookie = cookieName + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=iut-rodez.fr;path=/';
+
       var date = new Date();
       date.setTime(date.getTime() + (delay * 1000));
       var expires = ";expires=" + date.toGMTString();
