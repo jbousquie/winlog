@@ -10,7 +10,8 @@ $profil = Profil($username);
 FiltreProfil($profil);
 
 $connexions_wifi = Connexions_wifi();
-$html = "<table>\n<th>nom</th><th>prénom</th><th>compte</th><th>heure connexion</th><th>adresse IP</th><th>browser</th><th>id connexion</th>\n";
+$html = "<p><i>Nb connexions déjà établies : ". count($connexions_wifi);
+$html = $html . "<table>\n<th>nom</th><th>prénom</th><th>compte</th><th>heure connexion</th><th>adresse IP</th><th>browser</th><th>id connexion</th>\n";
 $lignes = "";
 $pair = false;
 foreach ($connexions_wifi as $i => $con_wifi) {
