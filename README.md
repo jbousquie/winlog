@@ -5,8 +5,8 @@ Les connexions sont archivées dans une base de données et peuvent faire l'obje
 
 Voir la [documentation](https://github.com/jbousquie/winlog/wiki)   
 
-version : 1.2.0   
- 
+version : 1.3.0   
+
 *Licence [CeCILL-B](http://www.cecill.info/)*   
 auteur : Jérôme Bousquié.  
 
@@ -24,7 +24,7 @@ Pour le contrôle des PC à distance :
 * Windows Server + Apache/PHP + commande `shutdown`  du Server ToolKit  
 
 ![connexions en cours](http://jerome.bousquie.fr/winlog/images/ConnexionsEnCours.png)
-  
-  
-  
+
+
+
 © Jérôme Bousquié
