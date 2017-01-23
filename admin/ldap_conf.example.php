@@ -1,5 +1,5 @@
 <?php
-// configuration de l'authentificition LDAP
+// configuration de l'authentification LDAP
 // Attention : si connexion en ldaps, vérifier la présence du certificat du serveur LDAP
 // ou forcer la non vérification du certificat : TLS_REQCERT never dans /etc/ldap/ldap.conf
 $auth_ldap_server = "ldaps://ip_serveur_ldap";                              // IP ou nom d'hôte du serveur LDAP
