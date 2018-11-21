@@ -28,6 +28,15 @@ function Machines_plan(&$ligne_machines) {
     return $machines_de_la_salle;
 };
 
+// fonction renvoyant les adresses mac des machines de la salle
+function AdressesMac_plan(&$hosts) {
+    $machines = Machines();
+    $macs_de_la_salle = array();
+    foreach($hosts as $host) {
+        $macs_de_la_salle[] = $machines[$host][8];
+    }
+    return $macs_de_la_salle;
+}
 
 // fonction d'affichage du plan 2D d'une salle
 function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
@@ -104,8 +113,10 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
 if ($profil > 0) {
     include_once($salle.'.php');
     $machines_du_plan = Machines_plan($ligne_machines[$salle]);
+    $macs_du_plan = AdressesMac_plan($machines_du_plan);
     $portes = $porte_coord[$salle];
     $host_json = json_encode($machines_du_plan);
+    $mac_json = json_encode($macs_du_plan);
 
     $info_cours = '&nbsp;&nbsp;&nbsp;&nbsp;<a href="../salles_live.php">[retour]</a>';
     echo("<h3>Salle ".$salle.$info_cours."</h3>");
@@ -114,6 +125,10 @@ if ($profil > 0) {
         //$form = $form.'<input type="submit" value="fermer toutes les sessions" name="stop">';
         $form = $form.'<input type="submit" value="redémarrer toute la salle" name="stop"><input type="submit" value="éteindre toute la salle" name="stop">';
         $form = $form.'<input type="hidden" name="host" value=\''.$host_json.'\'>';
+        $form = $form.'<input type="hidden" name="mac" value=\''.$mac_json.'\'>';
+        $form = $form.'<input type="submit" value="démarrer toute la salle" name="stop">';
+        $form = $form.'<input type="submit" value="start processus distant" name="stop">';
+        $form = $form.'<input type="submit" value="stop processus distant" name="stop">';
         $form = $form.'</form>';
         echo $form;
     }

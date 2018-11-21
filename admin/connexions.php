@@ -3,7 +3,7 @@ include_once('winlog_admin_conf.php');
 include_once('db_access.php');
 
 // Fonction : Connexions_par_salle
-// Renvoie les connexions par salle sous la forme d'un Array 
+// Renvoie les connexions par salle sous la forme d'un Array
 function Connexions_par_salle($salle) {
     $machines_de_salles = Machines_de_salle(Machines());
     $machines_de_ma_salle = $machines_de_salles[$salle];
@@ -21,7 +21,7 @@ function Connexions_par_salle($salle) {
         }
     }
 
-  return $connexions_par_salle; 
+  return $connexions_par_salle;
 };
 
 // Fonction : Machines()
@@ -54,7 +54,7 @@ function Machines_de_salle(&$machines) {
 }
 
 // Fonction Connexion_machine()
-// Renvoie un tableau associatif des machines connectées: 
+// Renvoie un tableau associatif des machines connectées:
 //           connexion_machines[$machine_id]["username"] = $username
 //                 connexion_machines[$machine_id]["ip"] = $ip
 //                 connexion_machines[$machine_id]["stamp"] = $stamp
@@ -107,8 +107,8 @@ function Con_ip($ip) {
     while($i < $count) {
         if ($con[$i]["ip"] == $ip ) {
             $cpt = Compte($con[$i]["username"]);
-            $con_ip = array($con[$i]["con_id"], $con[$i]["username"], $con[$i]["hote"], $con[$i]["stamp"], $cpt[0], $cpt[1], $cpt[2]); 
-            break;          
+            $con_ip = array($con[$i]["con_id"], $con[$i]["username"], $con[$i]["hote"], $con[$i]["stamp"], $cpt[0], $cpt[1], $cpt[2]);
+            break;
             }
         $i++;
         }
@@ -118,7 +118,7 @@ function Con_ip($ip) {
 
 // Fonction : Connexions()
 // Renvoie les connexions windows en cours du jour
-// Retourne un array indexé de connexions :     
+// Retourne un array indexé de connexions :
 //            con[i]["con_id"] : id de connexion dans la table connexions
 //                      con[i]["username"] : login windows
 //                      con[i]["hote"] : nom de la machine
@@ -153,14 +153,14 @@ function Connexions() {
 //          last_conn["fin"] : timestamp de la fin de la dernière connexion ( = debut, si connexion non encore terminée)
 //          last_conn["close"] : 0 | 1 booléen indiquant si la connexion est terminée (1=close)
 // NOTE : la recherche est faite sur les tables connexions ET total_connexions au cas la dernière connexion soit très ancienne
-function Derniere_connexion_machine($hote) {  
+function Derniere_connexion_machine($hote) {
     $last_conn = array();
     $db = db_connect();
 
     $req = '(SELECT username, debut_con, fin_con, close, con_id FROM `connexions` WHERE hote="'.$hote.'")';
     $req = $req . ' UNION (SELECT username, debut_con, fin_con, 1, con_id FROM `total_connexions` WHERE hote="'.$hote.'")';
     $req = $req . ' ORDER BY con_id DESC LIMIT 1';
-    $res = db_query($db, $req); 
+    $res = db_query($db, $req);
     while ($con = db_fetch_row($res)) {
         $last_conn["username"] = $con[0];
         $last_conn["debut"] = $con[1];
@@ -168,11 +168,11 @@ function Derniere_connexion_machine($hote) {
         $last_conn["close"] = $con[3];
     }
     db_free($res);
-  return $last_conn; 
+  return $last_conn;
 }
 
 
-// Fonction Connexion_doyenne_salle 
+// Fonction Connexion_doyenne_salle
 // Renvoie la plus plus ancienne connexion d'une salle :
 // renvoie un entier correspondant au nombre de jours depuis la dernière connexion la plus ancienne dans la salle
 function Connexion_doyenne_salle(&$machines_de_la_salle) {
@@ -229,7 +229,7 @@ function PremiereConnexion() {
 // Fonction Connexions_wifi()
 // Ferme les connexions antérieures au jour courant
 // Renvoie les connexions wifi non marquées "close" en base
-// Retourne un array indexé de connexions :     
+// Retourne un array indexé de connexions :
 //            con_wifi[i]["id"] : id de connexion wifi
 //            con_wifi[i]["username"] : login CAS
 //            con_wifi[i]["ip"] : ip allouée
@@ -242,7 +242,7 @@ function Connexions_wifi() {
     $db = db_connect();
 
     $req_close = "UPDATE wifi SET close = 1 WHERE DATE(wifi_deb_conn) < CURDATE()";
-    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn, prenom, nom FROM wifi, comptes WHERE close = 0 AND username = wifi_username ORDER BY wifi_deb_conn DESC";
+    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn, prenom, nom, groupe FROM wifi, comptes WHERE close = 0 AND username = wifi_username ORDER BY wifi_deb_conn DESC";
 
     db_query($db, $req_close);
     $res = db_query($db, $req);
@@ -255,11 +255,12 @@ function Connexions_wifi() {
         $connexions_wifi[$i]["debut"] = $con[4];
         $connexions_wifi[$i]["prenom"] = $con[5];
         $connexions_wifi[$i]["nom"] = $con[6];
+        $connexions_wifi[$i]["groupe"] = $con[7];
         $i++;
     }
 
     db_free($res);
-    return $connexions_wifi;   
+    return $connexions_wifi;
 }
 
 // function Connexions_blacklist_live($delay, $machines)
@@ -285,17 +286,17 @@ function Connexions_blacklist_live($delay, &$machines) {
         $connexions_bl_live[$i]["salle"] = null;
         // si la connexion vient d'une machine connue d'une salle
         // on récupère le nom de la machine et de la salle
-        if ($log[3]) {                                  
+        if ($log[3]) {
             $connexions_bl_live[$i]["salle"] = $machines[$log[3]][0];
         }
         $i++;
         }
 
     db_free($res);
-    return $connexions_bl_live;   
+    return $connexions_bl_live;
 }
 
-// Fonction ArchiveConnexions() : 
+// Fonction ArchiveConnexions() :
 // Ferme les connexions encore ouvertes des jours antérieurs au jour courant dans la table connexions
 // Copie toutes les connexions fermées des jours antérieurs dans la table total_connexions
 // Purge les connexions copiées de la table connexions

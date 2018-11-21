@@ -49,37 +49,37 @@
 
 $orix_salle["batA"] = 50;
 $oriy_salle["batA"] = 200;
-$largeur_salle["batA"] = 900;
+$largeur_salle["batA"] = 1200;
 $hauteur_salle["batA"] = 570;
-$orix["batA"] = 100;
+$orix["batA"] = 20;
 $oriy["batA"] = 10;
 $largeur["batA"] = 120;
 $hauteur["batA"] = 60;
 $police["batA"] = 11;
 
 $orientation["batA"][0]="H";
-$ligne_coord["batA"][0] = array(0, 0);
+$ligne_coord["batA"][0] = array(100, 0);
 $ligne_machines["batA"][0] = array('PCAMPHI2');
-$shift["batA"][0] = 20;
+$shift["batA"][0] = 10;
 
 $orientation["batA"][1]="H";
-$ligne_coord["batA"][1] = array(50, 70);
-$ligne_machines["batA"][1] = array('PCACCUEIL','PCSECGESTION');
-$shift["batA"][1] = 20;
+$ligne_coord["batA"][1] = array(0, 70);
+$ligne_machines["batA"][1] = array('PCINFIRMERIE');
+$shift["batA"][1] = 10;
 
 $orientation["batA"][2]="H";
-$ligne_coord["batA"][2] = array(50, 200);
-$ligne_machines["batA"][2] = array('PCCRDOC','PCPRET1W7','PCPRET2');
-$shift["batA"][2] = 20;
+$ligne_coord["batA"][2] = array(700, 70);
+$ligne_machines["batA"][2] = array('PCSERIEYS17', 'PCSERIEYS17DOC', 'PCGAUTIER17DOC');
+$shift["batA"][2] = 10;
 
 $orientation["batA"][3]="H";
-$ligne_coord["batA"][3] = array(0, 270);
-$ligne_machines["batA"][3] = array('PCAYRALW7','PCDEVILLERS','PCSECINFO');
+$ligne_coord["batA"][3] = array(0, 200);
+$ligne_machines["batA"][3] = array('PCLIBREVISIO','PCLIBREINFO171','PCLIBREINFO172', 'PCDEVILLERS17','PCSERVIERES17','PCSECINFO17');
 $shift["batA"][3] = 20;
 
 $orientation["batA"][4]="H";
 $ligne_coord["batA"][4] = array(400, 400);
-$ligne_machines["batA"][4] = array('PBADMINSYS');
+$ligne_machines["batA"][4] = array('PCVIALA','PBADMINSYS', 'PCPRADEL17', 'PCPELAMOURGUES', 'PCSECQLIO16');
 $shift["batA"][4] = 20;
 
 $orien_porte["batA"][0]="H";

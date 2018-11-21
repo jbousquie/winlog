@@ -19,7 +19,7 @@ $role = $roles[$profil];
     <?php 
         if ($profil >= $niveaux[$roles[1]]) {
     ?>
-    <p>Peut-être souhaitez-vous simplement voir les <a href="ma_salle_live.php">connexions en cours de votre salle de cours</a> ?</p>
+    <p>Peut-être souhaitez-vous simplement voir les <a href="ma_salle_live.php">connexions en cours de votre salle informatique</a> ?</p>
     <?php
         }
     ?>

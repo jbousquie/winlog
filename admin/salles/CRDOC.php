@@ -57,35 +57,37 @@ $largeur["CRDOC"] = 120;
 $hauteur["CRDOC"] = 60;
 $police["CRDOC"] = 11;
 
+/*
 $orientation["CRDOC"][0]="V";
 $ligne_coord["CRDOC"][0] = array(0, 0);
 $ligne_machines["CRDOC"][0] = array('VM-CRDOC11','VM-CRDOC12');
 $shift["CRDOC"][0] = 20;
+*/
+
+$orientation["CRDOC"][0]="V";
+$ligne_coord["CRDOC"][0] = array(0, 0);
+$ligne_machines["CRDOC"][0] = array('CRDOC12','CRDOC11');
+$shift["CRDOC"][0] = 20;
 
 $orientation["CRDOC"][1]="V";
 $ligne_coord["CRDOC"][1] = array(250, 0);
-$ligne_machines["CRDOC"][1] = array('VM-CRDOC10');
+$ligne_machines["CRDOC"][1] = array('CRDOC10');
 $shift["CRDOC"][1] = 20;
 
 $orientation["CRDOC"][2]="H";
 $ligne_coord["CRDOC"][2] = array(500, 150);
-$ligne_machines["CRDOC"][2] = array('VM-CRDOC01','VM-CRDOC02','VM-CRDOC03');
+$ligne_machines["CRDOC"][2] = array('CRDOC01','CRDOC02','CRDOC03');
 $shift["CRDOC"][2] = 20;
 
 $orientation["CRDOC"][3]="V";
 $ligne_coord["CRDOC"][3] = array(900, 220);
-$ligne_machines["CRDOC"][3] = array('VM-CRDOC04','VM-CRDOC05','VM-CRDOC06');
+$ligne_machines["CRDOC"][3] = array('CRDOC04','CRDOC05','CRDOC06');
 $shift["CRDOC"][3] = 20;
 
 $orientation["CRDOC"][4]="H";
 $ligne_coord["CRDOC"][4] = array(500, 450);
-$ligne_machines["CRDOC"][4] = array('VM-CRDOC09','VM-CRDOC08','VM-CRDOC07');
+$ligne_machines["CRDOC"][4] = array('CRDOC09','CRDOC08','CRDOC07');
 $shift["CRDOC"][4] = 20;
-
-$orientation["CRDOC"][5]="V";
-$ligne_coord["CRDOC"][5] = array(250, 600);
-$ligne_machines["CRDOC"][5] = array('PCCRDOC');
-$shift["CRDOC"][5] = 20;
 
 $orien_porte["CRDOC"][0]="V";
 $porte_coord["CRDOC"][0]=array(0,250);

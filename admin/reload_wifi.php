@@ -11,24 +11,25 @@ FiltreProfil($profil);
 
 $connexions_wifi = Connexions_wifi();
 $html = "<p><i>Nb connexions déjà établies : ". count($connexions_wifi);
-$html = $html . "<table>\n<th>nom</th><th>prénom</th><th>compte</th><th>heure connexion</th><th>adresse IP</th><th>browser</th><th>id connexion</th>\n";
+$html = $html . "<table>\n<th>nom</th><th>prénom</th><th>compte</th><th>groupe</th><th>heure connexion</th><th>adresse IP</th><th>browser</th><th>id connexion</th>\n";
 $lignes = "";
 $pair = false;
+$bold = "style=\"font-weight: bold;\"";
 foreach ($connexions_wifi as $i => $con_wifi) {
     $nom = $con_wifi["nom"];
     $prenom = $con_wifi["prenom"];
     $username = $con_wifi["username"];
+    $groupe = $con_wifi["groupe"];
     $debut = $con_wifi["debut"];
     $ip = $con_wifi["ip"];
     $browser = $con_wifi["browser"];
     $id = $con_wifi["id"];
     $style = ($pair) ? "even" : "odd";
-    $lignes = $lignes . "<tr class=\"$style\"><td>$nom</td><td>$prenom</td><td>$username</td><td>$debut</td><td>$ip</td><td>$browser</td><td>$id</td></tr>\n"; 
+    $weight = ($groupe == $lib_personnel) ? $bold : "";
+    $lignes = $lignes . "<tr class=\"$style\" $weight><td>$nom</td><td>$prenom</td><td>$username</td><td>$groupe</td><td>$debut</td><td>$ip</td><td>$browser</td><td>$id</td></tr>\n"; 
     $pair = !$pair;
 }
 
 $html = $html . $lignes . "</table>\n";
 echo($html);
 ?>
-
-

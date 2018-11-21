@@ -79,7 +79,7 @@ $shift["B501"][3] = 20;
 
 $orientation["B501"][4]="V";
 $ligne_coord["B501"][4] = array(780, 130);
-$ligne_machines["B501"][4] = array('B501Z1','B501E3','B501E4','B501E5','B501E6');
+$ligne_machines["B501"][4] = array('B501Z1','B501E3','B501E4');
 $shift["B501"][4] = 20;
 
 $orien_porte["B501"][0]="V";

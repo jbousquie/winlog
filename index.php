@@ -1,6 +1,7 @@
 <?php
 include_once('admin/winlog_admin_conf.php');
 include_once('admin/db_access.php');
+include_once('admin/client_http.php');
 
 // ne traiter que sur des requêtes POST sur le port 443
 if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" && strcmp(addslashes($_POST["code"]), addslashes($server_code)) == 0 ) {
@@ -30,10 +31,13 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
 			db_query($db, $req_purge_C); 		// on commence par purger avant de créer une connexion
 			db_query($db, $req_con_C);			// nouvelle connexion
 			db_query($db, $req_ip_machine);		// update IP de la machine
+			PostURL($rpc_url, array('act'=>'k', 'host'=>$computer));	// kill processus distant
 			break;
 
 		case "D":
 			db_query($db, $req_con_D);			// déconnexion
+			PostURL($rpc_url, array('act'=>'k', 'host'=>$computer));
+			PostURL($rpc_url, array('act'=>'p', 'host'=>$computer));	// start processus distant
 			break;
 
 		case "M":

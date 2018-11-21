@@ -16,7 +16,7 @@ include_once('ldap_conf.php');
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
 </head>
 <body>
-    <p class="header">WINLOG</p>
+    <p class="header">WINLOG-R</p>
     <p style="text-align: center"><?php echo($auth_ldap_message); ?>
     <form id="login" name="login" action="login_ldap.php" method="POST">
         <div class="login"><label for="username">Compte : </label><input type="text" id⁼"username" name="username" /></div>

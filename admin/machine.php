@@ -37,6 +37,9 @@ $ram = $machine[10];
 $procSpeed = $machine[11];
 $diskSize = $machine[12];
 $freeSpace = $machine[13];
+
+$mac_json = json_encode(array($mac_addr));
+
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
@@ -79,9 +82,13 @@ $freeSpace = $machine[13];
     ?>
     <form action="stop.php" method="POST">
         <input type="hidden" name="host" value='<?php echo($host_json); ?>'>
+        <input type="hidden" name="mac" value='<?php echo($mac_json); ?>'>
         <!--<input type="submit" value="fermer la session" name="stop">-->
         <input type="submit" value="redémarrer cette machine" name="stop">
         <input type="submit" value="éteindre cette machine" name="stop">
+        <input type="submit" value="allumer cette machine" name="stop">
+        <input type="submit" value="start processus distant" name="stop">
+        <input type="submit" value="stop processus distant" name="stop">
     </form>
     <br/>
     <?php

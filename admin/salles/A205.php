@@ -84,7 +84,7 @@ $shift["A205"][4] = 20;
 
 $orientation["A205"][5]="V";
 $ligne_coord["A205"][5] = array(730, 80);
-$ligne_machines["A205"][5] = array('A205F4','A205F3','A205F2','A205F1');
+$ligne_machines["A205"][5] = array('A205F3','A205F2','A205F1','A205Z1');
 $shift["A205"][5] = 20;
 
 $orien_porte["A205"][0]="H";

@@ -49,28 +49,28 @@
 
 $orix_salle["batC"] = 50;
 $oriy_salle["batC"] = 200;
-$largeur_salle["batC"] = 500;
+$largeur_salle["batC"] = 1000;
 $hauteur_salle["batC"] = 500;
 $orix["batC"] = 10;
 $oriy["batC"] = 10;
-$largeur["batC"] = 120;
+$largeur["batC"] = 135;
 $hauteur["batC"] = 60;
 $police["batC"] = 11;
 
 $orientation["batC"][0]="H";
-$ligne_coord["batC"][0] = array(0, 0);
-$ligne_machines["batC"][0] = array('PCSTANDARD');
+$ligne_coord["batC"][0] = array(60,0);
+$ligne_machines["batC"][0] = array('PCINTENDANCE17','PBPOUGET18','PBVRANCKX17','PCCARTEMUT','PCCOURBOU', 'PCMOLINIERC17');
 $shift["batC"][0] = 20;
 
 $orientation["batC"][1]="H";
-$ligne_coord["batC"][1] = array(50, 70);
+$ligne_coord["batC"][1] = array(500, 400);
 $ligne_machines["batC"][1] = array('PCSECINFOCOM');
 $shift["batC"][1] = 20;
 
 
 
-$orien_porte["batC"][0]="H";
-$porte_coord["batC"][0]=array(100,450);
+$orien_porte["batC"][0]="V";
+$porte_coord["batC"][0]=array(0,80);
 
 
 ?>

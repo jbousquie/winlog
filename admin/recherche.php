@@ -61,9 +61,9 @@ function RechercheConnexions(&$db) {
             $date_fin_24 = "$isodate_f 23:59:59";
             $where = $where . $and . " debut_con >= \"{$date_debut_00}\" AND fin_con <= \"{$date_fin_24}\"";
             $contrainte = true;
-            $liste_const = $liste_const. "du <i>$date_debut</i> au <i>$date_fin</i><br/>";    
-        }     
-    } 
+            $liste_const = $liste_const. "du <i>$date_debut</i> au <i>$date_fin</i><br/>";
+        }
+    }
     elseif ($date_debut != "") {
         // transformation de la date JJ/MM/AAAA en date iso AAAA-MM-JJ
         $tab_deb = explode("/", $date_debut);
@@ -74,8 +74,8 @@ function RechercheConnexions(&$db) {
             $date_debut_24 = "$isodate_d 23:59:59";
             $where = $where . $and . " debut_con >= \"{$date_debut_00}\" AND fin_con <= \"{$date_debut_24}\"";
             $contrainte = true;
-            $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";    
-        }    
+            $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";
+        }
     }
 
     if (!$contrainte) {
@@ -90,7 +90,7 @@ function RechercheConnexions(&$db) {
 // fonction RechercheUtilisateurs : renvoie un tableau de résultats contenant les utilisateurs demandés
 function RechercheUtilisateurs(&$db) {
     global $_POST;
-    global $liste_const;   
+    global $liste_const;
 
     $compte = db_escape_string($db, $_POST["compte"]);
     $nom = db_escape_string($db, $_POST["nom"]);
@@ -122,7 +122,7 @@ function RechercheUtilisateurs(&$db) {
         $where = $where . $and . "groupe LIKE \"{$groupe}\"";
         $contrainte = true;
         $liste_const = $liste_const. "groupe = <i>$groupe</i><br/>";
-    }    
+    }
 
     if (!$contrainte) {
         return false;
@@ -137,7 +137,7 @@ function RechercheUtilisateurs(&$db) {
 // fonction RechercheMachines : renvoie un tableau de résultats contenant les machines demandées
 function RechercheMachines(&$db) {
     global $_POST;
-    global $liste_const;   
+    global $liste_const;
 
     $machine = db_escape_string($db, $_POST["machine"]);
     $salle = db_escape_string($db, $_POST["salle"]);
@@ -177,13 +177,13 @@ function RechercheMachines(&$db) {
         $where = $where . $and . "sp LIKE \"{$sp}\"";
         $contrainte = true;
         $liste_const = $liste_const. "Service Pack = <i>$sp</i><br/>";
-    }    
+    }
     if ($os_version != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . "os_version LIKE \"{$os_version}\"";
         $contrainte = true;
         $liste_const = $liste_const. "version OS = <i>$os_version</i><br/>";
-    } 
+    }
     if ($ip != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . "adresse_ip LIKE \"{$ip}\"";
@@ -201,7 +201,7 @@ function RechercheMachines(&$db) {
         $where = $where . $and . "modele LIKE \"{$modele}\"";
         $contrainte = true;
         $liste_const = $liste_const. "modèle = <i>$modele</i><br/>";
-    } 
+    }
     if ($arch != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . "type_systeme LIKE \"{$arch}\"";
@@ -213,13 +213,13 @@ function RechercheMachines(&$db) {
         $where = $where . $and . "mac LIKE \"{$mac}\"";
         $contrainte = true;
         $liste_const = $liste_const. "adresse MAC = <i>$mac</i><br/>";
-    } 
+    }
     if ($iface != "") {
         $and = ($contrainte) ? " AND " : "";
         $where = $where . $and . "mac_description LIKE \"{$iface}\"";
         $contrainte = true;
         $liste_const = $liste_const. "carte réseau = <i>$iface</i><br/>";
-    }    
+    }
     if (!$contrainte) {
         return false;
     }
@@ -234,18 +234,19 @@ function RechercheMachines(&$db) {
 // fonction RechercheWifi : renvoie un tableau de résultats contenant les connexions Wifi demandées
 function RechercheWifi(&$db) {
     global $_POST;
-    global $liste_const;   
+    global $liste_const;
 
     $compte = db_escape_string($db, $_POST["compte"]);
     $nom = db_escape_string($db, $_POST["nom"]);
     $prenom = db_escape_string($db, $_POST["prenom"]);
+    $groupe = db_escape_string($db, $_POST["groupe"]);
     $ip = db_escape_string($db, $_POST["ip"]);
     $browser = db_escape_string($db, $_POST["browser"]);
     $date_debut = db_escape_string($db, $_POST["date_debut"]);
     $date_fin = db_escape_string($db, $_POST["date_fin"]);
     $contrainte = false;
 
-    $req_wifi = "SELECT nom AS 'Nom', prenom AS 'Prénom', wifi_username AS 'Compte', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
+    $req_wifi = "SELECT nom AS 'Nom', prenom AS 'Prénom', wifi_username AS 'Compte', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
     $req_wifi = $req_wifi." FROM wifi, comptes WHERE wifi_username = username ";
     $where = "";
     if ($compte != "") {
@@ -261,6 +262,11 @@ function RechercheWifi(&$db) {
     if ($prenom != "") {
         $where = $where . " AND prenom LIKE \"{$prenom}\"";
         $liste_const = $liste_const. "prénom = <i>$prenom</i><br/>";
+        $contrainte = true;
+    }
+    if ($groupe != "") {
+        $where = $where . " AND groupe LIKE \"{$groupe}\"";
+        $liste_const = $liste_const. "groupe = <i>$groupe</i><br/>";
         $contrainte = true;
     }
     if ($ip != "") {
@@ -284,9 +290,9 @@ function RechercheWifi(&$db) {
             $date_fin_24 = "$isodate_f 23:59:59";
             $where = $where . " AND wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_fin_24}\"";
             $liste_const = $liste_const. "du <i>$date_debut</i> au <i>$date_fin</i><br/>";
-            $contrainte = true;    
-        }     
-    } 
+            $contrainte = true;
+        }
+    }
     elseif ($date_debut != "") {
         // transformation de la date JJ/MM/AAAA en date iso AAAA-MM-JJ
         $tab_deb = explode("/", $date_debut);
@@ -295,10 +301,10 @@ function RechercheWifi(&$db) {
             $date_debut_00 = "$isodate_d 00:00:00";
             $date_debut_24 = "$isodate_d 23:59:59";
             $where = $where . " AND wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_debut_24}\"";
-            $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";   
-            $contrainte = true; 
-        }    
-    }    
+            $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";
+            $contrainte = true;
+        }
+    }
     if (!$contrainte) {
         return false;
     }
@@ -325,7 +331,7 @@ function FormatteResultats(&$db, &$res) {
             $r = $r . "<tr class=\"$li_coul\"><td>$cpt</td>";
             foreach($li as $col) {
                 $r = $r . "<td>$col</td>";
-            }   
+            }
             $r = $r . "</tr>\n";
             $cpt = $cpt + 1;
         }
@@ -376,7 +382,7 @@ else {
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
-<head>   
+<head>
     <title>Winlog</title>
     <meta charset="utf-8">
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
@@ -395,4 +401,3 @@ else {
     <p class="footer">version <?php echo($winlog_version); ?></p>
 </body>
 </html>
-

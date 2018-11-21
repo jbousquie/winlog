@@ -49,18 +49,23 @@
 
 $orix_salle["batB"] = 50;
 $oriy_salle["batB"] = 200;
-$largeur_salle["batB"] = 600;
+$largeur_salle["batB"] = 950;
 $hauteur_salle["batB"] = 570;
 $orix["batB"] = 10;
 $oriy["batB"] = 15;
-$largeur["batB"] = 120;
+$largeur["batB"] = 150;
 $hauteur["batB"] = 60;
 $police["batB"] = 11;
 
 $orientation["batB"][0]="H";
 $ligne_coord["batB"][0] = array(0, 0);
-$ligne_machines["batB"][0] = array('PCDONNEZ');
+$ligne_machines["batB"][0] = array('PCSECGEA', 'PCSECGESTION-CJ', 'PCSECGESTION', 'PCMAS2', 'PCLIBRECJ17');
 $shift["batB"][0] = 20;
+
+$orientation["batB"][1]="H";
+$ligne_coord["batB"][1] = array(0, 80);
+$ligne_machines["batB"][1] = array('PCDONNEZ');
+$shift["batB"][1] = 20;
 
 
 

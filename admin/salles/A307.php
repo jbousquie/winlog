@@ -59,27 +59,27 @@ $police["A307"] = 11;
 
 $orientation["A307"][0]="V";
 $ligne_coord["A307"][0] = array(0, 0);
-$ligne_machines["A307"][0] = array('VM-A307028','VM-A307027','VM-A307026','VM-A307025','VM-A307024','VM-A307023','VM-A307022');
+$ligne_machines["A307"][0] = array('A307D7','A307D6','A307D5','A307D4','A307D3','A307D2','A307D1');
 $shift["A307"][0] = 20;
 
 $orientation["A307"][1]="V";
 $ligne_coord["A307"][1] = array(160, 0);
-$ligne_machines["A307"][1] = array('VM-A307021','VM-A307020','VM-A307019','VM-A307018','VM-A307017','VM-A307016','VM-A307015');
+$ligne_machines["A307"][1] = array('A307C7','A307C6','A307C5','A307C4','A307C3','A307C2','A307C1');
 $shift["A307"][1] = 20;
 
 $orientation["A307"][2]="V";
 $ligne_coord["A307"][2] = array(320, 0);
-$ligne_machines["A307"][2] = array('VM-A307014','VM-A307013','VM-A307012','VM-A307011','VM-A307010','VM-A307009','VM-A307008');
+$ligne_machines["A307"][2] = array('A307B7','A307B6','A307B5','A307B4','A307B3','A307B2','A307B1');
 $shift["A307"][2] = 20;
 
 $orientation["A307"][3]="V";
 $ligne_coord["A307"][3] = array(480, 0);
-$ligne_machines["A307"][3] = array('VM-A307007','VM-A307006','VM-A307005','VM-A307004','VM-A307003','VM-A307002','VM-A307001');
+$ligne_machines["A307"][3] = array('A307A7','A307A6','A307A5','A307A4','A307A3','A307A2','A307A1');
 $shift["A307"][3] = 20;
 
 $orientation["A307"][4]="H";
 $ligne_coord["A307"][4] = array(640, 240);
-$ligne_machines["A307"][4] = array('VM-A307029');
+$ligne_machines["A307"][4] = array('A307Z1');
 $shift["A307"][4] = 20;
 
 $orien_porte["A307"][0]="H";

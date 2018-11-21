@@ -59,42 +59,42 @@ $police["A200"] = 11;
 
 $orientation["A200"][0]="V";
 $ligne_coord["A200"][0] = array(0, 0);
-$ligne_machines["A200"][0] = array('VM-A20024','VM-A20023','VM-A20022','VM-A20021');
+$ligne_machines["A200"][0] = array('A200F4','A200F3','A200F2','A200F1');
 $shift["A200"][0] = 20;
 
 $orientation["A200"][1]="V";
 $ligne_coord["A200"][1] = array(130, 0);
-$ligne_machines["A200"][1] = array('VM-A20020','VM-A20019','VM-A20018','VM-A20017');
+$ligne_machines["A200"][1] = array('A200E4','A200E3','A200E2','A200E1');
 $shift["A200"][1] = 20;
 
 $orientation["A200"][2]="V";
 $ligne_coord["A200"][2] = array(300, 0);
-$ligne_machines["A200"][2] = array('VM-A20016','VM-A20015','VM-A20014','VM-A20013');
+$ligne_machines["A200"][2] = array('A200D4','A200D3','A200D2','A200D1');
 $shift["A200"][2] = 20;
 
 $orientation["A200"][3]="V";
 $ligne_coord["A200"][3] = array(430, 0);
-$ligne_machines["A200"][3] = array('VM-A20012','VM-A20011','VM-A20010','VM-A20009');
+$ligne_machines["A200"][3] = array('A200C4','A200C3','A200C2','A200C1');
 $shift["A200"][3] = 20;
 
 $orientation["A200"][4]="V";
 $ligne_coord["A200"][4] = array(600, 0);
-$ligne_machines["A200"][4] = array('VM-A20008','VM-A20007','VM-A20006','VM-A20005');
+$ligne_machines["A200"][4] = array('A200B4','A200B3','A200B2','A200B1');
 $shift["A200"][4] = 20;
 
 $orientation["A200"][5]="V";
 $ligne_coord["A200"][5] = array(730, 0);
-$ligne_machines["A200"][5] = array('VM-A20004','VM-A20003','VM-A20002','VM-A20001');
+$ligne_machines["A200"][5] = array('A200A4','A200A3','A200A2','A200A1');
 $shift["A200"][5] = 20;
 
 $orientation["A200"][6]="H";
 $ligne_coord["A200"][6] = array(0, 370);
-$ligne_machines["A200"][6] = array('VM-A20030','VM-A20028','VM-A20027','VM-A20026','VM-A20025');
+$ligne_machines["A200"][6] = array('A200G4','A200G3','A200G2','A200G1');
 $shift["A200"][6] = 20;
 
 $orientation["A200"][7]="H";
-$ligne_coord["A200"][7] = array(500, 450);
-$ligne_machines["A200"][7] = array('VM-A20029');
+$ligne_coord["A200"][7] = array(100, 450);
+$ligne_machines["A200"][7] = array('A200H3','A200H2','A200H1','A200Z1');
 $shift["A200"][7] = 20;
 
 $orien_porte["A200"][0]="V";

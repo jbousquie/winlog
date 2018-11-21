@@ -60,15 +60,15 @@ $hauteur["A103"] = 60;
 
 $orientation["A103"][0]="V";
 $ligne_coord["A103"][0] = array(0, 0);
-$ligne_machines["A103"][0] = array('VM-A10307','VM-A10308','VM-A10309','VM-A10310');
+$ligne_machines["A103"][0] = array('A103A4','A103A3','A103A2','A103A1','A103A11');
 $shift["A103"][0] = 20;
 $orientation["A103"][1]="V";
 $ligne_coord["A103"][1] = array(300, 0);
-$ligne_machines["A103"][1] = array('VM-A10305','VM-A10304','VM-A10303','VM-A10302','VM-A10301');
+$ligne_machines["A103"][1] = array('A103A6','A103A7','A103A8','A103A9','A103A10','A103A12');
 $shift["A103"][1] = 20;
 $orientation["A103"][2]="H";
 $ligne_coord["A103"][2] = array(140, 0);
-$ligne_machines["A103"][2] = array('VM-A10306');
+$ligne_machines["A103"][2] = array('A103A5');
 $shift["A103"][2] = 20;
 
 $orien_porte["A103"][0]="H";

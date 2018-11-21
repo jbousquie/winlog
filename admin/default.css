@@ -1,7 +1,7 @@
 body {
 	margin: 0; 
 	padding: 20px 20px 20px ; 
-	background-color: transparent;
+	background-color: aliceblue;
 	color: #505050; 
 	font-family: arial, helvetica, sans-serif ;
 	font-size: 12pt ;
@@ -9,7 +9,7 @@ body {
 
 td { padding-left: 30px; }
 
-a{ text-decoration: none; color: cadetBlue;}
+a{ text-decoration: none; color: royalblue;}
 
 #menu_salles { 
     position: fixed; 
@@ -17,7 +17,7 @@ a{ text-decoration: none; color: cadetBlue;}
     top: 0; 
     padding: 5px 20px; 
     width: 70%; 
-    background-color: Beige;
+    background-color: palegoldenrod;
     z-index: 1;
 }
 
