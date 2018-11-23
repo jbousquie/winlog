@@ -5,7 +5,8 @@ Les connexions sont archivées dans une base de données et peuvent faire l'obje
 
 Voir la [documentation](https://github.com/jbousquie/winlog/wiki)   
 
-version : 1.3.0   _([Change Log](https://github.com/jbousquie/winlog/wiki/Change-Log))_
+version : 1.4.0   _([Change Log](https://github.com/jbousquie/winlog/wiki/Change-Log))_  
+note : depuis la version 1.4.0 proposant la fonctionnalité de démarrer un script sur une machine distante, Winlog se nomme Winlog-R (remote) pour le différentier des versions précédentes.  
 
 *Licence [CeCILL-B](http://www.cecill.info/)*   
 auteur : Jérôme Bousquié.  
