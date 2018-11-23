@@ -5,6 +5,14 @@ include_once("winlog_admin_conf.php");
 include_once('connexions.php');
 include_once('client_http.php');
 include_once('session.php');
+$trombino = false;
+if ($trombino_url != "") {
+    $trombino = true;
+}
+if ($trombino) {
+    include_once('trombino.php');
+}
+
 
 $username = Username();
 $profil = Profil($username);
@@ -85,16 +93,21 @@ while ($mdc = current($machines_de_salle)) {
                     $cpt = Compte($username);                       // récupère les informations sur l'utilisateur courant
                     $style = "";
                     $fin_style = "";
+                    $div_trombi = "<div>";
+                    $fin_div = "</div>";
+                    if ($trombino) {
+                        $div_trombi = "<div class='trombi'><img src='".$trombino_url."/".$username.".jpg'>";
+                    }
                     if ($cpt[2] == $lib_personnel) { 
                         $style = "<b>"; 
                         $fin_style="</b>"; 
                     }
-                    echo "<tr id=\"".str_replace('.','-',$connexion_machine[$mac]["ip"])."\">";
+                    echo "<tr class=\"connexion\" id=\"".str_replace('.','-',$connexion_machine[$mac]["ip"])."\">";
                     echo "<td><a href=\"machine.php?id=".$mac."\" target=\"blank\">".$style.$mac.$fin_style."</a></td>";
                     echo "<td>".$style.date("H:i:s",$connexion_machine[$mac]["stamp"]).$fin_style."</td>";
                     echo "<td>".$style.$connexion_machine[$mac]["ip"].$fin_style."</td>";
-                    echo "<td>".$style.$username.$fin_style."</td>"; 
-                    echo "<td>".$style.$cpt[1]." ".$cpt[0].$fin_style."</td>";
+                    echo "<td>".$div_trombi.$style.$username.$fin_style.$fin_div."</td>"; 
+                    echo "<td>".$div_trombi.$style.$cpt[1]." ".$cpt[0].$fin_style.$fin_div."</td>";
                     echo "<td>".$style.$cpt[2].$fin_style."</td>";
                     echo "</tr>\n";
                 }

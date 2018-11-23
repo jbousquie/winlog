@@ -92,8 +92,10 @@ a.anchor {
     bottom: -1px;
 }
 
-.deroule {
+/*
+.deroule { 
 }
+*/
 
 .enroule {
     display: none;
@@ -158,4 +160,22 @@ a.anchor {
 
 .materiel_ligne2 {
     background-color: Lavender;
+}
+
+.trombi img {
+    display: none;
+    width: 200px;
+    height: 200px;
+}
+
+.trombi:hover {
+    text-align: center;
+}
+
+.trombi:hover img{
+    display: block;
+}
+
+.connexion:hover {
+    background-color: khaki;
 }

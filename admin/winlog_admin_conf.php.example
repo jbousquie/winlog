@@ -127,4 +127,9 @@ $rpc_url = "http://10.5.0.15:81/rpc.php";
 
 // Wake On LAN : url du script d'allumage des PC à distance
 $wake_url = "http://10.5.0.15:81/wake.php";
+
+// Trombinoscope : url du répertoire contenant les fichiers images des utilisateurs
+// Laisser une chaîne vide si pas de trombinoscope disponible : 
+// $trombino_url = "";
+$trombino_url = "http://lamp.iut.rdz/trombi/photos/2019/";
 ?>
