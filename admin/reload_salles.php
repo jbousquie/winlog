@@ -9,9 +9,6 @@ $trombino = false;
 if ($trombino_url != "") {
     $trombino = true;
 }
-if ($trombino) {
-    include_once('trombino.php');
-}
 
 
 $username = Username();
@@ -96,7 +93,8 @@ while ($mdc = current($machines_de_salle)) {
                     $div_trombi = "<div>";
                     $fin_div = "</div>";
                     if ($trombino) {
-                        $div_trombi = "<div class='trombi'><img src='".$trombino_url."/".$username.".jpg'>";
+                        $url_photo = $trombino_url."/".$username.$trombino_extension_fichier;
+                        $div_trombi = "<div class='trombi'><img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
                     }
                     if ($cpt[2] == $lib_personnel) { 
                         $style = "<b>"; 

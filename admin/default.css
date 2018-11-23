@@ -164,8 +164,6 @@ a.anchor {
 
 .trombi img {
     display: none;
-    width: 200px;
-    height: 200px;
 }
 
 .trombi:hover {
@@ -174,8 +172,17 @@ a.anchor {
 
 .trombi:hover img{
     display: block;
+    width: 150px;
+    height: 150px;
 }
 
 .connexion:hover {
     background-color: khaki;
+}
+
+
+.pc.conn:hover {
+    width: 150px;
+    height: 230px;
+    z-index: 1;
 }

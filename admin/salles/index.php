@@ -4,6 +4,10 @@ header ('Content-Type: text/html; charset=utf-8');
 include_once('../connexions.php');
 include_once('../winlog_admin_conf.php');
 include_once('../session.php');
+$trombino = false;
+if ($trombino_url != "") {
+    $trombino = true;
+}
 
 // récupération du user CAS pour autorisation
 $username = Username();
@@ -43,6 +47,11 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
     
     $date_now = time();
     $machines_connectees = Connexion_machine();
+
+    global $trombino;
+    global $trombino_url;
+    global $trombino_defaut_url;
+    global $trombino_extension_fichier;
 
     echo('<div id="plan">');
       
@@ -84,7 +93,15 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
         }
 
         // <div> machine
-        $div = "<div id='".$machine."' class='pc".$class_connexion.$class_jour."'>".$link.$machine."</a><br/>".$style.$username.$fin_style."<br/><span class='ip'>".$ip."</span></div>";
+        $class_trombi = "";
+        $img_trombi = "";
+        if ($trombino && $username != '') {
+            $class_trombi = ' trombi';
+            $url_photo = $trombino_url."/".$username.$trombino_extension_fichier;
+            $img_trombi = "<img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
+        }
+        //$user_affich = $username;
+        $div = "<div id='".$machine."' class='pc".$class_connexion.$class_jour.$class_trombi."'>".$link.$machine."</a><br/>".$username.$img_trombi."<br/><span class='ip'>".$ip."</span></div>";
         echo $div;
     }
 
@@ -133,7 +150,7 @@ if ($profil > 0) {
         echo $form;
     }
     echo("<p><span class='conn'>bleu</span> : connecté &nbsp;<span class='pc'>gris</span> : inactif &nbsp;<span class='j10'>jaune</span> : inactif 10j &nbsp;<span class='j20'>orange</span> : inactif 20j &nbsp;<span class='j30'>rouge</span> : inactif 30j</p>");
-    Affiche_plan_salle($machines_du_plan, $portes);
+    Affiche_plan_salle($machines_du_plan, $portes, $trombino);
 }
 else {
     // sinon on affiche un message

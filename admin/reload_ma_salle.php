@@ -2,6 +2,10 @@
 include_once("winlog_admin_conf.php");
 include_once("connexions.php");
 include_once("client_http.php");
+$trombino = false;
+if ($trombino_url != "") {
+    $trombino = true;
+}
 
 // Fonction de récupération de la liste des salles bloquées sur SquidGuard
 Function Get_salles_bloquees($url) {
@@ -64,13 +68,19 @@ foreach($connexions_de_ma_salle as $con) {
 			$cpt = Compte($username);
 			$style = "";
 			$fin_style = "";
+			$div_trombi = "<div>";
+			$fin_div = "</div>";
+			if ($trombino) {
+				$url_photo = $trombino_url."/".$username.$trombino_extension_fichier;
+				$div_trombi = "<div class='trombi'><img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
+			}
 			if ($cpt[2]=="Enseignant") { $style = "<b>"; $fin_style="</b>"; }
 			echo "<tr>";
 			echo "<td>".$style.$con["machine"].$fin_style."</td>";
 			echo "<td>".$style.date("H:i:s",$con["stamp"]).$fin_style."</td>";
 			echo "<td>".$style.$con["ip"].$fin_style."</td>";
-			echo "<td>".$style.$username.$fin_style."</td>"; 
-			echo "<td>".$style.$cpt[1]." ".$cpt[0].$fin_style."</td>";
+			echo "<td>".$div_trombi.$style.$username.$fin_style.$fin_div."</td>"; 
+			echo "<td>".$div_trombi.$style.$cpt[1]." ".$cpt[0].$fin_style.$
 			echo "<td>".$style.$cpt[2].$fin_style."</td>";
 			echo "</tr>\n";
 			}

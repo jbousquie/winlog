@@ -132,4 +132,8 @@ $wake_url = "http://10.5.0.15:81/wake.php";
 // Laisser une chaîne vide si pas de trombinoscope disponible : 
 // $trombino_url = "";
 $trombino_url = "http://lamp.iut.rdz/trombi/photos/2019/";
+// image par défaut si pas de photo de l'utilisateur
+$trombino_defaut_url = "http://lamp.iut.rdz/trombi/vr_tn_IUT_Rodez.jpg";
+// extension fichier image : le fichier image est de la forme username.extension
+$trombino_extension_fichier = ".jpg";
 ?>

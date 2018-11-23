@@ -1,5 +1,6 @@
 CAS/
 jquery/
+remote/
 ldap_conf.php
 password.php
 winlog_admin_conf.php
