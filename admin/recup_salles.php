@@ -61,7 +61,6 @@ function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$ex
 		$req_machine_insert = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}')";
 		$req_machine_update = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}') ON DUPLICATE KEY UPDATE salle = '{$nom_salle}', os = '{$os}', os_sp = '{$os_sp}', os_version = '{$os_version}'";
 		$req_machine = ($update) ? $req_machine_update : $req_machine_insert;
-		echo $req_machine. "<br/>";
 		db_query($db, $req_machine);
 		$count = $count + 1;
 	}
@@ -104,122 +103,6 @@ ldap_close($ldap_con);
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
-<head>   
-    <title>Winlog</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-</head>
-<body>
-	<p class="header">WINLOG</p>
-	<h3>Récupération des machines et des salles</h3>
-	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
-	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
-	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
-	<p><a href="index.php">Retour menu principal</a></p>
-	db_query($d
-
-// fermeture ldap 
-ldap_close($ldap_con);
-?>
-<!DOCTYPE HTML>
-<html lang="fr">
-<head>   
-    <title>Winlog</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-</head>
-<body>
-	<p class="header">WINLOG</p>
-	<h3>Récupération des machines et des salles</h3>
-	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
-	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
-	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
-	<p><a href="index.php">Retour menu principal</a></p>
-	$nb_salles 
-
-// fermeture ldap 
-ldap_close($ldap_con);
-?>
-<!DOCTYPE HTML>
-<html lang="fr">
-<head>   
-    <title>Winlog</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-</head>
-<body>
-	<p class="header">WINLOG</p>
-	<h3>Récupération des machines et des salles</h3>
-	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
-	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
-	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
-	<p><a href="index.php">Retour menu principal</a></p>
-}
-
-// fermeture ld
-
-// fermeture ldap 
-ldap_close($ldap_con);
-?>
-<!DOCTYPE HTML>
-<html lang="fr">
-<head>   
-    <title>Winlog</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-</head>
-<body>
-	<p class="header">WINLOG</p>
-	<h3>Récupération des machines et des salles</h3>
-	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
-	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
-	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
-	<p><a href="index.php">Retour menu principal</a></p>
-ldap_close($lda
-
-// fermeture ldap 
-ldap_close($ldap_con);
-?>
-<!DOCTYPE HTML>
-<html lang="fr">
-<head>   
-    <title>Winlog</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-</head>
-<body>
-	<p class="header">WINLOG</p>
-	<h3>Récupération des machines et des salles</h3>
-	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
-	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
-	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
-	<p><a href="index.php">Retour menu principal</a></p>
-?>
-<!DOCTYPE HTML>
-
-// fermeture ldap 
-ldap_close($ldap_con);
-?>
-<!DOCTYPE HTML>
-<html lang="fr">
-<head>   
-    <title>Winlog</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
-</head>
-<body>
-	<p class="header">WINLOG</p>
-	<h3>Récupération des machines et des salles</h3>
-	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
-	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
-	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
-	<p><a href="index.php">Retour menu principal</a></p>
 <html lang="fr">
 <head>   
     <title>Winlog</title>
