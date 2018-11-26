@@ -13,6 +13,12 @@ FiltreProfil($profil);
 function RechercheConnexions(&$db) {
     global $_POST;
     global $liste_const;
+
+    global $trombino;
+    global $trombino_url;
+    global $trombino_defaut_url;
+    global $trombino_extension_fichier;
+
     $machine = db_escape_string($db, $_POST["machine"]);
     $compte = db_escape_string($db, $_POST["compte"]);
     $salle = db_escape_string($db, $_POST["salle"]);
@@ -246,7 +252,7 @@ function RechercheWifi(&$db) {
     $date_fin = db_escape_string($db, $_POST["date_fin"]);
     $contrainte = false;
 
-    $req_wifi = "SELECT nom AS 'Nom', prenom AS 'Prénom', wifi_username AS 'Compte', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
+    $req_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
     $req_wifi = $req_wifi." FROM wifi, comptes WHERE wifi_username = username ";
     $where = "";
     if ($compte != "") {
@@ -320,17 +326,51 @@ function FormatteResultats(&$db, &$res) {
     $r = "<th>n°</th>";
     $resultats = "La recherche n'a abouti à aucun résultat.";
     $nb = db_num_rows($res);
+    $a_trombiner = array();                                 // tableau des index des champs trombinables
+    $cols_username = array();                               // tableau des index des champs désignant un username
+    $noms_trombinables = ["Compte", "Prénom", "Nom"];       // quelles colonnes peuvent afficher la photo ?
+    $noms_username = ["Compte"];                            // quelles colonnes désignent le username ?
     if ($nb != 0) {
         $cols = db_fetch_column_names($res);
         foreach($cols as $name) {
             $r = $r . "<th>$name</th>";
+            $trombo = false;
+            if (in_array($name, $noms_trombinables)) {
+                $trombo = true;
+            }
+            $a_trombiner[] = $trombo;
+            $usn = false;
+            if (in_array($name, $noms_username)) {
+                $usn = true;
+            }
+            $cols_username[] = $usn;
         }
+
+        global $trombino_url;
+        global $trombino_defaut_url;
+        global $trombino_extension_fichier; 
+        $trombino = false;
+        if ($trombino_url != "") {
+            $trombino = true;
+        }
+
         $cpt = 1;
         while ($li = db_fetch_row($res)) {
             $li_coul = ($cpt % 2 == 0) ? "odd" : "even";
             $r = $r . "<tr class=\"$li_coul\"><td>$cpt</td>";
-            foreach($li as $col) {
-                $r = $r . "<td>$col</td>";
+            $username = "";
+            foreach($li as $id => $col) {
+                $div_trombi = "<div>";
+                $fin_div = "</div>";
+                if ($trombino && $a_trombiner[$id]) {
+                    if ($cols_username[$id]) {
+                        $username = $col;                   // récupère le username, cette colonne doit précéder les autres colonnes trombinables
+                    }
+                    $url_photo = $trombino_url."/".$username.$trombino_extension_fichier;
+                    $div_trombi = "<div class='trombi'><img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
+                }
+
+                $r = $r . "<td>" . $div_trombi. $col . $fin_div. "</td>";
             }
             $r = $r . "</tr>\n";
             $cpt = $cpt + 1;

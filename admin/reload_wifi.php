@@ -9,6 +9,11 @@ $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
 
+$trombino = false;
+if ($trombino_url != "") {
+    $trombino = true;
+}
+
 $connexions_wifi = Connexions_wifi();
 $html = "<p><i>Nb connexions déjà établies : ". count($connexions_wifi);
 $html = $html . "<table>\n<th>nom</th><th>prénom</th><th>compte</th><th>groupe</th><th>heure connexion</th><th>adresse IP</th><th>browser</th><th>id connexion</th>\n";
@@ -25,8 +30,14 @@ foreach ($connexions_wifi as $i => $con_wifi) {
     $browser = $con_wifi["browser"];
     $id = $con_wifi["id"];
     $style = ($pair) ? "even" : "odd";
+    $div_trombi = "<div>";
+    $fin_div = "</div>";
+    if ($trombino) {
+        $url_photo = $trombino_url."/".$username.$trombino_extension_fichier;
+        $div_trombi = "<div class='trombi'><img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
+    }
     $weight = ($groupe == $lib_personnel) ? $bold : "";
-    $lignes = $lignes . "<tr class=\"$style\" $weight><td>$nom</td><td>$prenom</td><td>$username</td><td>$groupe</td><td>$debut</td><td>$ip</td><td>$browser</td><td>$id</td></tr>\n"; 
+    $lignes = $lignes . "<tr class=\"$style\" $weight><td>$div_trombi$nom$fin_div</td><td>$div_trombi$prenom$fin_div</td><td>$div_trombi$username$fin_div</td><td>$groupe</td><td>$debut</td><td>$ip</td><td>$browser</td><td>$id</td></tr>\n"; 
     $pair = !$pair;
 }
 
