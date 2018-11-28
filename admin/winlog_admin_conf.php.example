@@ -136,4 +136,8 @@ $trombino_url = "http://lamp.iut.rdz/trombi/photos/2019/";
 $trombino_defaut_url = "http://lamp.iut.rdz/trombi/vr_tn_IUT_Rodez.jpg";
 // extension fichier image : le fichier image est de la forme username.extension
 $trombino_extension_fichier = ".jpg";
+
+// Ping
+// Fichier de la liste d'adresses IP à pinger
+$fichier_ping = "ping/liste_ip.txt";
 ?>

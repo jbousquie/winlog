@@ -28,7 +28,22 @@ $req_purge_salle = "TRUNCATE salles";
 $ldap_con = ldap_connect($ldap_host, $ldap_port);
 $ldap_auth = ldap_bind($ldap_con, $ldap_rdn, $ldap_passwd);
 
-// Gonction d'insertion des machines dans la base de données à partir des base, filtre et attributs LDAP
+// Fonction d'écriture des adresses IP des machines dans le fichier liste_ip
+Function Liste_ip_fichier(&$db) {
+	global $fichier_ping;
+	$fichier = fopen($fichier_ping, "w");
+	if ($fichier) {
+		$req_recup_ip = "SELECT DISTINCT adresse_ip FROM machines WHERE adresse_ip <>''";
+		$res = db_query($db, $req_recup_ip);
+		while ($ip = db_fetch_row($res)) {
+			fwrite($fichier, $ip[0]."\n");
+		}
+		db_free($res);
+		fclose($fichier);
+	}
+}
+
+// Fonction d'insertion des machines dans la base de données à partir des base, filtre et attributs LDAP
 // $salles est explicitement passé par référence
 // retourne le nombre d'enregistrements ajoutés dans la base
 function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$exclusion, &$db, &$salles, $update) {
@@ -87,6 +102,8 @@ foreach ($ldap_machines as $ldap_branche) {
 	$nb_total = $nb_total + $nb;
 }
 
+// ajout des adresses IP déjà collectée dans le fichier des adresses IP
+Liste_ip_fichier($db);
 
 // Insertion des salles à partir du tableau $salles remplis par Insere_machines()
 // ==============================================================================

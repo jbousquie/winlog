@@ -80,7 +80,7 @@ if ($profil == $niveaux[$roles[3]]) { ?>
     <div class="menu"><a href="configuration_actuelle.php">Configuration actuelle de Winlog</a> : affiche la configuration en cours dans <i>winlog_admin_conf.php</i>.</div>
     <div class="menu"><a href="scripts_clients.php">Génération des fichiers VBS</a> : re-génére les fichiers de scripts clients à déployer dans les GPO de Active Directory.</div>
     <div class="menu"><a href="recup_comptes.php">Rechargement des comptes</a> : recharge tous les comptes utilisateurs depuis Active Directory.</div>
-    <div class="menu"><a href="recup_salles.php?p=u">Ajout/mise à jour de machines ou de salles</a> : ajoute les nouvelles salles ou machines et met à jour les existantes.</div>
+    <div class="menu"><a href="recup_salles.php?p=u">Ajout/mise à jour de machines ou de salles</a> : ajoute les nouvelles salles ou machines et met à jour les existantes. Met aussi à jour le fichier des adresses IP collectées pour le ping.</div>
     <br/>
     <div class="menu"><a href="recup_salles.php">Rechargement intégral des machines et des salles</a> <i>(attention : ràz de toutes les machines)</i> : à faire quand les machines ou les salles ont changé de nom par exemple.</div>
     <p id="msg_archive"><?php echo($msg_archive); ?></p>
