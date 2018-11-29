@@ -138,7 +138,7 @@ $trombino_defaut_url = "http://lamp.iut.rdz/trombi/vr_tn_IUT_Rodez.jpg";
 $trombino_extension_fichier = ".jpg";
 
 // Ping : s'appuie sur la commande système fping
-// NOTE : tous les chemins doivent être absolus !
+// NOTE : tous les chemins doivent être absolus ! l'utilisateur apache www-data ne connait pas forcément l'environnement.
 // fichier de la liste d'adresses IP à pinger (fichierIN), doit être accessible en lecture/écriture
 $fichier_liste_ip = "/var/www/html/admin/ping/liste_ip.txt"; 
 // ficher de la liste des adresses ayant répondu au ping (fichierOUT), doit être accessible en lecture/écriture
