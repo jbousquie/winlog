@@ -146,6 +146,7 @@ $fichier_liste_ping = "/var/www/html/admin/ping/liste_ping.txt";
 // timeout si pas de réponse au ping en milliseconde
 $ping_timeout = 100;
 // fichier bash de lancement du démon, doit être éxecutable (ne pas modifier)
+// laisser vide pour ne pas activer le démon ping : $winlog_start_ping = "";
 $winlog_start_ping = "/var/www/html/admin/ping/winlog_start_ping.sh";
 // fichier bash du démon pinger,  doit être éxecutable (ne pas modifier)
 $winlog_ping = "/var/www/html/admin/ping/winlog_ping.sh";

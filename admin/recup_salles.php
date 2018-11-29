@@ -126,8 +126,10 @@ foreach ($ldap_machines as $ldap_branche) {
 
 // Ajout des adresses IP déjà collectées dans le fichier des adresses IP et lancement du démon de ping
 // ===================================================================================================
-Liste_ip_fichier($db);
-Lance_demon_ping();
+if ($winlog_start_ping != "") {
+	Liste_ip_fichier($db);
+	Lance_demon_ping();
+}
 
 // Insertion des salles à partir du tableau $salles remplis par Insere_machines()
 // ==============================================================================
