@@ -30,8 +30,8 @@ $ldap_auth = ldap_bind($ldap_con, $ldap_rdn, $ldap_passwd);
 
 // Fonction d'écriture des adresses IP des machines dans le fichier liste_ip
 Function Liste_ip_fichier(&$db) {
-	global $fichier_ping;
-	$fichier = fopen($fichier_ping, "w");
+	global $fichier_liste_ip;
+	$fichier = fopen($fichier_liste_ip, "w");
 	if ($fichier) {
 		$req_recup_ip = "SELECT DISTINCT adresse_ip FROM machines WHERE adresse_ip <>''";
 		$res = db_query($db, $req_recup_ip);
@@ -41,7 +41,25 @@ Function Liste_ip_fichier(&$db) {
 		db_free($res);
 		fclose($fichier);
 	}
-}
+};
+
+// Fonction de lancement du démon de ping
+Function Lance_demon_ping() {
+	global $fichier_liste_ip; 
+	global $fichier_liste_ping;
+	global $ping_timeout;
+	global $winlog_start_ping;
+	global $winlog_ping_error;
+	global $winlog_ping_debug;
+	$redirect = ' > /dev/null';
+	if ($winlog_ping_debug) {
+		$redirect = ' >> '. $winlog_ping_error;
+	}
+
+	$command = $winlog_start_ping . ' ' . $fichier_liste_ip . ' ' . $fichier_liste_ping . ' ' . $ping_timeout . $redirect . ' 2>&1';
+	//echo $command;
+	exec($command);
+};
 
 // Fonction d'insertion des machines dans la base de données à partir des base, filtre et attributs LDAP
 // $salles est explicitement passé par référence
@@ -73,10 +91,14 @@ function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$ex
 			$os_version = db_escape_string($db, $entry[$i]["operatingsystemversion"][0]); 
 		}
 
+		// requête permettant de mettre à jour les adresses IP à partir des connexions ouvertes
+		$req_adresses = "UPDATE machines INNER JOIN connexions ON  machines.machine_id = connexions.hote SET machines.adresse_ip = connexions.ip WHERE connexions.close=0;";
+		
 		$req_machine_insert = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}')";
 		$req_machine_update = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}') ON DUPLICATE KEY UPDATE salle = '{$nom_salle}', os = '{$os}', os_sp = '{$os_sp}', os_version = '{$os_version}'";
 		$req_machine = ($update) ? $req_machine_update : $req_machine_insert;
 		db_query($db, $req_machine);
+		db_query($db, $req_adresses);
 		$count = $count + 1;
 	}
 	return $count;
@@ -102,8 +124,10 @@ foreach ($ldap_machines as $ldap_branche) {
 	$nb_total = $nb_total + $nb;
 }
 
-// ajout des adresses IP déjà collectée dans le fichier des adresses IP
+// Ajout des adresses IP déjà collectées dans le fichier des adresses IP et lancement du démon de ping
+// ===================================================================================================
 Liste_ip_fichier($db);
+Lance_demon_ping();
 
 // Insertion des salles à partir du tableau $salles remplis par Insere_machines()
 // ==============================================================================
@@ -130,9 +154,12 @@ ldap_close($ldap_con);
 	<p class="header">WINLOG</p>
 	<h3>Récupération des machines et des salles</h3>
 	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
-		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.</p>
+	<?php
+	if (!$update) { ?>
+		Les informations relatives aux machines et aux salles (noms des salles ou des machines, adresses IP, etc) préalablement dans la base Winlog viennent d'être effacées.<?php } ?></p>
 	<p>Nombre de machines chargées dans la base : <?php echo($nb_total); ?><br/>
 	   Nombre de salles chargées dans la base : <?php echo($nb_salles); ?><p>
+	<p>Le démon de ping des machines vient d'être relancé.</p>
 	<p><a href="index.php">Retour menu principal</a></p>
 	<p class="footer">version <?php echo($winlog_version); ?></p>
 </body>

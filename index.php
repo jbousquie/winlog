@@ -36,6 +36,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" && $_SERVER["SERVER_PORT"] == "443" &&
 
 		case "D":
 			db_query($db, $req_con_D);			// déconnexion
+			db_query($db, $req_ip_machine);		// update IP de la machine
 			PostURL($rpc_url, array('act'=>'k', 'host'=>$computer));
 			PostURL($rpc_url, array('act'=>'p', 'host'=>$computer));	// start processus distant
 			break;

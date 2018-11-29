@@ -137,7 +137,20 @@ $trombino_defaut_url = "http://lamp.iut.rdz/trombi/vr_tn_IUT_Rodez.jpg";
 // extension fichier image : le fichier image est de la forme username.extension
 $trombino_extension_fichier = ".jpg";
 
-// Ping
-// Fichier de la liste d'adresses IP à pinger
-$fichier_ping = "ping/liste_ip.txt";
+// Ping : s'appuie sur la commande système fping
+// NOTE : tous les chemins doivent être absolus !
+// fichier de la liste d'adresses IP à pinger (fichierIN), doit être accessible en lecture/écriture
+$fichier_liste_ip = "/var/www/html/admin/ping/liste_ip.txt"; 
+// ficher de la liste des adresses ayant répondu au ping (fichierOUT), doit être accessible en lecture/écriture
+$fichier_liste_ping = "/var/www/html/admin/ping/liste_ping.txt";
+// timeout si pas de réponse au ping en milliseconde
+$ping_timeout = 100;
+// fichier bash de lancement du démon, doit être éxecutable (ne pas modifier)
+$winlog_start_ping = "/var/www/html/admin/ping/winlog_start_ping.sh";
+// fichier bash du démon pinger,  doit être éxecutable (ne pas modifier)
+$winlog_ping = "/var/www/html/admin/ping/winlog_ping.sh";
+// fichier de log
+$winlog_ping_error = "/var/www/html/admin/ping/ping_error.log";
+// mode debug : mettre à true pour voir les erreur dans ŵinlog_ping_error.log
+$winlog_ping_debug = false;
 ?>
