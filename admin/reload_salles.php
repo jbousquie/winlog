@@ -14,6 +14,7 @@ if ($trombino_url != "") {
 $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
+$now = time();
 
 $machines = Machines();                             // récupération de toutes les machines connues
 $machines_de_salle = Machines_de_salle($machines);  // range les machines dans le tableau $machines_de_salle
@@ -31,6 +32,10 @@ Function Get_salles_bloquees($url) {
     return $salles_bloquees;
 };
 
+// Timestamps de ping
+if ($mode_ping) {
+    $ping_timestamps = PingTimestamps();
+}
 
 // connexions dans les salles
 $salles_bloquees = Get_salles_bloquees($url_salles_bloquees);
@@ -100,8 +105,19 @@ while ($mdc = current($machines_de_salle)) {
                         $style = "<b>"; 
                         $fin_style="</b>"; 
                     }
+                    
+                    $ping_info = "";
+                    if ($mode_ping) {
+                        $ping_delta = "indisponible";
+                        if (array_key_exists($mac, $ping_timestamps)) {
+                            $ping_ts = strtotime($ping_timestamps[$mac]);
+                            $ping_delta = "il y a ".FormateDelta(DateDiff($ping_ts, $now));
+                        }
+                        $ping_info = "ping : ".$ping_delta;
+                    }
+                    
                     echo "<tr class=\"connexion\" id=\"".str_replace('.','-',$connexion_machine[$mac]["ip"])."\">";
-                    echo "<td><a href=\"machine.php?id=".$mac."\" target=\"blank\">".$style.$mac.$fin_style."</a></td>";
+                    echo "<td><a href=\"machine.php?id=".$mac."\" target=\"blank\" title=\"$ping_info\">".$style.$mac.$fin_style."</a></td>";
                     echo "<td>".$style.date("H:i:s",$connexion_machine[$mac]["stamp"]).$fin_style."</td>";
                     echo "<td>".$style.$connexion_machine[$mac]["ip"].$fin_style."</td>";
                     echo "<td>".$div_trombi.$style.$username.$fin_style.$fin_div."</td>"; 

@@ -52,6 +52,12 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
     global $trombino_url;
     global $trombino_defaut_url;
     global $trombino_extension_fichier;
+    global $mode_ping;
+
+    // Timestamps du ping
+    if ($mode_ping) {
+        $ping_timestamps = PingTimestamps();
+    }
 
     echo('<div id="plan">');
       
@@ -74,8 +80,19 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
         if ($nb_jours >= $j20) { $class_jour = ' j20'; }
         if ($nb_jours >= $j30) { $class_jour = ' j30'; }
 
+
+        $ping_info = "";
+        if ($mode_ping) {
+            $ping_delta = "indisponible";
+            if (array_key_exists($machine, $ping_timestamps)) {
+                $ping_ts = strtotime($ping_timestamps[$machine]);
+                $ping_delta = "il y a ".FormateDelta(DateDiff($ping_ts, $date_now));
+            }
+            $ping_info = "ping : ".$ping_delta;
+        }
+
         $class_connexion='';
-        $link = '<a href=../machine.php?id='.$machine.' target="blank">';
+        $link = '<a href=../machine.php?id='.$machine.' target="blank" title="'.$ping_info.'">';
         $username = '';
         $ip = IP_machine($machine);
         // s'il existe une connexion sur la machine

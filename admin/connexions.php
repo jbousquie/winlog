@@ -318,5 +318,61 @@ function ArchiveConnexions() {
     return $nb_archivables;
 }
 
+// Fonction PingTimestamp() :
+// Renvoie un tableau du timestamp de la dernière réponse au ping des machines
+//      ping_timestamps["machine_id"] = time_stamp
+function PingTimestamps() {
+    $db = db_connect();
+
+    $ping_timestamps = array();
+    $req_timestamp = "SELECT machine_id, ping_timestamp FROM ping;";
+    $res = db_query($db, $req_timestamp);
+    while ($ts = db_fetch_row($res)) {
+        $ping_timestamps[$ts[0]] = $ts[1];
+    }
+    db_free($res);
+    return $ping_timestamps;
+}
+
+// Fonction DateDiff(date1, date2)
+// date1 et date2 sont des objets timestamp
+// Renvoie un objet $delta :
+//      $delta['second'] = nb de secondes du delta
+//      $delta['minute'] = nb de minutes du delta
+//      $delta['hour'] = nb d'heures du delta
+//      $delta['day'] = nb de jours du delta
+function DateDiff($date1, $date2){
+    $diff = abs($date1 - $date2); // abs pour avoir la valeur absolute, ainsi éviter d'avoir une différence négative
+    $delta = array();
+ 
+    $tmp = $diff;
+    $delta['second'] = $tmp % 60;
+ 
+    $tmp = floor( ($tmp - $delta['second']) /60 );
+    $delta['minute'] = $tmp % 60;
+ 
+    $tmp = floor( ($tmp - $delta['minute'])/60 );
+    $delta['hour'] = $tmp % 24;
+ 
+    $tmp = floor( ($tmp - $delta['hour'])  /24 );
+    $delta['day'] = $tmp;
+ 
+    return $delta;
+}
+
+// Fonction FormateDelta(&delta)
+// Retourne une chaîne de caractère du delta entre deux dates arrondi à la seconde, à la minute, à l'heure ou au jour
+function FormateDelta(&$delta) {
+    if ($delta['day'] != 0) {
+        return (string)$delta['day']." jours";
+    }
+    if ($delta['hour'] != 0) {
+        return (string)$delta['hour']." heures";
+    }
+    if ($delta['minute'] != 0) {
+        return (string)$delta['minute']." minutes";
+    }
+    return (string)$delta['second']." secondes";
+}
 
 ?>
