@@ -28,6 +28,33 @@ $req_purge_salle = "TRUNCATE salles";
 $ldap_con = ldap_connect($ldap_host, $ldap_port);
 $ldap_auth = ldap_bind($ldap_con, $ldap_rdn, $ldap_passwd);
 
+// Fonction de création du fichier de configuration du démon ping
+Function Configuration_ping() {
+	global $winlog_ping_conf;
+	global $fichier_liste_ip;
+	global $fichier_liste_ping;
+	global $ping_timeout;
+	global $php_path;
+	global $winlog_get_ping;
+	$fichier = fopen($winlog_ping_conf, "w");
+	if ($fichier) {
+		$cr = "\n";
+		$lignes = [
+			"# Fichier de configuration du démon ping de Winlog".$cr,
+			"# fichier généré par Winlog, ne pas modifier manuellement".$cr,
+			"fichierIN=".$fichier_liste_ip.$cr,
+			"fichierOUT=".$fichier_liste_ping.$cr,
+			"timeout=".$ping_timeout.$cr,
+			"pathPHP=".$php_path.$cr,
+			"getPing=".$winlog_get_ping.$cr
+		];
+		foreach($lignes as $ligne) {
+			fwrite($fichier, $ligne);
+		}
+		fclose($fichier);
+	}
+};
+
 // Fonction d'écriture des adresses IP des machines dans le fichier liste_ip
 Function Liste_ip_fichier(&$db) {
 	global $fichier_liste_ip;
@@ -45,9 +72,7 @@ Function Liste_ip_fichier(&$db) {
 
 // Fonction de lancement du démon de ping
 Function Lance_demon_ping() {
-	global $fichier_liste_ip; 
-	global $fichier_liste_ping;
-	global $ping_timeout;
+	global $winlog_ping_conf;
 	global $winlog_start_ping;
 	global $winlog_ping_error;
 	global $winlog_ping_debug;
@@ -56,7 +81,7 @@ Function Lance_demon_ping() {
 		$redirect = ' >> '. $winlog_ping_error;
 	}
 
-	$command = $winlog_start_ping . ' ' . $fichier_liste_ip . ' ' . $fichier_liste_ping . ' ' . $ping_timeout . $redirect . ' 2>&1';
+	$command = $winlog_start_ping . ' ' . $winlog_ping_conf . $redirect . ' 2>&1';
 	//echo $command;
 	exec($command);
 };
@@ -126,7 +151,8 @@ foreach ($ldap_machines as $ldap_branche) {
 
 // Ajout des adresses IP déjà collectées dans le fichier des adresses IP et lancement du démon de ping
 // ===================================================================================================
-if ($winlog_start_ping != "") {
+if ($mode_ping) {
+	Configuration_ping();
 	Liste_ip_fichier($db);
 	Lance_demon_ping();
 }

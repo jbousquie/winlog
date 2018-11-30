@@ -1,42 +1,46 @@
 #!/bin/bash
-# Usage : winlog_ping.sh fichier_adresses_ip fichier_adresses_pinguées timeout
-# Ce script lit le fichier des adresses IP produit par Winlog, nom du fichier passé en paramètre.
+# Usage : winlog_ping.sh fichier_ping.conf
+# Ce script lit le fichierIN des adresses IP produit par Winlog.
 # Pour chaque adresse récupérée, il effectue un fping.
-# Si le fping répond, un timestamp est mis à jour sur la ligne de l'adresse IP dans le fichier.
-# timeout par défaut = 100ms
+# Si le fping répond, une ligne est ajoutée dans le fichierOUT. La première ligne du fichier est le timestamp de fin du ping global.
 
 # Test arguments
-if [[ ! $# -eq 3 ]]; then
-    echo 'Erreur de paramètres : les noms des fichiers de la liste des adresses IP et des adresses ayant répondu au ping et la durée du timeout du ping en ms.'
-    echo 'Usage : winlog_ping.sh fichierIN_adresses_ip fichierOUT_adresses_pinguées'
+if [[ $# -eq 0 ]]; then
+    echo 'Erreur de paramètres : le fichier de configuration du ping doit être passé'
+    echo 'Usage : winlog_start_ping.sh fichier_ping.conf'
     exit 1
 fi;
-fichierIN=$1
-fichierOUT=$2
-timeout=$3
-if [ ! -e $fichierIN ]; then
+# Source de la configuration et tests fichiers
+if [ ! -e $1 ]; then
     echo 'Erreur : fichier '$1' non trouvé.'
     exit 1
 fi;
+source $1;
+if [ ! -e $fichierIN ]; then
+    echo 'Erreur : fichier '$fichierIN' non trouvé.'
+    exit 1
+fi;
 if [ ! -e $fichierOUT ]; then
-    echo 'Erreur : fichier '$2' non trouvé.'
+    echo 'Erreur : fichier '$fichierOUT' non trouvé.'
     exit 1
 fi;
 
 # Boucle infinie : fping sur chaque adresse du fichier
-# La première ligne écrite dans le fichier est le timestamp
 # Si réponse ping, alors ajout de l'adresse dans le fichier OUT
 # fping -t$timeout -f$fichier | grep alive | cut -d ' ' -f1 : récupère les ip alive depuis fping
+# Une fois le fichier rempli, on exécute admin/get_ping.php qui va récupérer le contenu du fichier dans la base Winlog
 while :
 do
     actives=`fping -t$timeout -f$fichierIN | grep alive | cut -d ' ' -f1`
     timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-    echo $timestamp>$fichierOUT
+    >$fichierOUT
     i=0
     for ip  in $actives
     do
         echo $ip >> $fichierOUT
         i=$(($i+1))
     done
+    requetePing=$pathPHP' '$getPing
+    eval $requetePing
     echo $timestamp " : " $i "réponses au ping"
 done

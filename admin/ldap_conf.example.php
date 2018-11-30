@@ -9,5 +9,5 @@ $auth_ldap_basedn = "DC=iut,DC=local";                                      // D
 $auth_ldap_port = "636";                                                    // port du serveur : 636 (ldaps) recommandé
 $auth_ldap_attribut_identifier = "sAMAccountName";                          // attribut identifiant d'un compte dans l'annuaire
 $auth_ldap_AD = true;                                                       // le serveur LDAP est-il un serveur AD ?
- = "Veuillez vous authentifier avec votre compte et votre mode passe Windows"; // message sur le formulaire d'authentification LDAP
+$auth_ldap_message = "Veuillez vous authentifier avec votre compte et votre mode passe Windows"; // message sur le formulaire d'authentification LDAP
 ?>

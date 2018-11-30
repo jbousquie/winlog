@@ -1,6 +1,6 @@
 <?php
 // Version
-$version = "1.3.0";
+$version = "1.6.0";
 // URL administration de Winlog
 $winlog_url = "https://winlog.iut-rodez.fr/admin/";
 // URL serveur Winlog : URL sur laquelle les requêtes des PC clients arrivent
@@ -139,6 +139,11 @@ $trombino_extension_fichier = ".jpg";
 
 // Ping : s'appuie sur la commande système fping
 // NOTE : tous les chemins doivent être absolus ! l'utilisateur apache www-data ne connait pas forcément l'environnement.
+
+// Le démon de ping doit-il être activé. Mettre à false pour désactiver.
+$mode_ping = true;
+// fichier de configuration bash du démon de ping
+$winlog_ping_conf = "/var/www/html/admin/ping/winlog_ping.conf";
 // fichier de la liste d'adresses IP à pinger (fichierIN), doit être accessible en lecture/écriture
 $fichier_liste_ip = "/var/www/html/admin/ping/liste_ip.txt"; 
 // ficher de la liste des adresses ayant répondu au ping (fichierOUT), doit être accessible en lecture/écriture
@@ -152,6 +157,10 @@ $winlog_start_ping = "/var/www/html/admin/ping/winlog_start_ping.sh";
 $winlog_ping = "/var/www/html/admin/ping/winlog_ping.sh";
 // fichier de log
 $winlog_ping_error = "/var/www/html/admin/ping/ping_error.log";
-// mode debug : mettre à true pour voir les erreur dans ŵinlog_ping_error.log
+// mode debug : mettre à true pour voir les erreurs dans ŵinlog_ping_error.log
 $winlog_ping_debug = false;
+// chemin vers php : où se trouve le moteur php sur le système
+$php_path = "/usr/bin/php5";
+// chemin vers le script winlog de collecte des résultats du ping
+$winlog_get_ping = "/var/www/html/admin/get_ping.php";
 ?>

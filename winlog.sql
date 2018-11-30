@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 13 Décembre 2016 à 15:35
+-- Généré le :  Ven 30 Novembre 2018 à 10:26
 -- Version du serveur :  5.5.53-0+deb8u1
 -- Version de PHP :  5.6.27-0+deb8u1
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `comptes` (
   `prenom` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `nom` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `groupe` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=890 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=928 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `connexions` (
   `debut_con` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `close` tinyint(1) NOT NULL DEFAULT '1',
   `archivable` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=38044 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=193000 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -74,6 +74,17 @@ CREATE TABLE IF NOT EXISTS `machines` (
   `diskSize` bigint(20) NOT NULL COMMENT 'taille disque C:',
   `freeSpace` bigint(20) NOT NULL COMMENT 'espace libre sur C:'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ping`
+--
+
+CREATE TABLE IF NOT EXISTS `ping` (
+  `machine_id` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `ping_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='table des réponses au ping de chaque machine';
 
 -- --------------------------------------------------------
 
@@ -127,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `wifi` (
   `wifi_browser` varchar(160) COLLATE utf8_unicode_ci NOT NULL,
   `wifi_deb_conn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `close` tinyint(4) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=316 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=96340 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Index pour les tables exportées
@@ -149,6 +160,12 @@ ALTER TABLE `connexions`
 -- Index pour la table `machines`
 --
 ALTER TABLE `machines`
+ ADD PRIMARY KEY (`machine_id`);
+
+--
+-- Index pour la table `ping`
+--
+ALTER TABLE `ping`
  ADD PRIMARY KEY (`machine_id`);
 
 --
@@ -177,17 +194,17 @@ ALTER TABLE `wifi`
 -- AUTO_INCREMENT pour la table `comptes`
 --
 ALTER TABLE `comptes`
-MODIFY `compte_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=890;
+MODIFY `compte_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=928;
 --
 -- AUTO_INCREMENT pour la table `connexions`
 --
 ALTER TABLE `connexions`
-MODIFY `con_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38044;
+MODIFY `con_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=193000;
 --
 -- AUTO_INCREMENT pour la table `wifi`
 --
 ALTER TABLE `wifi`
-MODIFY `wifi_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=316;
+MODIFY `wifi_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=96340;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
