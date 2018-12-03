@@ -118,7 +118,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
             $img_trombi = "<img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
         }
         //$user_affich = $username;
-        $div = "<div id='".$machine."' class='pc".$class_connexion.$class_jour.$class_trombi."'>".$link.$machine."</a><br/>".$username.$img_trombi."<br/><span class='ip'>".$ip."</span></div>";
+        $div = "<div id='".$machine."' class='pc".$class_connexion.$class_jour.$class_trombi."'>".$link.$machine."</a><br/>".$style.$username.$fin_style.$img_trombi."<br/><span class='ip'>".$ip."</span></div>";
         echo $div;
     }
 
