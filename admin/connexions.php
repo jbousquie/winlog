@@ -31,10 +31,12 @@ function Machines() {
     //$machines = array() ;
     $db = db_connect();
 
-    $req = 'SELECT machine_id, salle, os, os_sp, os_version, adresse_ip, marque, modele, type_systeme, mac, mac_description, ram, procSpeed, diskSize, freeSpace FROM machines ORDER BY salle, machine_id';
+    global $mode_ping;
+
+    $req = 'SELECT machines.machine_id, salle, os, os_sp, os_version, adresse_ip, marque, modele, type_systeme, mac, mac_description, ram, procSpeed, diskSize, freeSpace, ping_timestamp FROM machines LEFT OUTER JOIN ping ON machines.machine_id = ping.machine_id ORDER BY salle, machine_id';
     $res = db_query($db, $req);
     while ($mac = db_fetch_row($res)) {
-        $machines[$mac[0]] = array($mac[1], $mac[2], $mac[3], $mac[4], $mac[5], $mac[6], $mac[7], $mac[8], $mac[9], $mac[10], $mac[11], $mac[12], $mac[13], $mac[14]);
+        $machines[$mac[0]] = array($mac[1], $mac[2], $mac[3], $mac[4], $mac[5], $mac[6], $mac[7], $mac[8], $mac[9], $mac[10], $mac[11], $mac[12], $mac[13], $mac[14], $mac[15]);
         }
     db_free($res);
     return $machines;

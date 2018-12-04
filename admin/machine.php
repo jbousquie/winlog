@@ -37,6 +37,7 @@ $ram = $machine[10];
 $procSpeed = $machine[11];
 $diskSize = $machine[12];
 $freeSpace = $machine[13];
+$ping_timestamp = $machine[14];
 
 $mac_json = json_encode(array($mac_addr));
 
@@ -59,6 +60,19 @@ $mac_json = json_encode(array($mac_addr));
             OS : <?php echo($os); ?><br/>
             sp : <?php echo($os_sp); ?><br/> 
             version <?php echo($os_version) ?>
+        </td>
+        <td>
+        <?php 
+            if ($mode_ping) {
+                if (is_null($ping_timestamp)) {
+                    echo("Ping : indisponible<br/>");
+                }
+                else {
+                    echo("Dernier ping &nbsp;&nbsp;&nbsp;&nbsp;: $ping_timestamp<br/>");
+                    echo("Heure actuelle : " . date("Y-m-d H:i:s") ."<br/>");
+                }
+            }
+        ?>
         </td>
     </tr>
     <tr class="materiel_ligne2">
