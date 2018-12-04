@@ -8,11 +8,14 @@ $username = Username();
 $profil = Profil($username);
 FiltreProfil($profil);
 
+$res_bool = false;
 
 // fonction RechercheConnexions() : renvoie un tableau de résultats contenant les connexions demandées
 function RechercheConnexions(&$db) {
     global $_POST;
     global $liste_const;
+    global $res_bool;
+    $res_bool = true;
 
     global $trombino;
     global $trombino_url;
@@ -144,6 +147,7 @@ function RechercheUtilisateurs(&$db) {
 function RechercheMachines(&$db) {
     global $_POST;
     global $liste_const;
+    global $mode_ping;
 
     $machine = db_escape_string($db, $_POST["machine"]);
     $salle = db_escape_string($db, $_POST["salle"]);
@@ -157,12 +161,19 @@ function RechercheMachines(&$db) {
     $mac = db_escape_string($db, $_POST["mac"]);
     $iface = db_escape_string($db, $_POST["iface"]);
 
-    $req_machines = "SELECT machine_id AS 'Machine', salle AS 'Salle', adresse_ip AS 'Adresse IP', os AS 'Système', os_sp AS 'Service Pack', os_version AS 'Version'";
-    $req_machines = $req_machines.", type_systeme AS 'archi OS', marque AS 'Marque', modele AS 'Modèle', mac_description AS 'Carte réseau', mac AS 'Adresse MAC', ROUND(ram/1000000000, 1) AS 'RAM (Go)', ROUND(procSpeed/1000, 1) AS 'Proc (GHz)', ROUND(diskSize/1000000000, 1) AS 'Disque C: (Go)', ROUND(freeSpace/1000000000, 1) AS 'Libre C: (Go)'  FROM machines";
+    $ping_join = "";
+    $ping_col = "";
+    if ($mode_ping) {
+        $ping_join = " LEFT OUTER JOIN ping ON machines.machine_id = ping.machine_id ";
+        $ping_col = ",  ping_timestamp AS 'Dernier ping' ";
+    }
+    
+    $req_machines = "SELECT machines.machine_id AS 'Machine', salle AS 'Salle', adresse_ip AS 'Adresse IP', os AS 'Système', os_sp AS 'Service Pack', os_version AS 'Version'";
+    $req_machines = $req_machines.", type_systeme AS 'archi OS', marque AS 'Marque', modele AS 'Modèle', mac_description AS 'Carte réseau', mac AS 'Adresse MAC', ROUND(ram/1000000000, 1) AS 'RAM (Go)', ROUND(procSpeed/1000, 1) AS 'Proc (GHz)', ROUND(diskSize/1000000000, 1) AS 'Disque C: (Go)', ROUND(freeSpace/1000000000, 1) AS 'Libre C: (Go)' $ping_col FROM machines".$ping_join;
     $where = " WHERE ";
     $contrainte = false;
     if ($machine != "") {
-        $where = $where . "machine_id LIKE \"$machine\" ";
+        $where = $where . "machines.machine_id LIKE \"$machine\" ";
         $contrainte = true;
         $liste_const = $liste_const. "machine = <i>$machine</i><br/>";
     }
@@ -229,11 +240,10 @@ function RechercheMachines(&$db) {
     if (!$contrainte) {
         return false;
     }
-    $req = "$req_machines $where ORDER BY machine_id, salle";
+    $req = "$req_machines $where ORDER BY machines.machine_id, salle";
     $res = db_query($db, $req);
 
     return $res;
-
 }
 
 
@@ -241,6 +251,8 @@ function RechercheMachines(&$db) {
 function RechercheWifi(&$db) {
     global $_POST;
     global $liste_const;
+    global $res_bool;
+    $res_bool = true;
 
     $compte = db_escape_string($db, $_POST["compte"]);
     $nom = db_escape_string($db, $_POST["nom"]);
@@ -417,7 +429,10 @@ if (!$donnees) {
 else {
     $resultats = FormatteResultats($db, $donnees);
 }
-
+$note_booleens = "";
+if ($res_bool) {
+    $note_booleens = "<p><i>Les résultats booléens sont exprimés en chiffre : 0 = faux, 1 = vrai.</i></p>";
+}
 
 ?>
 <!DOCTYPE HTML>
@@ -428,13 +443,14 @@ else {
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
 </head>
 <body>
-    <p class="header">WINLOG</p>
+    <p class="header">WINLOG-R</p>
     <p><a href="<?php echo($_SERVER['HTTP_REFERER']); ?>">Retour au menu de recherche</a></p>
     <p><b><u>Rappel critères</u> :</b><br/><br/>
     <?php echo($liste_const); ?>
     </p>
     <p><b><u>Résultats</u> :</b></p>
     <?php
+        echo($note_booleens);
         echo($resultats);
     ?>
     <p><a href="<?php echo($_SERVER['HTTP_REFERER']); ?>">Retour au menu de recherche</a></p>

@@ -16,7 +16,7 @@ FiltreProfil($profil);
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
 </head>
 <body>
-    <p class="header">WINLOG</p>
+    <p class="header">WINLOG-R</p>
     <h2 style="text-align: center;">Recherche d'utilisateurs</h2>
     <div class = "criteres">
     <form id="recherche" action="recherche.php" method="POST">
