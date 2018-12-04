@@ -30,6 +30,10 @@ function ListeSalles() {
 function InfoWinlog() {
     global $username, $role;
     global $delay;
+    global $trombino_url;
+    global $mode_ping;
+    global $ping_timeout;
+    global $seuil_couleur_ping;
     global $winlog_version;
     $nb = NbConnexions();
     $debut = date("d/m/Y", strtotime(PremiereConnexion()));
@@ -38,7 +42,15 @@ function InfoWinlog() {
     $info = $info."nb connexions stockées : ".$nb."\n";
     $info = $info."initiées le : ".$debut."\n\n";
     $info = $info."rafraichissement connexions : ".$delay." s\n";
-    $info = $info."winlog version : ".$winlog_version."\n";
+    if ($trombino_url != "") {
+        $info = $info."\ntrombinoscope activé\n";
+    }
+    if ($mode_ping) {
+        $info = $info."\nping activé\n";
+        $info = $info."timeout ping : ".$ping_timeout." ms\n";
+        $info = $info."délai changement de couleur ping : ".$seuil_couleur_ping." s\n";
+    }
+    $info = $info."\nwinlog version : ".$winlog_version."\n";
     return $info;
 }
 
