@@ -186,3 +186,7 @@ a.anchor {
     height: 230px;
     z-index: 1;
 }
+
+.noping {
+    background-color: Gainsboro;
+}

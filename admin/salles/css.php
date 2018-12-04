@@ -51,6 +51,7 @@ $xy_portes = $porte_coord[$salle];
 // Styles globaux
 $coul_libre = "#E0E0E0"; 
 $coul_occupe = "#b1d7e8";
+$coul_ping = "#7ff0d4";
 $coul_hs10 = "#f3e575";
 $coul_hs20 = "#e17b17";
 $coul_hs30 = "#d5382c";
@@ -62,6 +63,7 @@ echo ".j10 {background-color:".$coul_hs10."; }\n";
 echo ".j20 {background-color:".$coul_hs20."; }\n";
 echo ".j30 {background-color:".$coul_hs30."; }\n";
 echo ".ip {font-size: 80%; }\n";
+echo ".ping {background-color:".$coul_ping."; }\n";
 
 // Calcul et placement des div
 

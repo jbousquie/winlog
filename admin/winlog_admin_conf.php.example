@@ -163,4 +163,6 @@ $winlog_ping_debug = false;
 $php_path = "/usr/bin/php5";
 // chemin vers le script winlog de collecte des résultats du ping
 $winlog_get_ping = "/var/www/html/admin/get_ping.php";
+// seuil de temps en secondes avant changement de couleur du statut "pinguée" d'une machine 
+$seuil_couleur_ping = 120;
 ?>

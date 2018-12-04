@@ -107,17 +107,21 @@ while ($mdc = current($machines_de_salle)) {
                     }
                     
                     $ping_info = "";
+                    $class_noping = " noping";
                     if ($mode_ping) {
                         $ping_delta = "indisponible";
                         if (array_key_exists($mac, $ping_timestamps)) {
                             $ping_ts = strtotime($ping_timestamps[$mac]);
                             $ping_delta = "il y a ".FormateDelta(DateDiff($ping_ts, $now));
+                            if ($now - $ping_ts <= $seuil_couleur_ping) {
+                                $class_noping = "";
+                            }
                         }
                         $ping_info = "ping : ".$ping_delta;
                     }
                     
                     echo "<tr class=\"connexion\" id=\"".str_replace('.','-',$connexion_machine[$mac]["ip"])."\">";
-                    echo "<td><a href=\"machine.php?id=".$mac."\" target=\"blank\" title=\"$ping_info\">".$style.$mac.$fin_style."</a></td>";
+                    echo "<td><a href=\"machine.php?id=".$mac."\" target=\"blank\" class=\"$class_noping\" title=\"$ping_info\">".$style.$mac.$fin_style."</a></td>";
                     echo "<td>".$style.date("H:i:s",$connexion_machine[$mac]["stamp"]).$fin_style."</td>";
                     echo "<td>".$style.$connexion_machine[$mac]["ip"].$fin_style."</td>";
                     echo "<td>".$div_trombi.$style.$username.$fin_style.$fin_div."</td>"; 

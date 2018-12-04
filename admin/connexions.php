@@ -363,16 +363,36 @@ function DateDiff($date1, $date2){
 // Fonction FormateDelta(&delta)
 // Retourne une chaîne de caractère du delta entre deux dates arrondi à la seconde, à la minute, à l'heure ou au jour
 function FormateDelta(&$delta) {
-    if ($delta['day'] != 0) {
-        return (string)$delta['day']." jours";
+    $days = $delta['day'];
+    if ($days != 0) {
+        $unit = " jours";
+        if ($days == 1) {
+            $unit = " jour";
+        }
+        return (string)$days.$unit;
     }
-    if ($delta['hour'] != 0) {
-        return (string)$delta['hour']." heures";
+    $hours = $delta['hour'];
+    if ($hours != 0) {
+        $unit = " heures";
+        if ($hours == 1) {
+            $unit = " heure";
+        }
+        return (string)$hours.$unit;
     }
-    if ($delta['minute'] != 0) {
-        return (string)$delta['minute']." minutes";
+    $mins = $delta['minute'];
+    if ($mins != 0) {
+        $unit = " minutes";
+        if ($hours == 1) {
+            $unit = " minute";
+        }
+        return (string)$mins.$unit;
     }
-    return (string)$delta['second']." secondes";
+    $secs = $delta['second'];
+    $unit = " secondes";
+    if ($secs == 1) {
+        $unit = " seconde";
+    }
+    return (string)$secs.$unit;
 }
 
 ?>

@@ -53,6 +53,7 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
     global $trombino_defaut_url;
     global $trombino_extension_fichier;
     global $mode_ping;
+    global $seuil_couleur_ping;
 
     // Timestamps du ping
     if ($mode_ping) {
@@ -82,25 +83,31 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
 
 
         $ping_info = "";
+        $class_ping = "";
         if ($mode_ping) {
             $ping_delta = "indisponible";
             if (array_key_exists($machine, $ping_timestamps)) {
                 $ping_ts = strtotime($ping_timestamps[$machine]);
                 $ping_delta = "il y a ".FormateDelta(DateDiff($ping_ts, $date_now));
+                if ($date_now - $ping_ts <= $seuil_couleur_ping) {
+                    $class_ping = " ping";
+                }
             }
             $ping_info = "ping : ".$ping_delta;
         }
 
-        $class_connexion='';
+        $class_connexion = '';
         $link = '<a href=../machine.php?id='.$machine.' target="blank" title="'.$ping_info.'">';
         $username = '';
         $ip = IP_machine($machine);
         // s'il existe une connexion sur la machine
         if (array_key_exists($machine, $machines_connectees)) {
             $class_connexion = ' conn'; 
+            $class_ping = '';
             $username = $machines_connectees[$machine]["username"];
             $ip = $machines_connectees[$machine]["ip"];
         }
+
         $cpt = Compte($username);                       // récupère les informations sur l'utilisateur courant
         $style = "";
         $fin_style = "";
@@ -117,8 +124,10 @@ function Affiche_plan_salle(&$machines_de_la_salle, &$portes) {
             $url_photo = $trombino_url."/".$username.$trombino_extension_fichier;
             $img_trombi = "<img src='".$url_photo."' onerror=\"this.error=null;this.src='".$trombino_defaut_url."';\">";
         }
+
+       
         //$user_affich = $username;
-        $div = "<div id='".$machine."' class='pc".$class_connexion.$class_jour.$class_trombi."'>".$link.$machine."</a><br/>".$style.$username.$fin_style.$img_trombi."<br/><span class='ip'>".$ip."</span></div>";
+        $div = "<div id='".$machine."' class='pc".$class_ping.$class_connexion.$class_jour.$class_trombi."'>".$link.$machine."</a><br/>".$style.$username.$fin_style.$img_trombi."<br/><span class='ip'>".$ip."</span></div>";
         echo $div;
     }
 
@@ -166,7 +175,7 @@ if ($profil > 0) {
         $form = $form.'</form>';
         echo $form;
     }
-    echo("<p><span class='conn'>bleu</span> : connecté &nbsp;<span class='pc'>gris</span> : inactif &nbsp;<span class='j10'>jaune</span> : inactif 10j &nbsp;<span class='j20'>orange</span> : inactif 20j &nbsp;<span class='j30'>rouge</span> : inactif 30j</p>");
+    echo("<p><span class='conn'>bleu</span> : connecté &nbsp;<span class='pc'>gris</span> : inactif &nbsp;<span class='j10'>jaune</span> : inactif 10j &nbsp;<span class='j20'>orange</span> : inactif 20j &nbsp;<span class='j30'>rouge</span> : inactif 30j &nbsp;<span class='ping'>vert</span> : ping depuis moins de $seuil_couleur_ping s");
     Affiche_plan_salle($machines_du_plan, $portes, $trombino);
 }
 else {

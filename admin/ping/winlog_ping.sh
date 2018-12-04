@@ -31,7 +31,7 @@ fi;
 # Une fois le fichier rempli, on exécute admin/get_ping.php qui va récupérer le contenu du fichier dans la base Winlog
 while :
 do
-    actives=`fping -t$timeout -f$fichierIN | grep alive | cut -d ' ' -f1`
+    actives=`fping -a -t$timeout -f$fichierIN`
     timestamp=$(date +"%Y-%m-%d %H:%M:%S")
     >$fichierOUT
     i=0
