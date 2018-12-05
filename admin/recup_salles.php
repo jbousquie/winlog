@@ -179,7 +179,7 @@ ldap_close($ldap_con);
     <link rel="stylesheet" media="screen" type="text/css" title="default" href="default.css">
 </head>
 <body>
-	<p class="header">WINLOG</p>
+	<p class="header">WINLOG-R</p>
 	<h3>Récupération des machines et des salles</h3>
 	<p>Ce traitement vient de récupérer les machines et les salles depuis le serveur Active Directory.<br/>
 	<?php

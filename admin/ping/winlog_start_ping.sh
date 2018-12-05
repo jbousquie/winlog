@@ -1,11 +1,11 @@
 #!/bin/bash
-# Usage : winlog_ping.sh fichier_ping.conf
+# Usage : winlog_start_ping.sh fichier_ping.conf
 # Ce script lance le shell winlog_ping.sh en arrière plan et rend la main aussitôt.
 # Il arrête auparavant les éventuels processus de winlog_ping.sh.
 
 # Test arguments
 if [[ $# -eq 0 ]]; then
-    echo 'Erreur de paramètres : le fichier de configuration du ping doit être passé'
+    echo 'Erreur de paramètre : le fichier de configuration du ping doit être passé'
     echo 'Usage : winlog_start_ping.sh fichier_ping.conf'
     exit 1
 fi;
@@ -25,8 +25,8 @@ if [ ! -e $fichierOUT ]; then
 fi;
 
 
-# Arrêt des éventuels processus actifs de winlog_ping
-for proc in `ps -ej | grep winlog_ping | grep -v grep | cut -d ' ' -f1`
+# Arrêt des éventuels processus actifs de winlog_ping.sh
+for proc in `pgrep winlog_ping`
 do
     kill -9 $proc
 done

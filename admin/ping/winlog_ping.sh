@@ -6,8 +6,8 @@
 
 # Test arguments
 if [[ $# -eq 0 ]]; then
-    echo 'Erreur de paramètres : le fichier de configuration du ping doit être passé'
-    echo 'Usage : winlog_start_ping.sh fichier_ping.conf'
+    echo 'Erreur de paramètre : le fichier de configuration du ping doit être passé'
+    echo 'Usage : winlog_ping.sh fichier_ping.conf'
     exit 1
 fi;
 # Source de la configuration et tests fichiers
