@@ -1,6 +1,7 @@
 <?php
 // Formulaire d'authentification simple
 include_once('winlog_admin_conf.php');
+include_once('connexions.php');
 include_once('password.php');
 
 // on sort immédiatement si login.php est appelé hors du auth_mode simple
@@ -15,6 +16,7 @@ $password = $_POST['password'];
 if (array_key_exists($username, $passwords) && $password == $passwords[$username]) {
     session_start();
     $_SESSION['username'] = $username;
+    LogAdminConnexion($username);
     header('Location: '.$winlog_url);
     exit();
 }

@@ -397,4 +397,15 @@ function FormateDelta(&$delta) {
     return (string)$secs.$unit;
 }
 
+
+// Fonction LogAdminConnexion(username)
+// Insère un enregistrement dans la table de log des connexions à la console d'administration de Winlog
+function LogAdminConnexion($username) {  
+    $db = db_connect();
+
+    $req = "INSERT INTO log_admin_connexions (username) VALUES ('".$username."')";
+    db_query($db, $req);
+
+}
+
 ?>

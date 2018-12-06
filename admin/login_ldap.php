@@ -1,6 +1,7 @@
 <?php
 // Formulaire d'authentification LDAP
 include_once('winlog_admin_conf.php');
+include_once('connexions.php');
 // on sort immédiatement si login_ldap.php est appelé hors du auth_mode LDAP
 if ($auth_mode !="LDAP") {
     header('Location: interdit.php');
@@ -41,7 +42,8 @@ if($ldapconn) {
         if (($s2) && ($password != "") && ($dn != ""))
         {
             session_start();
-        	$_SESSION['username'] = $username;
+            $_SESSION['username'] = $username;
+            LogAdminConnexion($username);
             header('Location: '.$winlog_url);
             exit();
         }

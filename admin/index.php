@@ -17,9 +17,17 @@ switch ($auth_mode) {
         break;
 
     case "CAS":
+        $log = false;
+        if (!isset($_SESSION['username'])) {
+            // si la session n'est pas déjà démarrée, alors il faudra logguer la première connexion
+            $log = true;
+        }
         // la session PHP est déjà démarrée par la lib phpCAS.
         include('libhome.php');
         $username = phpCAS::getUser();
+        if ($log) {
+            LogAdminConnexion($username);
+        }
         break;
 
     case "LDAP":
