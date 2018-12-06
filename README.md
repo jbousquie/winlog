@@ -4,7 +4,6 @@ Winlog est une architecture simple et un programme léger de surveillance en tem
 Les connexions sont archivées dans une base de données et peuvent faire l'objet ensuite de statistiques, de mesures ou de recherche : qui était connecté quand et sur quelle machine ?  
 
 Voir la [documentation](https://github.com/jbousquie/winlog/wiki)   
-Poster [JRES2015](https://jres.org/) : [poster PDF](http://jerome.bousquie.fr/WinlogPoster3.pdf) - [slides lightning talks](http://jerome.bousquie.fr/WinlogLT.pdf)
 
 version : 1.6   _([Change Log](https://github.com/jbousquie/winlog/wiki/Change-Log))_  
 note : depuis la version 1.4.0 proposant la fonctionnalité de démarrer un script sur une machine distante, Winlog se nomme Winlog-R (remote) pour le différentier des versions précédentes.  
@@ -35,5 +34,6 @@ Pour le contrôle des PC à distance :
 ![connexions en cours](http://jerome.bousquie.fr/winlog/images/ConnexionsEnCours.png)
 
 
+Poster [JRES2015](https://jres.org/) : [poster PDF](http://jerome.bousquie.fr/WinlogPoster3.pdf) - [slides lightning talks](http://jerome.bousquie.fr/WinlogLT.pdf)
 
 © Jérôme Bousquié

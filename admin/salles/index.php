@@ -37,7 +37,12 @@ function AdressesMac_plan(&$hosts) {
     $machines = Machines();
     $macs_de_la_salle = array();
     foreach($hosts as $host) {
-        $macs_de_la_salle[] = $machines[$host][8];
+        if (array_key_exists($host, $machines)) {
+            $macs_de_la_salle[] = $machines[$host][8];
+        }
+        else {
+            echo("<p><b>Attention</b> : la machine <b>$host</b> est déclarée dans le plan, mais n'a pas été récupérée par Winlog depuis AD</p>");
+        }
     }
     return $macs_de_la_salle;
 }
