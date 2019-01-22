@@ -80,7 +80,7 @@ foreach($connexions_de_ma_salle as $con) {
 			echo "<td>".$style.date("H:i:s",$con["stamp"]).$fin_style."</td>";
 			echo "<td>".$style.$con["ip"].$fin_style."</td>";
 			echo "<td>".$div_trombi.$style.$username.$fin_style.$fin_div."</td>"; 
-			echo "<td>".$div_trombi.$style.$cpt[1]." ".$cpt[0].$fin_style.$
+			echo "<td>".$div_trombi.$style.$cpt[1]." ".$cpt[0].$fin_style."</td>"; 
 			echo "<td>".$style.$cpt[2].$fin_style."</td>";
 			echo "</tr>\n";
 			}
