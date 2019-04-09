@@ -121,7 +121,7 @@ $repertoire_scripts = "./vbs/";
 // adresse IP du serveur émettant la requête de log Wifi
 // $portal_message_ip est l'adresse du serveur présentant le message d'accueil du portail captif d'authentification Wifi
 // $radius_server_ip est l'adresse du serveur radius utilisé par Eduroam
-// Mettre la même valeur dans les deux variables si un seul serveur présent
+// Mettre une chaîne vide si le serveur concerné est absent
 $portal_message_ip = "192.168.100.64";
 $radius_server_ip = "192.168.100.67";
 
