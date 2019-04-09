@@ -1,6 +1,6 @@
 <?php
 // Version
-$version = "1.6";
+$version = "1.7";
 // URL administration de Winlog
 $winlog_url = "https://winlog.iut-rodez.fr/admin/";
 // URL serveur Winlog : URL sur laquelle les requêtes des PC clients arrivent
@@ -119,7 +119,11 @@ $repertoire_scripts = "./vbs/";
 
 // WIFI
 // adresse IP du serveur émettant la requête de log Wifi
+// $portal_message_ip est l'adresse du serveur présentant le message d'accueil du portail captif d'authentification Wifi
+// $radius_server_ip est l'adresse du serveur radius utilisé par Eduroam
+// Mettre la même valeur dans les deux variables si un seul serveur présent
 $portal_message_ip = "192.168.100.64";
+$radius_server_ip = "192.168.100.67";
 
 // RPC : lancement d'une commande à distance sur un PC
 // URL du serveur web traitant les requêtes RPC

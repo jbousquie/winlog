@@ -60,7 +60,7 @@ $police["A102"] = 11;
 
 $orientation["A102"][0]="V";
 $ligne_coord["A102"][0] = array(100, 100);
-$ligne_machines["A102"][0] = array('A102Z1','A102A1');
+$ligne_machines["A102"][0] = array('A102Z1','A102A1','A102A2','A102A3');
 $shift["A102"][0] = 10;
 
 $orientation["A102"][1]="V";

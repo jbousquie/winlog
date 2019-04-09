@@ -265,35 +265,43 @@ function RechercheWifi(&$db) {
     $contrainte = false;
 
     $req_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
-    $req_wifi = $req_wifi." FROM wifi, comptes WHERE wifi_username = username ";
-    $where = "";
+    $req_wifi = $req_wifi." FROM wifi LEFT OUTER JOIN comptes ON wifi.wifi_username = comptes.username ";
+    $req_total_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', 1 AS 'Fermée ?'";
+    $req_total_wifi = $req_total_wifi." FROM total_wifi LEFT OUTER JOIN comptes ON total_wifi.wifi_username = comptes.username ";
+    $where = " WHERE ";
+    $contrainte = false;
     if ($compte != "") {
-        $where = $where . " AND wifi_username LIKE \"$compte\" ";
+        $where = $where . " wifi_username LIKE \"$compte\" ";
         $liste_const = $liste_const. "compte = <i>$compte</i><br/>";
         $contrainte = true;
     }
     if ($nom != "") {
-        $where = $where ." AND nom LIKE \"{$nom}\"";
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and ."nom LIKE \"{$nom}\"";
         $liste_const = $liste_const. "nom = <i>$nom</i><br/>";
         $contrainte = true;
     }
     if ($prenom != "") {
-        $where = $where . " AND prenom LIKE \"{$prenom}\"";
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "prenom LIKE \"{$prenom}\"";
         $liste_const = $liste_const. "prénom = <i>$prenom</i><br/>";
         $contrainte = true;
     }
     if ($groupe != "") {
-        $where = $where . " AND groupe LIKE \"{$groupe}\"";
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . "groupe LIKE \"{$groupe}\"";
         $liste_const = $liste_const. "groupe = <i>$groupe</i><br/>";
         $contrainte = true;
     }
     if ($ip != "") {
-        $where = $where ." AND wifi_ip LIKE \"{$ip}\"";
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "wifi_ip LIKE \"{$ip}\"";
         $liste_const = $liste_const. "adresse IP = <i>$ip</i><br/>";
         $contrainte = true;
     }
     if ($browser != "") {
-        $where = $where . "AND wifi_browser LIKE \"{$browser}\"";
+        $and = ($contrainte) ? " AND " : "";
+        $where = $where . $and . "wifi_browser LIKE \"{$browser}\"";
         $liste_const = $liste_const. "browser/device = <i>$browser</i><br/>";
         $contrainte = true;
     }
@@ -306,7 +314,8 @@ function RechercheWifi(&$db) {
             $isodate_f = sprintf( "%04d-%02d-%02d", (int)trim($tab_fin[2]), (int)trim($tab_fin[1]), (int)trim($tab_fin[0]) );
             $date_debut_00 = "$isodate_d 00:00:00";
             $date_fin_24 = "$isodate_f 23:59:59";
-            $where = $where . " AND wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_fin_24}\"";
+            $and = ($contrainte) ? " AND " : "";
+            $where = $where . $and . "wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_fin_24}\"";
             $liste_const = $liste_const. "du <i>$date_debut</i> au <i>$date_fin</i><br/>";
             $contrainte = true;
         }
@@ -318,7 +327,8 @@ function RechercheWifi(&$db) {
             $isodate_d = sprintf( "%04d-%02d-%02d", (int)trim($tab_deb[2]), (int)trim($tab_deb[1]), (int)trim($tab_deb[0]) );
             $date_debut_00 = "$isodate_d 00:00:00";
             $date_debut_24 = "$isodate_d 23:59:59";
-            $where = $where . " AND wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_debut_24}\"";
+            $and = ($contrainte) ? " AND " : "";
+            $where = $where . $and . "wifi_deb_conn >= \"{$date_debut_00}\" AND wifi_deb_conn <= \"{$date_debut_24}\"";
             $liste_const = $liste_const. "date : <i>$date_debut</i><br/>";
             $contrainte = true;
         }
@@ -326,11 +336,9 @@ function RechercheWifi(&$db) {
     if (!$contrainte) {
         return false;
     }
-    $req = "$req_wifi $where ORDER BY wifi_deb_conn DESC";
+    $req = "($req_wifi $where) UNION ($req_total_wifi $where) ORDER BY'Heure connexion' DESC";
     $res = db_query($db, $req);
-
     return $res;
-
 }
 
 // fonction AfficheResultats($tab) : formatte l'affichage d'un jeu de résultats

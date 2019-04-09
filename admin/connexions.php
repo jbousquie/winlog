@@ -244,7 +244,7 @@ function Connexions_wifi() {
     $db = db_connect();
 
     $req_close = "UPDATE wifi SET close = 1 WHERE DATE(wifi_deb_conn) < CURDATE()";
-    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn, prenom, nom, groupe FROM wifi, comptes WHERE close = 0 AND username = wifi_username ORDER BY wifi_deb_conn DESC";
+    $req = "SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn, prenom, nom, groupe FROM wifi LEFT JOIN comptes ON wifi_username = username WHERE close = 0 ORDER BY wifi_deb_conn DESC";
 
     db_query($db, $req_close);
     $res = db_query($db, $req);
@@ -302,8 +302,11 @@ function Connexions_blacklist_live($delay, &$machines) {
 // Ferme les connexions encore ouvertes des jours antérieurs au jour courant dans la table connexions
 // Copie toutes les connexions fermées des jours antérieurs dans la table total_connexions
 // Purge les connexions copiées de la table connexions
+// Idem pour les connexions Wifi avec les tables wifi et total_wifi
 // Retourne le nombre de connexions archivées
 function ArchiveConnexions() {
+    $nb_archivables = 0;
+    $nb_archivables_wifi = 0;
     $db = db_connect();
 
     $req_marque_archivables = 'UPDATE connexions SET close = 1, archivable = 1 where DATE(fin_con) < CURDATE()';
@@ -313,11 +316,22 @@ function ArchiveConnexions() {
     if ($nb_archivables != 0) {
         $req_archive = 'INSERT INTO total_connexions SELECT con_id, username, hote, ip, fin_con, debut_con FROM connexions WHERE archivable = 1';
         $req_purge_archivees = 'DELETE FROM connexions WHERE archivable = 1';
-        db_query($db, $req_marque_archivables);
         db_query($db, $req_archive);
         db_query($db, $req_purge_archivees);
     }
-    return $nb_archivables;
+
+    $req_marque_archivables_wifi = 'UPDATE wifi SET close = 1, archivable = 1 where DATE(wifi_deb_conn) < CURDATE()';
+    $res_wifi = db_query($db, $req_marque_archivables_wifi);
+    $nb_archivables_wifi = db_affected_rows($db);
+
+    if ($nb_archivables_wifi != 0) {
+        $req_archive_wifi = 'INSERT INTO total_wifi SELECT wifi_id, wifi_username, wifi_ip, wifi_browser, wifi_deb_conn FROM wifi WHERE archivable = 1';
+        $req_purge_archivees_wifi = 'DELETE FROM wifi WHERE archivable = 1';
+        db_query($db, $req_archive_wifi);
+        db_query($db, $req_purge_archivees_wifi);
+    }
+
+    return $nb_archivables + $nb_archivables_wifi;
 }
 
 // Fonction PingTimestamp() :
