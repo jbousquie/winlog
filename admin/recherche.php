@@ -264,9 +264,9 @@ function RechercheWifi(&$db) {
     $date_fin = db_escape_string($db, $_POST["date_fin"]);
     $contrainte = false;
 
-    $req_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?'";
+    $req_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', close AS 'Fermée ?', wifi_id";
     $req_wifi = $req_wifi." FROM wifi LEFT OUTER JOIN comptes ON wifi.wifi_username = comptes.username ";
-    $req_total_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', 1 AS 'Fermée ?'";
+    $req_total_wifi = "SELECT wifi_username AS 'Compte', nom AS 'Nom', prenom AS 'Prénom', groupe AS 'Groupe', wifi_ip AS 'Adresse IP', wifi_browser AS 'Browser/Device', wifi_deb_conn AS 'Heure connexion', 1 AS 'Fermée ?', wifi_id";
     $req_total_wifi = $req_total_wifi." FROM total_wifi LEFT OUTER JOIN comptes ON total_wifi.wifi_username = comptes.username ";
     $where = " WHERE ";
     $contrainte = false;
@@ -336,7 +336,7 @@ function RechercheWifi(&$db) {
     if (!$contrainte) {
         return false;
     }
-    $req = "($req_wifi $where) UNION ($req_total_wifi $where) ORDER BY'Heure connexion' DESC";
+    $req = "($req_wifi $where) UNION ($req_total_wifi $where) ORDER BY wifi_id DESC";
     $res = db_query($db, $req);
     return $res;
 }
