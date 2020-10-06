@@ -59,22 +59,22 @@ $police["C200"] = 11;
 
 $orientation["C200"][0]="V";
 $ligne_coord["C200"][0] = array(0, 0);
-$ligne_machines["C200"][0] = array('C2009');
-$shift["C200"][0] = 1;
+$ligne_machines["C200"][0] = array('C20010','C20009');
+$shift["C200"][0] = 10;
 
 $orientation["C200"][1]="V";
 $ligne_coord["C200"][1] = array(400, 200);
-$ligne_machines["C200"][1] = array('C2004','C2003','C2002','C2001');
+$ligne_machines["C200"][1] = array('C20001','C20002','C20003','C20004');
 $shift["C200"][1] = 20;
 
 $orientation["C200"][2]="V";
-$ligne_coord["C200"][2] = array(0, 150);
-$ligne_machines["C200"][2] = array('C2008','C2007');
+$ligne_coord["C200"][2] = array(0, 200);
+$ligne_machines["C200"][2] = array('C20008','C20007');
 $shift["C200"][2] = 10;
 
 $orientation["C200"][3]="V";
 $ligne_coord["C200"][3] = array(0, 400);
-$ligne_machines["C200"][3] = array('C2006','C2005');
+$ligne_machines["C200"][3] = array('C20006','C20005');
 $shift["C200"][3] = 10;
 
 
