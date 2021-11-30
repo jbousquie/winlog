@@ -1,17 +1,13 @@
 <?php
 // Ce script renvoie un object JSON des connexions en cours
+// on pourra mettre ici l'include d'une lib d'authentification
+
 include_once('../admin/connexions.php');
 
 header('Content-Type: application/json; charset=utf-8');
 
-$connexions = Connexion_machine();
-$tableau_connexions = [];
-foreach ($connexions as $machine => $conn) {
-    $conn["machine"] = $machine;         // ajout d'un champ dans le hash $conn
-    array_push($tableau_connexions, $conn);
-}
+$connexions = Connexions();
 
-$json_connexions = json_encode($tableau_connexions);
+$json_connexions = json_encode($connexions);
 echo($json_connexions);
-
 ?>
