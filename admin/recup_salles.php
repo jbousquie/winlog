@@ -56,7 +56,7 @@ Function Configuration_ping() {
 };
 
 // Fonction d'écriture des adresses IP des machines dans le fichier liste_ip
-Function Liste_ip_fichier(&$db) {
+Function Liste_ip_fichier($db) {
 	global $fichier_liste_ip;
 	$fichier = fopen($fichier_liste_ip, "w");
 	if ($fichier) {
@@ -89,7 +89,7 @@ Function Lance_demon_ping() {
 // Fonction d'insertion des machines dans la base de données à partir des base, filtre et attributs LDAP
 // $salles est explicitement passé par référence
 // retourne le nombre d'enregistrements ajoutés dans la base
-function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$exclusion, &$db, &$salles, $update) {
+function Insere_machines($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr, $exclusion, $db, &$salles, $update) {
 	
 	$res = ldap_search($ldap_con, $ldap_base, $ldap_filtre, $ldap_attr);
 	$entry = ldap_get_entries($ldap_con, $res);
@@ -108,6 +108,7 @@ function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$ex
 		$os_version = "";
 		if (array_key_exists("operatingsystem", $entry[$i])) { 
 			$os = db_escape_string($db, $entry[$i]["operatingsystem"][0]);
+			$os_valide = mb_convert_encoding($os, "UTF-8", "ISO-8859-1");
 		}
 		if (array_key_exists("operatingsystemservicepack", $entry[$i])) { 
 			$os_sp = db_escape_string($db, $entry[$i]["operatingsystemservicepack"][0]);
@@ -119,13 +120,17 @@ function Insere_machines(&$ldap_con, $ldap_base, $ldap_filtre, &$ldap_attr, &$ex
 		// requête permettant de mettre à jour les adresses IP à partir des connexions ouvertes
 		$req_adresses = "UPDATE machines INNER JOIN connexions ON  machines.machine_id = connexions.hote SET machines.adresse_ip = connexions.ip WHERE connexions.close=0;";
 		
-		$req_machine_insert = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}')";
-		$req_machine_update = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version) VALUES ('{$machine_id}', '{$nom_salle}', '{$os}', '{$os_sp}', '{$os_version}') ON DUPLICATE KEY UPDATE salle = '{$nom_salle}', os = '{$os}', os_sp = '{$os_sp}', os_version = '{$os_version}'";
+		$req_machine_insert = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version, adresse_ip) VALUES ('{$machine_id}', '{$nom_salle}', '{$os_valide}', '{$os_sp}', '{$os_version}', '')";
+		$req_machine_update = "INSERT INTO machines (machine_id, salle, os, os_sp, os_version, adresse_ip) VALUES ('{$machine_id}', '{$nom_salle}', '{$os_valide}', '{$os_sp}', '{$os_version}', '') ON DUPLICATE KEY UPDATE salle = '{$nom_salle}', os = '{$os_valide}', os_sp = '{$os_sp}', os_version = '{$os_version}', adresse_ip = ''";
 		$req_machine = ($update) ? $req_machine_update : $req_machine_insert;
 		db_query($db, $req_machine);
-		db_query($db, $req_adresses);
 		$count = $count + 1;
 	}
+	// On exécute la mise à jour globale des adresses IP UNE SEULE FOIS à la fin de la boucle
+        // au lieu de la relancer des centaines de fois, ce qui évite les plantages de performances.
+        $req_adresses = "UPDATE machines INNER JOIN connexions ON machines.machine_id = connexions.hote SET machines.adresse_ip = connexions.ip WHERE connexions.close=0;";
+        db_query($db, $req_adresses);
+	
 	return $count;
 };
 
@@ -192,3 +197,9 @@ ldap_close($ldap_con);
 	<p class="footer">version <?php echo($winlog_version); ?></p>
 </body>
 </html>
+
+
+
+
+
+
