@@ -28,7 +28,7 @@ function Connexions_par_salle($salle) {
 // Renvoie toutes les machines existantes
 // Retourne un tableau associatif : machines[$machine_id] = ($salle, $os, $os_sp, $os_version, $ip_fixe)
 function Machines() {
-    //$machines = array() ;
+    $machines = [] ;
     $db = db_connect();
 
     global $mode_ping;
@@ -45,13 +45,18 @@ function Machines() {
 // Renvoie les machines existantes des salles du tableau $machine (si le tableau est vide, alors appel à Machines()
 // Retourne un tableau associatif machines_de_salle[$salle_id]=($machine_id1, $machine_id2, ...)
 // En fait, cette fonction inverse le tableau associatif de la fonction machine sur la clé $salle
-function Machines_de_salle(&$machines) {
-    $machines_de_salle = array() ;
-    if (!$machines ) { $machines = Machines(); }
+function Machines_de_salle($machines) {
+$machines_de_salle = array() ;
+    
+    // Sécurité PHP 8+ : Si $machines est null ou vide, on appelle Machines()
+    if (empty($machines)) { 
+        $machines = Machines(); 
+    }
+    
     while ($mac = current($machines)) {
         $machines_de_salle[$mac[0]][] = key($machines);
         next($machines);
-        }
+    }
     return $machines_de_salle;
 }
 
